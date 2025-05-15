@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/15 15:28:24 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:31:28 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	minishell(t_global *g);
 int main(int ac, char **av, char **env)
 {
 	t_global g;
+	(void)av;
 	
 	if (ac != 1)
 	{
@@ -27,7 +28,7 @@ int main(int ac, char **av, char **env)
 	}
 	ft_bzero(&g, sizeof(t_global));
 	g.env = env;
-	while (*av)
+	while (1)
 	{
 		parsing(&g);
 		minishell(&g);
