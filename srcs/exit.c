@@ -1,43 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 15:31:28 by rodeulio         ###   ########.fr       */
+/*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/05/16 15:30:25 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//void	parsing(t_global *g);
-
-void	minishell(t_global *g)
+void    ft_exit(char *msg, t_global *g)
 {
-	while (1)
-	{
-		g->rd.line = readline(get_cur_dir(g));
-		if (!g->rd.line)
-			ft_exit("Readline Error", g);
-		//parsing(g);
-	}
+    perror(msg);
+    free(g->rd.cur_dir);
+    exit(1);
 }
 
-int main(int ac, char **av, char **env)
+/* void    ft_free(t_global *g)
 {
-	t_global g;
-	(void)av;
-	
-	if (ac != 1)
-	{
-		ft_putendl_fd("Usage: ./minishell", 2);
-		return (1);
-	}
-	ft_bzero(&g, sizeof(t_global));
-	g.env = env;
-	free(g.rd.ertgfre);
-	minishell(&g);
-	return (0);
-}
+    if (g)
+} */

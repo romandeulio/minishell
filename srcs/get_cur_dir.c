@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   get_cur_dir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 15:31:28 by rodeulio         ###   ########.fr       */
+/*   Created: 2025/05/16 15:06:55 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/05/16 15:22:58 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//void	parsing(t_global *g);
-
-void	minishell(t_global *g)
+char    *get_cur_dir(t_global *g)
 {
-	while (1)
-	{
-		g->rd.line = readline(get_cur_dir(g));
-		if (!g->rd.line)
-			ft_exit("Readline Error", g);
-		//parsing(g);
-	}
-}
-
-int main(int ac, char **av, char **env)
-{
-	t_global g;
-	(void)av;
-	
-	if (ac != 1)
-	{
-		ft_putendl_fd("Usage: ./minishell", 2);
-		return (1);
-	}
-	ft_bzero(&g, sizeof(t_global));
-	g.env = env;
-	free(g.rd.ertgfre);
-	minishell(&g);
-	return (0);
+    char *path_abs;
+    char *name_cur_dir;
+    
+    path_abs = getcwd(NULL, 0);
+    name_cur_dir = ft_strrchr(path_abs, '/');
+    g->rd.cur_dir = ft_strjoin(&name_cur_dir[1], "$ ");
+    free(path_abs);
+    if (!g->rd.cur_dir)
+        ft_exit("Malloc Error :", g);
+    return (g->rd.cur_dir);
 }

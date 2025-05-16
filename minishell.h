@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/15 15:35:07 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:30:47 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,23 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef struct s_rdline
+{
+	char *cur_dir;
+	char *line;
+	char *ertgfre;
+} t_rdline;
+
 typedef struct s_global
 {
 	char **env;
+	t_rdline rd;
 	
 } t_global;
 
+
+void    ft_exit(char *msg, t_global *g);
+char    *get_cur_dir(t_global *g);
+void	minishell(t_global *g);
 
 #endif

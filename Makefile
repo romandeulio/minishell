@@ -6,14 +6,15 @@
 #    By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/15 15:12:29 by rodeulio         ###   ########.fr        #
+#    Updated: 2025/05/16 15:26:33 by rodeulio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werror
+CFLAGS     = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include
+LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory
 
@@ -29,9 +30,9 @@ LIBFT_LIB  = libft_add/libft++.a
 LIBFT_DIR  = libft_add
 
 # 📜 Source files
-SRCS = srcs/minishell.c
+SRCS = srcs/minishell.c srcs/get_cur_dir.c srcs/exit.c \
 
- # 🔨 Generate object files
+# 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
 
 # 📌 Compile .c to .o
@@ -49,7 +50,7 @@ $(LIBFT_LIB):
 	@$(MAKE) -C $(LIBFT_DIR) >> /dev/null
 
 $(NAME): $(OBJS) $(LIBFT_LIB)
-	@$(CC) $(CFLAGS) $(OBJS) -Llibft_add -lft++ -o $(NAME)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -Llibft_add -lft++ -lreadline -o $(NAME)
 
 # 🧹 Clean object files
 clean:
