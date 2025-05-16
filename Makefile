@@ -6,7 +6,7 @@
 #    By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/16 15:26:33 by rodeulio         ###   ########.fr        #
+#    Updated: 2025/05/16 16:36:20 by rodeulio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ LIBFT_LIB  = libft_add/libft++.a
 LIBFT_DIR  = libft_add
 
 # 📜 Source files
-SRCS = srcs/minishell.c srcs/get_cur_dir.c srcs/exit.c \
+SRCS = srcs/minishell.c srcs/get_cur_dir.c srcs/exit.c srcs/history.c \
+		srcs/parsing/parsing_cmd.c \
 
 # 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))

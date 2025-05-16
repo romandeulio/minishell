@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cur_dir.c                                      :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 15:06:55 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 15:41:12 by rodeulio         ###   ########.fr       */
+/*   Created: 2025/05/16 15:45:49 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/05/16 15:53:57 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char    *get_cur_dir(t_global *g)
+void    check_and_add_history(char *str)
 {
-    char *path_abs;
-    char *name_cur_dir;
+    int i;
     
-    path_abs = getcwd(NULL, 0);
-    name_cur_dir = ft_strrchr(path_abs, '/');
-    g->rd.cur_dir = ft_strjoin(&name_cur_dir[1], "$ ");
-    free(path_abs);
-    if (!g->rd.cur_dir)
-        ft_exit("Malloc Error :", g);
-    return (g->rd.cur_dir);
+    i = 0;
+    while (str[i] == ' ')
+        i++;
+    if (str[i])
+        add_history(str);
 }

@@ -6,13 +6,16 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 15:31:28 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:37:39 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//void	parsing(t_global *g);
+void	parsing(t_global *g)
+{
+	parsing_cmd(g);
+}
 
 void	minishell(t_global *g)
 {
@@ -21,7 +24,13 @@ void	minishell(t_global *g)
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
 			ft_exit("Readline Error", g);
-		//parsing(g);
+		else
+		{
+			check_and_add_history(g->rd.line);
+			parsing(g);
+		}
+		free(g->rd.line);
+		free(g->rd.cur_dir);
 	}
 }
 
@@ -37,7 +46,6 @@ int main(int ac, char **av, char **env)
 	}
 	ft_bzero(&g, sizeof(t_global));
 	g.env = env;
-	free(g.rd.ertgfre);
 	minishell(&g);
 	return (0);
 }
