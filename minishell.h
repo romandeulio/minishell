@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 16:43:11 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:15:00 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,17 @@ typedef struct s_rdline
 	char			*line;
 }					t_rdline;
 
+typedef struct s_node
+{
+	char *word;
+	t_node *next;
+} t_node;
+
 typedef struct s_parsing
 {
 	int sq;
     int dq;
-    int i;
-    int w;
-    char **word;
+    t_node *node;
 } t_parsing;
 
 typedef enum e_operator
@@ -95,5 +99,7 @@ void				ft_exit(char *msg, t_global *g);
 char				*get_cur_dir(t_global *g);
 void				minishell(t_global *g);
 void				check_and_add_history(char *str);
+t_node *new_node(char *word, t_global *g);
+void    free_list(t_parsing *p);
 
 #endif

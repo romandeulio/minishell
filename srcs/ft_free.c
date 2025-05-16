@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 17:14:48 by rodeulio         ###   ########.fr       */
+/*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/05/16 17:14:53 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_exit(char *msg, t_global *g)
+void    free_list(t_parsing *p)
 {
-    perror(msg);
-    free(g->rd.cur_dir);
-    free_list(&g->parsing);
-    exit(1);
+    t_node *tmp;
+
+    tmp = p->node;
+    while (p->node)
+    {
+        p->node = p->node->next;
+        free(tmp->word);
+        free(tmp);
+        tmp = p->node;
+    }
 }
