@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:35:48 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 22:01:04 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/19 22:04:08 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	parsing_token(t_global *g)
 			i++;
 		size = token_len(&g->rd.line[i]);
 		nd = lstnew_nd_token(size + 10, g);
-		definited_type(&g->rd.line[i], nd);
-		definited_state(&g->rd.line[i], nd, stk);
+		defined_type(&g->rd.line[i], nd);
+		defined_state(&g->rd.line[i], nd, stk);
 		i += parsing_token2(&g->rd.line[i], stk, nd);
-		handle_parenthese(g, nd);
+		handle_parentheses(g, nd);
 		lstadd_back_token(stk, nd);
 		i += size;
 	}
