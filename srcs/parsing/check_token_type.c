@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_token_type.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 01:00:59 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/19 00:22:35 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 22:02:38 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_parenthese(char *s)
+int	is_parenthesis(char *s)
 {
 	if (*s == '(' || *s == ')')
 		return (1);
@@ -39,7 +39,7 @@ int	is_operator(char *s)
 
 int	is_word(char *s)
 {
-	if (!is_redir(s) && !is_operator(s) && !is_parenthese(s) && *s != ' '
+	if (!is_redir(s) && !is_operator(s) && !is_parenthesis(s) && *s != ' '
 		&& *s != '\'' && *s != '\"' && *s != ';')
 		return (1);
 	return (0);

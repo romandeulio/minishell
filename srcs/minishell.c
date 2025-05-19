@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 17:23:08 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 21:59:23 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_token(t_global *g)
 
 int is_end_line(t_tok_stk *stk)
 {
-	if (stk->parenthese == 0 && stk->sq == 0 && stk->dq == 0 /*&& stk->backslash == 0*/)
+	if (stk->parenthesis == 0 && stk->sq == 0 && stk->dq == 0 /*&& stk->backslash == 0*/)
 		return (1);
 	return (0);
 }
@@ -83,7 +83,7 @@ void	parsing(t_global *g)
 		// {
 		// 	// nouvelle ligne mais pas nouvelle cmd
 		// }
-		if (g->tok_stk.parenthese == 1)
+		if (g->tok_stk.parenthesis == 1)
 		{
 			add_semicolon(g);
 			tmp = g->rd.line;

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   definited_token.c                                  :+:      :+:    :+:   */
+/*   defined_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 00:12:33 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/19 15:11:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 22:03:22 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	definited_type(char *line, t_tok_nd *nd)
+void	defined_type(char *line, t_tok_nd *nd)
 {
 	if (*line == ';')
 		nd->type = SEMICOLON;
@@ -38,7 +38,7 @@ void	definited_type(char *line, t_tok_nd *nd)
 		nd->type = CMD;
 }
 
-void	definited_state(char *line, t_tok_nd *nd, t_tok_stk *stk)
+void	defined_state(char *line, t_tok_nd *nd, t_tok_stk *stk)
 {
 	if (*line == '\'' || stk->sq)
 		nd->state = SQ;

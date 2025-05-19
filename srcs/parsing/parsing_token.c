@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:35:48 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 21:25:18 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 22:23:28 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 //	ou plusieurs consequitifs. (a gerer dans l'arbe AST)
 // (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
 // (AST) Deux cmd d'affiler (compter aussi les cmd entre parentheses)
+
 
 int	parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 {
@@ -83,7 +84,7 @@ int	parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 		if (handle_backslash(&line, i, &nd->word[i], stk))
 		{
 			//
-			continue ;
+			continue;
 		}
 		if (line[i] == '$')
 			nd->varenv = 1;
@@ -149,26 +150,6 @@ int	parsing_token2(char *line, t_tok_stk *stk, t_tok_nd *nd)
 	return (0);
 }
 
-int	incr_until_next_tok(char *line, t_tok_stk *stk)
-{
-	if (!*line)
-		return (0);
-	else if (*line == ' ')
-		return (1);
-	else if (*line == '\'' && stk->sq == 1)
-	{
-		stk->sq = !stk->sq;
-		return (1);
-	}
-	else if (*line == '\"' && stk->dq == 1)
-	{
-		stk->dq = !stk->dq;
-		return (1);
-	}
-	else
-		return (0);
-}
-
 // A enlever si pas d'autre cas special (et gerer ca dans lstadd_back (if (!*nd->word)))
 // int	handle_special_case(char *line, int *i, t_tok_stk *stk)
 // {
@@ -203,10 +184,10 @@ void	parsing_token(t_global *g)
 			i++;
 		size = token_len(&g->rd.line[i]);
 		nd = lstnew_nd_token(size + 10, g);
-		definited_type(&g->rd.line[i], nd);
-		definited_state(&g->rd.line[i], nd, stk);
+		defined_type(&g->rd.line[i], nd);
+		defined_state(&g->rd.line[i], nd, stk);
 		i += parsing_token2(&g->rd.line[i], stk, nd);
-		handle_parenthese(g, nd);
+		handle_parentheses(g, nd);
 		lstadd_back_token(stk, nd);
 		i += size;
 	}
