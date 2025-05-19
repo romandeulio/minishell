@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:35:48 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 17:41:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 21:25:18 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 //	ou plusieurs consequitifs. (a gerer dans l'arbe AST)
 // (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
 // (AST) Deux cmd d'affiler (compter aussi les cmd entre parentheses)
-
 
 int	parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 {
@@ -84,7 +83,7 @@ int	parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 		if (handle_backslash(&line, i, &nd->word[i], stk))
 		{
 			//
-			continue;
+			continue ;
 		}
 		if (line[i] == '$')
 			nd->varenv = 1;
@@ -210,5 +209,51 @@ void	parsing_token(t_global *g)
 		handle_parenthese(g, nd);
 		lstadd_back_token(stk, nd);
 		i += size;
+	}
+}
+
+void	parsing_token(char *line, t_global *g)
+{
+	int			i;
+	int			j;
+	t_tok_stk	*stk;
+	t_tok_nd	*nd;
+
+	stk = &g->tok_stk;
+	nd = stk->top;
+	i = 0;
+	j = 0;
+	nd = lstnew_nd_token(1000, g);
+	while (line[i])
+	{
+		if (handle_backslach())
+			//
+		else if (handle_sq())
+			//
+		else if (handle_dq())
+			//
+		else if (handle_space())
+			//
+		else
+			nd->word[j] = line[i];
+
+	}
+}
+
+void	parsing_tokens(t_global *g)
+{
+	int			i;
+	int			size;
+	t_tok_stk	*stk;
+	t_tok_nd	*nd;
+
+	stk = &g->tok_stk;
+	nd = stk->top;
+	i = 0;
+	while (g->rd.line[i])
+	{
+		while (g->rd.line[i] && g->rd.line[i] != ' ')
+			i++;
+		parsing_token(&g->rd.line[i]);
 	}
 }
