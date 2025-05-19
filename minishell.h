@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 15:35:37 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 17:33:02 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void				handle_parenthese(t_global *g, t_tok_nd *nd);
 // void				handle_quote(t_global *g, t_tok_nd *nd);
 
 // parsing/parsing_token.c
+int					handle_backslash(char **line, int i, char *word, t_tok_stk *stk);
 int					parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd);
 int					parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd);
 int					parsing_normal_state(char *line, t_tok_nd *nd);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:35:48 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 16:10:50 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 17:41:26 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 
 // Erreur de parsing a detecter :
 // (TOKEN) Quote jamais refermer (pas obligatoire).
+// (TOKEN) Parenthese non fermante ou parenthese fermante sans l'avoir ouvrir
 // (AST) Un operateur logique au debut, a la fin,
 //	ou plusieurs consequitifs. (a gerer dans l'arbe AST)
 // (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
-// (AST) Parenthese non fermante ou parenthese fermante sans l'avoir ouvrir
 // (AST) Deux cmd d'affiler (compter aussi les cmd entre parentheses)
 
-
-// int	handle_backslash(char *line, t_tok_stk *stk)
-// {
-// 	if (line[0] == '\\')
-// 	{
-// 		stk->backslash = !stk->backslash;
-// 		if (!line[1])
-// 			return ()
-// 	}
-// }
 
 int	parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 {
@@ -56,6 +46,28 @@ int	parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 	return (1);
 }
 
+int	handle_backslash(char **line, int i, char *word, t_tok_stk *stk)
+{
+	if ((*line)[i] == '\\')
+	{
+		stk->backslash = !stk->backslash;
+		if ((*line)[i + 1])
+		{
+			printf("word[0] = %c\n", word[0]);
+			word[0] = (*line)[i + 1];
+			printf("word[0] = %c\n", word[0]);
+			*line += 2;
+			if (!(*line)[i])
+				return (1);
+			else
+				return (0);
+		}
+		*line += 1;
+		return (1);
+	}
+	return (0);
+}
+
 int	parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 {
 	int	i;
@@ -69,7 +81,11 @@ int	parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd)
 		line++;
 	while (line[i] && line[i] != '\"')
 	{
-		// handle_backslash(&line[i], nd->word);
+		if (handle_backslash(&line, i, &nd->word[i], stk))
+		{
+			//
+			continue;
+		}
 		if (line[i] == '$')
 			nd->varenv = 1;
 		nd->word[i] = line[i];
@@ -187,11 +203,11 @@ void	parsing_token(t_global *g)
 		while (incr_until_next_tok(&g->rd.line[i], stk))
 			i++;
 		size = token_len(&g->rd.line[i]);
-		nd = lstnew_nd_token(size, g);
+		nd = lstnew_nd_token(size + 10, g);
 		definited_type(&g->rd.line[i], nd);
 		definited_state(&g->rd.line[i], nd, stk);
-		handle_parenthese(g, nd);
 		i += parsing_token2(&g->rd.line[i], stk, nd);
+		handle_parenthese(g, nd);
 		lstadd_back_token(stk, nd);
 		i += size;
 	}

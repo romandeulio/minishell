@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 16:23:53 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 17:23:08 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_token(t_global *g)
 
 int is_end_line(t_tok_stk *stk)
 {
-	if (stk->parenthese == 0 && stk->sq == 0 && stk->dq == 0 && stk->backslash == 0)
+	if (stk->parenthese == 0 && stk->sq == 0 && stk->dq == 0 /*&& stk->backslash == 0*/)
 		return (1);
 	return (0);
 }
@@ -73,25 +73,37 @@ void add_semicolon(t_global *g)
 void	parsing(t_global *g)
 {
 	char *tmp;
-	char *line_semicolon;
+	char *line_separator;
 	char *full_line;
 	
 	parsing_token(g);
 	while (!is_end_line(&g->tok_stk))
 	{
-		if (g->tok_stk.backslash == 1)
-		{
-			// nouvelle ligne mais pas nouvelle cmd
-		}
-		else
+		// if (g->tok_stk.backslash == 1)
+		// {
+		// 	// nouvelle ligne mais pas nouvelle cmd
+		// }
+		if (g->tok_stk.parenthese == 1)
 		{
 			add_semicolon(g);
 			tmp = g->rd.line;
 			g->rd.line = readline(">");
-			line_semicolon = ft_strjoin(tmp, "; ");
+			line_separator = ft_strjoin(tmp, "; ");
 			free(tmp);
-			full_line = ft_strjoin(line_semicolon, g->rd.line);
-			free(line_semicolon);
+			full_line = ft_strjoin(line_separator, g->rd.line);
+			free(line_separator);
+			parsing_token(g);
+			free(g->rd.line);
+			g->rd.line = full_line;
+		}
+		else
+		{
+			tmp = g->rd.line;
+			g->rd.line = readline(">");
+			line_separator = ft_strjoin(tmp, "\n");
+			free(tmp);
+			full_line = ft_strjoin(line_separator, g->rd.line);
+			free(line_separator);
 			parsing_token(g);
 			free(g->rd.line);
 			g->rd.line = full_line;
