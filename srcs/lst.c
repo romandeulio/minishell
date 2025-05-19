@@ -3,23 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 17:08:58 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:09:13 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_node *new_node(char *word, t_global *g)
+void	lstfree_token(t_tok_stk *p)
 {
-    t_node *new;
+	t_tok_nd	*tmp;
+	t_tok_nd	*cur;
 
-    new = malloc(sizeof(t_node));
-    if (!new)
-        ft_exit("Malloc error", g);
-    new->word = word;
-    new->next = NULL;
-    return (new);
+	tmp = p->top;
+	cur = p->top;
+	while (cur)
+	{
+		cur = cur->next;
+		free(tmp->word);
+		free(tmp);
+		tmp = cur;
+	}
+	p->top = NULL;
+}
+
+void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
+{
+	t_tok_nd	*tmp;
+
+    if (!*nd->word)
+    {
+        free(nd->word);
+        free(nd);
+        return ;
+    }
+	if (!stk->top)
+	{
+		stk->top = nd;
+		return ;
+	}
+	else
+	{
+		tmp = stk->top;
+		while (tmp && tmp->next)
+			tmp = tmp->next;
+		tmp->next = nd;
+	}
+}
+
+t_tok_nd	*lstnew_nd_token(int size, t_global *g)
+{
+	t_tok_nd	*new;
+
+	new = malloc(sizeof(t_tok_nd));
+	if (!new)
+		ft_exit("Malloc", g);
+	new->word = malloc(sizeof(char) * (size + 1));
+	if (!new->word)
+		ft_exit("Malloc", g);
+	new->next = NULL;
+	return (new);
 }

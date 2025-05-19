@@ -1,0 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_token_type.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/18 01:00:59 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/05/19 00:22:35 by nicolasbrec      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../minishell.h"
+
+int	is_parenthese(char *s)
+{
+	if (*s == '(' || *s == ')')
+		return (1);
+	return (0);
+}
+
+int	is_redir(char *s)
+{
+	if (!ft_strncmp(s, "<<", 2) || !ft_strncmp(s, ">>", 2))
+		return (2);
+	if (*s == '<' || *s == '>')
+		return (1);
+	return (0);
+}
+
+int	is_operator(char *s)
+{
+	if (!ft_strncmp(s, "&&", 2) || !ft_strncmp(s, "||", 2))
+		return (2);
+	if (*s == '|')
+		return (1);
+	return (0);
+}
+
+int	is_word(char *s)
+{
+	if (!is_redir(s) && !is_operator(s) && !is_parenthese(s) && *s != ' '
+		&& *s != '\'' && *s != '\"' && *s != ';')
+		return (1);
+	return (0);
+}

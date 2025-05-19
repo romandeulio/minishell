@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cur_dir.c                                      :+:      :+:    :+:   */
+/*   handle_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:06:55 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 15:41:12 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:19:19 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ char    *get_cur_dir(t_global *g)
     g->rd.cur_dir = ft_strjoin(&name_cur_dir[1], "$ ");
     free(path_abs);
     if (!g->rd.cur_dir)
-        ft_exit("Malloc Error :", g);
+        ft_exit("Malloc", g);
     return (g->rd.cur_dir);
 }

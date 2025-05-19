@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 00:43:20 by nicolasbrec      ###   ########.fr       */
+/*   Created: 2025/05/18 19:20:31 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/05/19 00:19:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void free_and_reset_readline(t_global *g)
+void write_error_syntax(char *token)
 {
-    free(g->rd.line);
-	free(g->rd.cur_dir);
-    ft_bzero(&g->rd, sizeof(t_rdline));
-}
-
-void	free_and_reset_parsing(t_global *g)
-{
-	lstfree_token(&g->tok_stk);
-    ft_bzero(&g->tok_stk, sizeof(t_tok_stk));
+    write(2, "minishell: syntax error near unexpected token `", 47);
+    write(2, token, ft_strlen(token));
+    write(2, "'\n", 2);
 }

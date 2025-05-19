@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/16 17:14:48 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/19 00:43:20 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void    ft_exit(char *msg, t_global *g)
 {
-    perror(msg);
+    if (msg)
+        perror(msg);
     free(g->rd.cur_dir);
-    free_list(&g->parsing);
+    lstfree_token(&g->tok_stk);
     exit(1);
 }
