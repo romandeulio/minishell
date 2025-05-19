@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 17:33:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 21:29:47 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_tok_stk
 	t_tok_nd		*top;
 	int				sq;
 	int				dq;
-	int				parenthese;
+	int				parenthesis;
 	int				backslash;
 }					t_tok_stk;
 
@@ -129,40 +129,48 @@ typedef struct s_global
 	t_arg			arg;
 }					t_global;
 
-// parsing/check_token_type.c
-int					is_parenthese(char *s);
+/*------------------------------Parsing------------------------------*/
+
+// check_token_type.c
+int					is_parenthesis(char *s);
 int					is_redir(char *s);
 int					is_operator(char *s);
 int					is_word(char *s);
 
-// parsing/count_token.c
+// count_token.c
 int					sq_token_len(char *line);
 int					dq_token_len(char *line);
 int					word_token_len(char *line);
 int					token_len(char *line);
 
-// parsing/definited_token.c
-void				definited_type(char *line, t_tok_nd *nd);
-void				definited_state(char *line, t_tok_nd *nd, t_tok_stk *stk);
+// definited_token.c
+void				defined_type(char *line, t_tok_nd *nd);
+void				defined_state(char *line, t_tok_nd *nd, t_tok_stk *stk);
 
 // handle_delimiter_token.c
-void				handle_parenthese(t_global *g, t_tok_nd *nd);
+void				handle_parentheses(t_global *g, t_tok_nd *nd);
 // void				handle_quote(t_global *g, t_tok_nd *nd);
 
-// parsing/parsing_token.c
-int					handle_backslash(char **line, int i, char *word, t_tok_stk *stk);
+// parsing_token_utils.c
+
 int					parsing_sq_state(char *line, t_tok_stk *stk, t_tok_nd *nd);
 int					parsing_dq_state(char *line, t_tok_stk *stk, t_tok_nd *nd);
 int					parsing_normal_state(char *line, t_tok_nd *nd);
 int					parsing_separator(char *line, t_tok_nd *nd);
+int					incr_until_next_tok(char *line, t_tok_stk *stk);
+
+// parsing_token.c
+
 int					parsing_token2(char *line, t_tok_stk *stk, t_tok_nd *nd);
 void				parsing_token(t_global *g);
 
-// parsing/save_token.c
+// save_token.c
 int					save_word_quote_state(char *line, char *word,
 						char separator);
 void				save_word_normal_state(char *line, char *word);
 void				save_separator(char *line, char *word, t_type type);
+
+/*------------------------------...------------------------------*/
 
 // exit.c
 void				ft_exit(char *msg, t_global *g);

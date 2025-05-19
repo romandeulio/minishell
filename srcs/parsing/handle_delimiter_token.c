@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   handle_delimiter_token.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 23:22:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/19 00:49:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 21:59:44 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handle_parenthese(t_global *g, t_tok_nd *nd)
+void	handle_parentheses(t_global *g, t_tok_nd *nd)
 {
 	t_tok_stk	*stk;
 
 	stk = &g->tok_stk;
 	if (nd->type == PAREN_OPEN)
-		stk->parenthese++;
+		stk->parenthesis++;
 	else if (nd->type == PAREN_CLOSE)
-		stk->parenthese--;
-	if (stk->parenthese == -1)
+		stk->parenthesis--;
+	if (stk->parenthesis == -1)
 	{
 		write_error_syntax(nd->word);
 		ft_exit(NULL, g);

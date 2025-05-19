@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 01:08:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/19 15:35:38 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/19 21:59:33 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	word_token_len(char *line)
 
 int	token_len(char *line)
 {
-	if (is_parenthese(line))
+	if (is_parenthesis(line))
 		return (1);
 	else if (is_redir(line))
 		return (is_redir(line));
