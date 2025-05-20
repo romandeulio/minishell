@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/20 13:52:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 16:00:42 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	handle_sep(char *line, int *i, t_global *g, t_tok_nd *nd)
 	nd->type = CMD;
 	if (stk->sq || stk->dq || stk->backslash)
 		return (0);
-	definited_type(line, nd);
+	defined_type(line, nd);
 	if (nd->type != CMD)
 	{
 		if (*i == 0)

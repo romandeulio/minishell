@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 13:49:25 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 16:31:26 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ int					count_dq(char *line, int *i, t_tok_stk *stk);
 int					count_space_sep(char *line, t_tok_stk *stk);
 int					count_sep(char *line, int *i, t_tok_stk *stk);
 
+// defined_token.c
+
+void				defined_type(char *line, t_tok_nd *nd);
+void				defined_state(t_tok_stk *stk, t_tok_nd *nd);
+
 // handle_parsing.c
 int					handle_backslash(char *line, int *i, t_global *g);
 int					handle_sq(char *line, int *i, t_global *g);
@@ -153,8 +158,9 @@ int					handle_sep(char *line, int *i, t_global *g, t_tok_nd *nd);
 // parsing_tok_utils.c
 void				handle_parentheses(t_global *g, t_tok_nd *nd);
 int					save_sep(char *line, t_tok_nd *nd);
-void				definited_type(char *line, t_tok_nd *nd);
 void				check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd);
+t_tok_nd			*get_nd(int size, char *line, t_global *g);
+void				realloc_token(char *line, t_tok_nd *last, t_tok_stk *stk);
 
 // parsing_token.c
 int					parsing_token(char *line, t_global *g, t_tok_nd *nd);
@@ -182,6 +188,8 @@ void				check_and_add_history(char *str);
 void				lstfree_token(t_tok_stk *p);
 void				lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd);
 t_tok_nd			*lstnew_nd_token(int size, t_global *g);
+t_tok_nd			*lstlast_nd(t_tok_stk *stk);
+int					lstcount_node_token(t_tok_stk *stk);
 
 // minishell.c
 void				parsing(t_global *g);

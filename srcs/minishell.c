@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 14:31:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 16:31:09 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int lstcount_node_token(t_tok_stk *stk)
-{
-	int count;
-	t_tok_nd *nd;
-
-	count = 0;
-	nd = stk->top;
-	while (nd)
-	{
-		nd = nd->next;
-		count++;
-	}
-	return (count);
-}
 
 void	print_token(t_global *g)
 {

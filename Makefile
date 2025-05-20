@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+         #
+#    By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/20 02:02:54 by nicolasbrec      ###   ########.fr        #
+#    Updated: 2025/05/20 16:09:42 by rodeulio         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include
+CFLAGS     = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include -fsanitize=address
 LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory
@@ -32,7 +32,8 @@ LIBFT_DIR  = libft_add
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c srcs/history.c srcs/lst.c srcs/minishell.c\
 		srcs/parsing/count_len_token.c srcs/parsing/count_len_token2.c \
-		srcs/parsing/handle_parsing.c srcs/parsing/parsing_tok_utils.c \
+		srcs/parsing/defined_token.c srcs/parsing/handle_parsing.c \
+		srcs/parsing/parsing_tok_utils.c \
 		srcs/parsing/parsing_token.c \
 
 # 🔨 Generate object files

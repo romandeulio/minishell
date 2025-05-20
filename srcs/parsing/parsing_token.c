@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/20 14:29:18 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 16:13:16 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	parsing_token(char *line, t_global *g, t_tok_nd *nd)
 	int	j;
 
 	i = 0;
-	j = 0;
+	j = ft_strlen(nd->word);
 	while (line[i])
 	{
 		if (handle_backslash(&line[i], &i, g))
@@ -64,9 +64,12 @@ void	parsing_tokens(t_global *g)
 		while (handle_space_sep(&g->rd.line[i], g))
 			i++;
 		size = count_size_token(&g->rd.line[i], stk);
-		nd = lstnew_nd_token(size, g);
+		printf("ici\n");
+		nd = get_nd(size, &g->rd.line[i], g);
+		//nd = lstnew_nd_token(size, g);
 		// nd->type = CMD;
 		i += parsing_token(&g->rd.line[i], g, nd);
+		defined_state(stk, nd);
 		nd->size = size;
 		lstadd_back_token(stk, nd);
 	}
