@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 17:57:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 18:07:13 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void lstdel_last_nd(t_tok_stk *stk)
 {
     t_tok_nd *tmp;
 
-    if (stk->top)
+    if (!stk->top)
         return ;
     tmp = stk->top;
     if (!tmp->next)
@@ -116,13 +116,12 @@ void lstdel_last_nd(t_tok_stk *stk)
         stk->top = NULL;
         return ;
     }
-    while (tmp)
+    while (tmp && tmp->next)
     {
         if (!tmp->next->next)
         {
             free(tmp->next->word);
             free(tmp->next);
-            tmp->next->word = NULL;
             tmp->next = NULL;
             return ;
         }
