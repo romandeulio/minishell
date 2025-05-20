@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 21:59:23 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:31:23 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	print_token(t_global *g)
 		printf("word = {%s}\n", nd->word);
 		printf("type = %s\n", type_name[nd->type]);
 		printf("state = %s\n", state_name[nd->state]);
+		printf("size = %d\n", nd->size);
+		printf("varenv = %d\n", nd->varenv);
 		nd = nd->next;
 		printf("_______________\n");
 	}
@@ -65,6 +67,7 @@ void add_semicolon(t_global *g)
 	t_tok_nd *nd;
 
 	nd = lstnew_nd_token(1, g);
+	nd->type = SEMICOLON;
 	nd->word[0] = ';';
 	nd->word[1] = '\0';
 	lstadd_back_token(&g->tok_stk, nd);
@@ -76,7 +79,7 @@ void	parsing(t_global *g)
 	char *line_separator;
 	char *full_line;
 	
-	parsing_token(g);
+	parsing_tokens(g);
 	while (!is_end_line(&g->tok_stk))
 	{
 		// if (g->tok_stk.backslash == 1)
@@ -92,7 +95,7 @@ void	parsing(t_global *g)
 			free(tmp);
 			full_line = ft_strjoin(line_separator, g->rd.line);
 			free(line_separator);
-			parsing_token(g);
+			parsing_tokens(g);
 			free(g->rd.line);
 			g->rd.line = full_line;
 		}
@@ -104,7 +107,7 @@ void	parsing(t_global *g)
 			free(tmp);
 			full_line = ft_strjoin(line_separator, g->rd.line);
 			free(line_separator);
-			parsing_token(g);
+			parsing_tokens(g);
 			free(g->rd.line);
 			g->rd.line = full_line;
 		}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+         #
+#    By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/19 22:05:30 by rodeulio         ###   ########.fr        #
+#    Updated: 2025/05/20 02:02:54 by nicolasbrec      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,9 @@ LIBFT_DIR  = libft_add
 
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c srcs/history.c srcs/lst.c srcs/minishell.c\
-		srcs/parsing/check_token_type.c srcs/parsing/count_token.c \
-		srcs/parsing/defined_token.c srcs/parsing/handle_delimiter_token.c \
-		srcs/parsing/parsing_token.c srcs/parsing/parsing_token_utils.c \
-		srcs/parsing/save_token.c \
+		srcs/parsing/count_len_token.c srcs/parsing/count_len_token2.c \
+		srcs/parsing/handle_parsing.c srcs/parsing/parsing_tok_utils.c \
+		srcs/parsing/parsing_token.c \
 
 # 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))
