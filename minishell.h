@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 16:31:26 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:50:09 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,7 @@ void				handle_parentheses(t_global *g, t_tok_nd *nd);
 int					save_sep(char *line, t_tok_nd *nd);
 void				check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd);
 t_tok_nd			*get_nd(int size, char *line, t_global *g);
-void				realloc_token(char *line, t_tok_nd *last, t_tok_stk *stk);
-
+char				*realloc_token(char *line, t_tok_nd *last, t_tok_stk *stk);
 // parsing_token.c
 int					parsing_token(char *line, t_global *g, t_tok_nd *nd);
 void				parsing_tokens(t_global *g);
@@ -190,10 +189,17 @@ void				lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd);
 t_tok_nd			*lstnew_nd_token(int size, t_global *g);
 t_tok_nd			*lstlast_nd(t_tok_stk *stk);
 int					lstcount_node_token(t_tok_stk *stk);
+void				lstdel_last_nd(t_tok_stk *stk);
 
 // minishell.c
+void				print_token(t_global *g);
+int					is_end_line(t_tok_stk *stk);
+void				add_semicolon(t_global *g);
 void				parsing(t_global *g);
 void				minishell(t_global *g);
 int					main(int ac, char **av, char **env);
+
+// utils.c
+void				ft_strcpy(char *dst, char *src);
 
 #endif

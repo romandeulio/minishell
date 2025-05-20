@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 16:31:14 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:57:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
 	{
 		tmp = stk->top;
 		while (tmp && tmp->next)
+        {
+            printf("lstadd = tmp->next = %p\n", tmp->next);
 			tmp = tmp->next;
+        }
+        printf("lstadd = tmp->word = %p\n", tmp->word);
 		tmp->next = nd;
 	}
 }
@@ -64,6 +68,7 @@ t_tok_nd	*lstnew_nd_token(int size, t_global *g)
 	if (!new->word)
 		ft_exit("Malloc", g);
 	new->word[0] = '\0';
+    new->varenv = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -95,4 +100,32 @@ int lstcount_node_token(t_tok_stk *stk)
 		count++;
 	}
 	return (count);
+}
+
+void lstdel_last_nd(t_tok_stk *stk)
+{
+    t_tok_nd *tmp;
+
+    if (stk->top)
+        return ;
+    tmp = stk->top;
+    if (!tmp->next)
+    {
+        free(stk->top->word);
+        free(stk->top);
+        stk->top = NULL;
+        return ;
+    }
+    while (tmp)
+    {
+        if (!tmp->next->next)
+        {
+            free(tmp->next->word);
+            free(tmp->next);
+            tmp->next->word = NULL;
+            tmp->next = NULL;
+            return ;
+        }
+        tmp = tmp->next;
+    }
 }

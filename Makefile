@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+         #
+#    By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/20 16:09:42 by rodeulio         ###   ########.fr        #
+#    Updated: 2025/05/20 17:50:51 by nicolasbrec      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ LIBFT_LIB  = libft_add/libft++.a
 LIBFT_DIR  = libft_add
 
 # 📜 Source files
-SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c srcs/history.c srcs/lst.c srcs/minishell.c\
+SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
+ 		srcs/history.c srcs/lst.c srcs/minishell.c srcs/utils.c \
 		srcs/parsing/count_len_token.c srcs/parsing/count_len_token2.c \
 		srcs/parsing/defined_token.c srcs/parsing/handle_parsing.c \
 		srcs/parsing/parsing_tok_utils.c \

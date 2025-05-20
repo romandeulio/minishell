@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 16:31:09 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:03:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	parsing(t_global *g)
 	char *full_line;
 	
 	parsing_tokens(g);
+	printf("is_end_line = %d\n", is_end_line(&g->tok_stk));
 	while (!is_end_line(&g->tok_stk))
 	{
 		// if (g->tok_stk.backslash == 1)
@@ -97,6 +98,7 @@ void	parsing(t_global *g)
 			g->rd.line = full_line;
 		}
 	}
+	printf("ENDDDD\n");
 	print_token(g);
 }
 
