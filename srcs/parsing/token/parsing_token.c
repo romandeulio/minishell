@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 14:14:32 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 // Erreur de parsing a detecter :
 // (TOKEN) Quote jamais refermer (pas obligatoire).
@@ -18,7 +18,7 @@
 // (AST) Un operateur logique au debut, a la fin,
 //	ou plusieurs consequitifs. (a gerer dans l'arbe AST)
 // (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
-// (AST) Deux cmd d'affiler (compter aussi les cmd entre parentheses)
+// (AST) Les parenthese ne doivent pas etre coller a des cmd
 
 int	parse_loop(int *j, char *line, t_global *g, t_tok_nd *nd)
 {
@@ -58,6 +58,22 @@ int	parsing_token(char *line, t_global *g, t_tok_nd *nd)
 	return (i);
 }
 
+void	check_end_line(t_global *g)
+{
+	while (!is_end_line(&g->tok_stk))
+	{
+		if (g->tok_stk.backslash == 1)
+			handle_incomplete_bs(g);
+		else if (is_operator_endline(&g->tok_stk))
+			handle_incomplete_op(g);
+		else if (g->tok_stk.dq || g->tok_stk.sq)
+			handle_incomplete_quote(g);
+		else
+			handle_incomplete_parenthesis(g);
+	}
+	print_token(g);
+}
+
 void	parsing_tokens(t_global *g)
 {
 	int			i;
@@ -77,4 +93,5 @@ void	parsing_tokens(t_global *g)
 		i += parsing_token(&g->rd.line[i], g, nd);
 		lstadd_back_token(stk, nd);
 	}
+	check_end_line(g);
 }

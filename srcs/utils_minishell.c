@@ -1,26 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   utils_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/18 19:20:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 15:52:42 by nicolasbrec      ###   ########.fr       */
+/*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/05/21 15:29:00 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	close_line(char *token, t_global *g)
-{
-    g->error_line = 1;
-    write_syntax_error(token);
-}
-
-void write_syntax_error(char *token)
-{
-    ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-    ft_putstr_fd(token, 2);
-    ft_putstr_fd("'\n", 2);
-}

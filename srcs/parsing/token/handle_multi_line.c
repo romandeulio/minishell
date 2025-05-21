@@ -6,31 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:33:07 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 13:53:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:49 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
-
-int	is_end_line(t_tok_stk *stk)
-{
-	if (stk->parenthesis == 0 && stk->sq == 0 && stk->dq == 0
-		&& stk->backslash == 0 && !is_operator_endline(stk))
-		return (1);
-	return (0);
-}
-
-void	add_semicolon(t_global *g)
-{
-	t_tok_nd	*nd;
-
-	nd = lstnew_nd_token(1, g);
-	nd->type = SEMICOLON;
-	nd->varenv = 0;
-	nd->word[0] = ';';
-	nd->word[1] = '\0';
-	lstadd_back_token(&g->tok_stk, nd);
-}
+#include "../../../minishell.h"
 
 void	handle_incomplete_bs(t_global *g)
 {
@@ -93,6 +73,7 @@ void	handle_incomplete_quote(t_global *g)
 		ft_exit("Malloc", g);
 	}
 	free(line_separator);
+	add_nl_last_nd(g);
 	parsing_tokens(g);
 	free(g->rd.line);
 	g->rd.line = full_line;

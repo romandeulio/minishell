@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:18:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 00:54:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	count_size_sep(char *line, int *sep)
 {

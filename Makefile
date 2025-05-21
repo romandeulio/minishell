@@ -6,7 +6,7 @@
 #    By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/21 01:49:54 by nicolasbrec      ###   ########.fr        #
+#    Updated: 2025/05/21 16:05:47 by nicolasbrec      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,16 @@ LIBFT_DIR  = libft_add
 
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
- 		srcs/history.c srcs/lst.c srcs/minishell.c srcs/utils.c \
+ 		srcs/history.c srcs/lst.c srcs/minishell.c srcs/utils.c srcs/utils_minishell.c \
 
-# Parsing dir
-SRCS +=	srcs/parsing/count_len_token.c \
-		srcs/parsing/defined_token.c srcs/parsing/handle_multi_line.c \
-		srcs/parsing/handle_parsing.c srcs/parsing/parsing_tok_utils.c \
-		srcs/parsing/parsing_token.c \
+# parsing/syntax
+SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \
+
+# parsing/token
+SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c \
+		srcs/parsing/token/handle_multi_line_utils.c srcs/parsing/token/handle_multi_line.c \
+		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
+		srcs/parsing/token/parsing_token.c \
 
 # 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))

@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 13:27:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:52 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 int	handle_backslash(char *line, int *i, t_tok_stk *stk)
 {

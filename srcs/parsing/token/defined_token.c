@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:04:34 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/21 00:50:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:40 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	defined_type(char *line, t_tok_nd *nd)
 {

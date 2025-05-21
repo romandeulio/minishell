@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 14:03:31 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:55 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	handle_parentheses(t_global *g, t_tok_nd *nd)
 {
@@ -23,7 +23,7 @@ void	handle_parentheses(t_global *g, t_tok_nd *nd)
 		stk->parenthesis--;
 	if (stk->parenthesis == -1)
 	{
-		write_error_syntax(nd->word);
+		write_syntax_error(nd->word);
 		ft_exit(NULL, g);
 	}
 }
@@ -79,22 +79,13 @@ char	*realloc_token(char *line, t_tok_nd *last, t_global *g)
 {
 	int			total_len;
 	char		*new_word;
-	char		*join_nl;
 	t_tok_stk	*stk;
 
     stk = &g->tok_stk;
-	join_nl = ft_strjoin(last->word, "\n");
-	total_len = count_size_token(line, stk) + ft_strlen(join_nl);
+	total_len = count_size_token(line, stk) + ft_strlen(last->word);
 	new_word = malloc(sizeof(char) * (total_len + 1));
 	if (!new_word)
-    {
-        free(join_nl);
 		ft_exit("Malloc", g);
-    }
-    if (!stk->backslash)
-	    ft_strcpy(new_word, join_nl);
-    else
-        ft_strcpy(new_word, last->word);
-	free(join_nl);
+    ft_strcpy(new_word, last->word);
 	return (new_word);
 }

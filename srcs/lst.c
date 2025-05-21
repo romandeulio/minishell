@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 21:38:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 15:27:55 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_tok_nd *lstget_last_nd(t_tok_stk *stk)
 	return (tmp);
 }
 
-int lstcount_node_token(t_tok_stk *stk)
+int lstcount_nd_token(t_tok_stk *stk)
 {
 	int count;
 	t_tok_nd *nd;
