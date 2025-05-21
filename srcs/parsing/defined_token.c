@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defined_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:04:34 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 16:05:15 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/21 00:50:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	defined_type(char *line, t_tok_nd *nd)
 		nd->type = CMD;
 }
 
-void	defined_state(t_tok_stk *stk, t_tok_nd *nd)
-{
-	if (stk->sq == 1)
-		nd->state = SQ;
-	else if (stk->dq == 1)
-		nd->state = DQ;
-	else
-		nd->state = NORMAL;
-}
+// void	defined_state(t_tok_stk *stk, t_tok_nd *nd)
+// {
+// 	if (stk->sq == 1)
+// 		nd->state = SQ;
+// 	else if (stk->dq == 1)
+// 		nd->state = DQ;
+// 	else
+// 		nd->state = NORMAL;
+// }

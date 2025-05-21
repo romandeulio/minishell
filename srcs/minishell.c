@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 17:03:48 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:18:04 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	print_token(t_global *g)
 	t_tok_nd	*nd;
 	const char *type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR", 
 		"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR", "SEMICOLON"};
-	const char *state_name[] = {"NORMAL", "SQ", "DQ"};
 
 	size = lstcount_node_token(&g->tok_stk);
 	i = 1;
@@ -32,73 +31,37 @@ void	print_token(t_global *g)
 		printf("Word %d/%d :\n", i++, size);
 		printf("word = {%s}\n", nd->word);
 		printf("type = %s\n", type_name[nd->type]);
-		printf("state = %s\n", state_name[nd->state]);
-		printf("size = %d\n", nd->size);
 		printf("varenv = %d\n", nd->varenv);
 		nd = nd->next;
+		printf("nd = %p\n", nd);
 		printf("_______________\n");
 	}
 }
 
-int is_end_line(t_tok_stk *stk)
+int is_operator_endline(t_tok_stk *stk)
 {
-	if (stk->parenthesis == 0 && stk->sq == 0 && stk->dq == 0 /*&& stk->backslash == 0*/)
+	t_type type;
+
+	type = lstget_last_nd(stk)->type;
+	if (type == PIPE || type == AND || type == OR)
 		return (1);
 	return (0);
 }
 
-void add_semicolon(t_global *g)
-{
-	t_tok_nd *nd;
-
-	nd = lstnew_nd_token(1, g);
-	nd->type = SEMICOLON;
-	nd->word[0] = ';';
-	nd->word[1] = '\0';
-	lstadd_back_token(&g->tok_stk, nd);
-}
-
 void	parsing(t_global *g)
-{
-	char *tmp;
-	char *line_separator;
-	char *full_line;
-	
+{	
 	parsing_tokens(g);
-	printf("is_end_line = %d\n", is_end_line(&g->tok_stk));
 	while (!is_end_line(&g->tok_stk))
 	{
-		// if (g->tok_stk.backslash == 1)
-		// {
-		// 	// nouvelle ligne mais pas nouvelle cmd
-		// }
-		if (g->tok_stk.parenthesis == 1)
-		{
-			add_semicolon(g);
-			tmp = g->rd.line;
-			g->rd.line = readline(">");
-			line_separator = ft_strjoin(tmp, "; ");
-			free(tmp);
-			full_line = ft_strjoin(line_separator, g->rd.line);
-			free(line_separator);
-			parsing_tokens(g);
-			free(g->rd.line);
-			g->rd.line = full_line;
-		}
+		if (g->tok_stk.backslash == 1)
+			handle_incomplete_bs(g);
+		else if (is_operator_endline(&g->tok_stk))
+			handle_incomplete_op(g);
+		else if (g->tok_stk.dq || g->tok_stk.sq)
+			handle_incomplete_quote(g);
 		else
-		{
-			tmp = g->rd.line;
-			g->rd.line = readline(">");
-			line_separator = ft_strjoin(tmp, "\n");
-			free(tmp);
-			full_line = ft_strjoin(line_separator, g->rd.line);
-			free(line_separator);
-			parsing_tokens(g);
-			free(g->rd.line);
-			g->rd.line = full_line;
-		}
+			handle_incomplete_parenthesis(g);
 	}
-	printf("ENDDDD\n");
 	print_token(g);
 }
 

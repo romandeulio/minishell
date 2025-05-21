@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/20 18:07:13 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/20 21:38:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
 {
 	t_tok_nd	*tmp;
 
-    if (!*nd->word)
-    {
-        free(nd->word);
-        free(nd);
-        return ;
-    }
+    // if (!*nd->word)
+    // {
+    //     free(nd->word);
+    //     free(nd);
+    //     return ;
+    // }
 	if (!stk->top)
 	{
 		stk->top = nd;
@@ -48,11 +48,7 @@ void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
 	{
 		tmp = stk->top;
 		while (tmp && tmp->next)
-        {
-            printf("lstadd = tmp->next = %p\n", tmp->next);
 			tmp = tmp->next;
-        }
-        printf("lstadd = tmp->word = %p\n", tmp->word);
 		tmp->next = nd;
 	}
 }
@@ -68,12 +64,13 @@ t_tok_nd	*lstnew_nd_token(int size, t_global *g)
 	if (!new->word)
 		ft_exit("Malloc", g);
 	new->word[0] = '\0';
+    new->type = CMD;
     new->varenv = 0;
 	new->next = NULL;
 	return (new);
 }
 
-t_tok_nd *lstlast_nd(t_tok_stk *stk)
+t_tok_nd *lstget_last_nd(t_tok_stk *stk)
 {
 	t_tok_nd *tmp;
 

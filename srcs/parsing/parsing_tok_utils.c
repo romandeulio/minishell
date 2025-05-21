@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/20 17:58:34 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:03:31 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,45 +50,51 @@ int	save_sep(char *line, t_tok_nd *nd)
 	return (i);
 }
 
-void check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd)
+void	check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd)
 {
 	if (c == '$' && !stk->sq)
 		nd->varenv = 1;
 }
 
-t_tok_nd *get_nd(int size, char *line, t_global *g)
+t_tok_nd	*get_nd(int size, char *line, t_global *g)
 {
-	t_tok_stk *stk;
-	t_tok_nd *last;
-    t_tok_nd *new;
-	
+	t_tok_stk	*stk;
+	t_tok_nd	*last;
+	t_tok_nd	*new;
+
 	stk = &g->tok_stk;
-    new = lstnew_nd_token(size, g);
-	last = lstlast_nd(stk);
-	if (last)
+	new = lstnew_nd_token(size, g);
+	last = lstget_last_nd(stk);
+	if (stk->sq || stk->dq || stk->backslash)
 	{
-		if ((last->state == SQ && stk->sq) || (last->state == DQ && stk->dq))
-		{
-            new->varenv = last->varenv;
-            free(new->word);
-			new->word = realloc_token(line, last, stk);
-            printf("AVANT :\n");
-            print_token(g);
-            lstdel_last_nd(stk);
-            printf("APRES :\n");
-            print_token(g);
-		}
+        stk->backslash = 0;
+		free(new->word);
+		new->word = realloc_token(line, last, g);
+		lstdel_last_nd(stk);
 	}
 	return (new);
 }
 
-char *realloc_token(char *line, t_tok_nd *last, t_tok_stk *stk)
+char	*realloc_token(char *line, t_tok_nd *last, t_global *g)
 {
-	int total_len;
-	char *new_word;
-	
-	total_len = count_size_token(line, stk) + ft_strlen(last->word);
+	int			total_len;
+	char		*new_word;
+	char		*join_nl;
+	t_tok_stk	*stk;
+
+    stk = &g->tok_stk;
+	join_nl = ft_strjoin(last->word, "\n");
+	total_len = count_size_token(line, stk) + ft_strlen(join_nl);
 	new_word = malloc(sizeof(char) * (total_len + 1));
-	ft_strcpy(new_word, last->word);
-    return (new_word);
+	if (!new_word)
+    {
+        free(join_nl);
+		ft_exit("Malloc", g);
+    }
+    if (!stk->backslash)
+	    ft_strcpy(new_word, join_nl);
+    else
+        ft_strcpy(new_word, last->word);
+	free(join_nl);
+	return (new_word);
 }

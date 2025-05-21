@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/20 17:27:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:14:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,39 @@
 // (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
 // (AST) Deux cmd d'affiler (compter aussi les cmd entre parentheses)
 
-int	parsing_token(char *line, t_global *g, t_tok_nd *nd)
+int	parse_loop(int *j, char *line, t_global *g, t_tok_nd *nd)
 {
-	int	i;
-	int	j;
+	int			i;
+	t_tok_stk	*stk;
 
 	i = 0;
-	j = ft_strlen(nd->word);
+	stk = &g->tok_stk;
 	while (line[i])
 	{
-		if (handle_backslash(&line[i], &i, g))
-			nd->word[j++] = line[i - 1];
-		else if (handle_sq(&line[i], &i, g) || handle_dq(&line[i], &i, g))
+		if (handle_backslash(&line[i], &i, stk))
+			nd->word[(*j)++] = line[i - 1];
+		else if (handle_sq(&line[i], &i, stk) || handle_dq(&line[i], &i, stk))
 			continue ;
-		else if (handle_space_sep(&line[i], g))
+		else if (handle_space_sep(&line[i], stk))
 			break ;
 		else if (handle_sep(&line[i], &i, g, nd))
 			break ;
-		else
+		else if (line[i])
 		{
-			check_dollar(*line, &g->tok_stk, nd);
-			g->tok_stk.backslash = 0;
-			printf("line[i] = %c\n", line[i]);
-			printf("g->tok_stk.dq = %d\n", g->tok_stk.dq);
-			nd->word[j++] = line[i++];
+			check_dollar(*line, stk, nd);
+			nd->word[(*j)++] = line[i++];
 		}
 	}
-	printf("nd->type = %d\n", nd->type);
-	// printf("nd->type = %c\n", nd->type);
+	return (i);
+}
+
+int	parsing_token(char *line, t_global *g, t_tok_nd *nd)
+{
+	int	j;
+	int	i;
+
+	j = ft_strlen(nd->word);
+	i = parse_loop(&j, line, g, nd);
 	if (nd->type == CMD)
 		nd->word[j] = '\0';
 	return (i);
@@ -65,16 +70,11 @@ void	parsing_tokens(t_global *g)
 	i = 0;
 	while (g->rd.line[i])
 	{
-		while (handle_space_sep(&g->rd.line[i], g))
+		while (handle_space_sep(&g->rd.line[i], stk))
 			i++;
 		size = count_size_token(&g->rd.line[i], stk);
 		nd = get_nd(size, &g->rd.line[i], g);
-		nd->type = CMD;
 		i += parsing_token(&g->rd.line[i], g, nd);
-		defined_state(stk, nd);
-		nd->size = size;
 		lstadd_back_token(stk, nd);
-		printf("FINAL :\n");
-		print_token(g);
 	}
 }
