@@ -31,7 +31,7 @@ SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \
 SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c \
 		srcs/parsing/token/handle_multi_line_utils.c srcs/parsing/token/handle_multi_line.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
-		srcs/parsing/token/parsing_token.c \
+		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
 	
 # utils
 SRCS += srcs/utils/utils.c srcs/utils/utils_minishell.c \

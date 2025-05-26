@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 15:05:36 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 16:17:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,51 @@ int	save_sep(char *line, t_tok_nd *nd)
 		subtok->subword[i] = line[i];
 		i++;
 	}
-	// nd->word[i] = '\0' (si j'enleve verif le '\0' dans parsing_token)
 	return (i);
 }
 
-t_tok_nd	*get_nd(t_global *g)
+void realloc_subword(char *line,  t_global *g, t_subtok *last)
+{
+	int size;
+	int total_len;
+	char *new_subword;
+	t_tok_stk *stk;
+	
+	stk = &g->tok_stk;
+	size = ft_strlen(last->subword);
+	total_len = size + count_size_subword(line, stk);
+	new_subword = malloc(sizeof(char) * (total_len + 1));
+	if (!new_subword)
+		ft_exit("Malloc", g); // Voir si il faut free de nouveaux trucs
+	ft_strcpy(new_subword, last->subword);
+	new_subword[size] = '\0';
+	free(last->subword);
+	last->subword = new_subword;
+}
+
+t_subtok *get_and_addback_subtok(char *line, t_global *g, t_tok_nd *nd)
+{
+	int size;
+	t_subtok *last;
+	t_tok_stk *stk;
+	
+	size = count_size_subword(line, &g->tok_stk);
+	stk = &g->tok_stk;
+	last = lstget_last_nd_subtok(nd->top);
+	if (!nd->top || (last->state != stk->state && last->subword[0]))
+	{
+		last = lstnew_nd_subtok(size, g);
+		lstadd_back_subtok(&nd->top, last);
+	}
+	else
+	{
+		realloc_subword(line, g, last);
+		last->state = stk->state;
+	}
+	return (last);
+}
+
+t_tok_nd *get_and_addback_nd(t_global *g)
 {
 	t_tok_stk	*stk;
 	t_tok_nd	*new;
@@ -64,40 +104,9 @@ t_tok_nd	*get_nd(t_global *g)
 		new = lstget_last_nd_tok(stk->top);
 	}
 	else
+	{
 		new = lstnew_nd_tok(g);
+		lstadd_back_tok(stk, new);
+	}
 	return (new);
 }
-
-// t_tok_nd	*get_nd(int size, char *line, t_global *g)
-// {
-// 	t_tok_stk	*stk;
-// 	t_tok_nd	*last;
-// 	t_tok_nd	*new;
-
-// 	stk = &g->tok_stk;
-// 	new = lstnew_nd_tok(g);
-// 	last = lstget_last_nd_tok(stk);
-// 	if (stk->sq || stk->dq || stk->backslash)
-// 	{
-// 		stk->backslash = 0;
-// 		free(new->word);
-// 		new->word = realloc_token(line, last, g);
-// 		lstdel_last_nd_tok(stk);
-// 	}
-// 	return (new);
-// }
-
-// char	*realloc_token(char *line, t_tok_nd *last, t_global *g)
-// {
-// 	int			total_len;
-// 	char		*new_word;
-// 	t_tok_stk	*stk;
-
-// 	stk = &g->tok_stk;
-// 	total_len = count_size_token(line, stk) + ft_strlen(last->word);
-// 	new_word = malloc(sizeof(char) * (total_len + 1));
-// 	if (!new_word)
-// 		ft_exit("Malloc", g);
-// 	ft_strcpy(new_word, last->word);
-// 	return (new_word);
-// }

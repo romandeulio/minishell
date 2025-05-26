@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/24 01:23:33 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 16:15:02 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ void	lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd)
 {
 	t_tok_nd	*tmp;
 
-    // if (!*nd->word)
-    // {
-    //     free(nd->word);
-    //     free(nd);
-    //     return ;
-    // }
 	if (!stk->top)
 	{
 		stk->top = nd;

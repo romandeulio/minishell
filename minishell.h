@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 15:40:01 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 17:26:16 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,41 +81,37 @@ typedef struct s_tok_stk
 	int				backslash;
 }					t_tok_stk;
 
-// typedef enum e_operator
-// {
-// 	CMD,
-// 	PIPE,
-// 	AND,
-// 	OR,
-// }						t_operator;
-
-// typedef enum e_redirectory
-// {
-// 	NONE,
-// 	TRUNC,
-// 	APPEND,
-// 	HERE_DOC,
-// }						t_redirectory;
-
 typedef struct s_file
 {
 	char			*file;
 	t_type			redir;
 }					t_file;
 
+typedef struct s_subcmd
+{
+	char			*subcmd;
+	t_state			state;
+	struct s_subcmd	*next;
+}					t_subcmd;
+
 typedef struct s_cmd
 {
-	// t_token			*token;
+	char			*cmd;
+	struct s_subcmd	*next;
+}					t_cmd;
+
+typedef struct s_cmds
+{
+	t_subcmd		*topcmd;
 	t_file			infile;
 	t_file			outfile;
-	struct s_cmd	*next;
-}					t_cmd;
+}					t_cmds;
 
 typedef struct s_ast
 {
 	t_type			type;
 	int				subshell_lvl;
-	t_cmd *cmd; // Voir si mettre sur ptr ou non
+	t_cmds 			*cmds; // Voir si mettre sur ptr ou non
 	struct t_ast	*left;
 	struct t_ast	*right;
 }					t_ast;
@@ -126,6 +122,7 @@ typedef struct s_parse_ast
 	int				end;
 	int				dir;
 	int				paren_lvl;
+	t_ast			*previous;
 }					t_parse_ast;
 
 typedef struct s_global
@@ -208,20 +205,19 @@ int					handle_sep(char *line, int *i, int *j, t_global *g);
 // parsing_tok_utils.c
 void				handle_parentheses(t_global *g, t_tok_nd *nd);
 int					save_sep(char *line, t_tok_nd *nd);
-void				check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd);
-t_tok_nd			*get_nd(t_global *g);
-// char				*realloc_token(char *line, t_tok_nd *last, t_global *g);
+void				realloc_subword(char *line, t_global *g, t_subtok *last);
+t_subtok			*get_and_addback_subtok(char *line, t_global *g,
+						t_tok_nd *nd);
+t_tok_nd			*get_and_addback_nd(t_global *g);
+
+// parsing_tok_utils2.c
+int					is_sep(char *line, t_tok_nd *nd);
 
 // parsing_token.c
 int					parse_subword(int *j, char *line, t_global *g,
 						t_tok_nd *nd);
-void				realloc_subword(char *line, t_global *g, t_subtok *last);
-t_subtok			*get_and_addback_subtok(char *line, t_global *g,
-						t_tok_nd *nd);
-int					is_sep(char *line, t_tok_nd *nd);
 int					parse_word(char *line, t_global *g, t_tok_nd *nd);
 void				check_end_line(t_global *g);
-t_tok_nd			*get_and_addback_nd(t_global *g);
 void				parsing_tokens(t_global *g);
 
 /*-------------------------------Utils-------------------------------*/
