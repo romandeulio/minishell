@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 13:56:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 15:04:01 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_token(t_global *g)
 	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
 			"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR",
 			"SEMICOLON"};
+	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
 
 	size = lstcount_nd_tok(&g->tok_stk);
 	i = 1;
@@ -36,14 +37,14 @@ void	print_token(t_global *g)
 		printf("Word %d/%d :\n", i++, size);
 		while (subtok)
 		{
-			printf("subword %d = {%s}", j++, subtok->subword);
-			if (i > 2)
+			if (j > 1)
 				printf(" | ");
+			printf("subword %d = {%s}", j++, subtok->subword);
+			printf(" (state = %s)", state_name[subtok->state]);
 			subtok = subtok->next;
 		}
 		printf("\n");
 		printf("type = %s\n", type_name[nd->type]);
-		printf("varenv = %d\n", nd->varenv);
 		nd = nd->next;
 		printf("_______________\n");
 	}

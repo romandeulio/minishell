@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 12:59:07 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 15:05:36 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,6 @@ int	save_sep(char *line, t_tok_nd *nd)
 	}
 	// nd->word[i] = '\0' (si j'enleve verif le '\0' dans parsing_token)
 	return (i);
-}
-
-void	check_dollar(char c, t_tok_stk *stk, t_tok_nd *nd)
-{
-	if (c == '$' && stk->state != SQ)
-		nd->varenv = 1;
 }
 
 t_tok_nd	*get_nd(t_global *g)

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 12:51:35 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 15:17:49 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,12 @@ int	handle_backslash(char *line, int *i, t_tok_stk *stk)
 
 int	handle_sq(char *line, int *i, t_tok_stk *stk)
 {
-	t_tok_nd *nd;
-	t_subtok *subtok;
-
-	nd = lstget_last_nd_tok(stk->top);
-	subtok = lstget_last_nd_subtok(nd->top);
 	if (line[0] == '\'' && stk->state != DQ)
 	{
 		if (stk->state == SQ)
 			stk->state = NORMAL;
 		else
 			stk->state = SQ;
-		subtok->state = stk->state;
 		(*i)++;
 		return (1);
 	}
@@ -50,18 +44,12 @@ int	handle_sq(char *line, int *i, t_tok_stk *stk)
 
 int	handle_dq(char *line, int *i, t_tok_stk *stk)
 {
-	t_tok_nd *nd;
-	t_subtok *subtok;
-
-	nd = lstget_last_nd_tok(stk->top);
-	subtok = lstget_last_nd_subtok(nd->top);
 	if (line[0] == '\"' && stk->state != SQ)
 	{
-		if (stk->state != DQ)
+		if (stk->state == DQ)
 			stk->state = NORMAL;
 		else
 			stk->state = DQ;
-		subtok->state = stk->state;
 		(*i)++;
 		return (1);
 	}
@@ -71,31 +59,35 @@ int	handle_dq(char *line, int *i, t_tok_stk *stk)
 int	handle_space_sep(char *line, t_tok_stk *stk)
 {
 	if (line[0] == ' ' && stk->state == NORMAL)
-    {
-        stk->backslash = 0;
+	{
+		stk->backslash = 0;
 		return (1);
-    }
+	}
 	return (0);
 }
 
-int	handle_sep(char *line, int *i, t_global *g, t_tok_nd *nd)
+int	handle_sep(char *line, int *i, int *j, t_global *g)
 {
 	t_tok_stk	*stk;
+	t_tok_nd	*nd;
 	int			size_sep;
 
+	nd = lstget_last_nd_tok(g->tok_stk.top);
 	stk = &g->tok_stk;
 	nd->type = CMD;
 	if (stk->state != NORMAL)
 		return (0);
 	defined_type(line, nd);
+	printf("type = %d\n", nd->type);
 	if (nd->type != CMD)
 	{
 		if (*i == 0)
 		{
 			size_sep = save_sep(line, nd);
-            *i += size_sep;
+			*i += size_sep;
+			*j += size_sep;
 			handle_parentheses(g, nd);
-            return (1);
+			return (1);
 		}
 		nd->type = CMD;
 		return (1);

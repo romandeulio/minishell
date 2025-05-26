@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 12:48:18 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 15:05:23 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	add_semicolon(t_global *g)
 
 	nd = lstnew_nd_tok(g);
 	nd->type = SEMICOLON;
-	nd->varenv = 0;
 	nd->top = lstnew_nd_subtok(1, g);
 	nd->top->subword[0] = ';';
 	nd->top->subword[1] = '\0';

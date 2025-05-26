@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 13:23:52 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 15:40:01 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_subtok
 typedef struct s_tok_nd
 {
 	struct s_subtok	*top;
-	int				varenv;
 	t_type			type;
 	struct s_tok_nd	*next;
 }					t_tok_nd;
@@ -77,8 +76,6 @@ typedef struct s_tok_nd
 typedef struct s_tok_stk
 {
 	t_tok_nd		*top;
-	// int				sq;
-	// int				dq;
 	t_state			state;
 	int				parenthesis;
 	int				backslash;
@@ -206,7 +203,7 @@ int					handle_backslash(char *line, int *i, t_tok_stk *stk);
 int					handle_sq(char *line, int *i, t_tok_stk *stk);
 int					handle_dq(char *line, int *i, t_tok_stk *stk);
 int					handle_space_sep(char *line, t_tok_stk *stk);
-int					handle_sep(char *line, int *i, t_global *g, t_tok_nd *nd);
+int					handle_sep(char *line, int *i, int *j, t_global *g);
 
 // parsing_tok_utils.c
 void				handle_parentheses(t_global *g, t_tok_nd *nd);
@@ -221,6 +218,7 @@ int					parse_subword(int *j, char *line, t_global *g,
 void				realloc_subword(char *line, t_global *g, t_subtok *last);
 t_subtok			*get_and_addback_subtok(char *line, t_global *g,
 						t_tok_nd *nd);
+int					is_sep(char *line, t_tok_nd *nd);
 int					parse_word(char *line, t_global *g, t_tok_nd *nd);
 void				check_end_line(t_global *g);
 t_tok_nd			*get_and_addback_nd(t_global *g);
