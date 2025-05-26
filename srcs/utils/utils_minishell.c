@@ -6,8 +6,8 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 15:29:00 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 18:24:03 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"

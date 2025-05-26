@@ -6,21 +6,25 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:20:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 15:52:42 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/24 01:29:45 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	close_line(char *token, t_global *g)
+void	close_line(t_subtok *subtok, t_global *g)
 {
     g->error_line = 1;
-    write_syntax_error(token);
+    write_syntax_error(subtok);
 }
 
-void write_syntax_error(char *token)
+void write_syntax_error(t_subtok *subtok)
 {
     ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-    ft_putstr_fd(token, 2);
+    while (subtok)
+    {
+        ft_putstr_fd(subtok->subword, 2);
+        subtok = subtok->next;
+    }
     ft_putstr_fd("'\n", 2);
 }

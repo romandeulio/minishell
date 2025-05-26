@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 00:43:20 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/23 16:37:29 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void free_and_reset_readline(t_global *g)
 
 void	free_and_reset_parsing(t_global *g)
 {
-	lstfree_token(&g->tok_stk);
+	lstfree_tok(&g->tok_stk);
     ft_bzero(&g->tok_stk, sizeof(t_tok_stk));
 }

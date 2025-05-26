@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst.c                                              :+:      :+:    :+:   */
+/*   lst_tok2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/21 15:27:55 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/24 01:23:33 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void	lstfree_token(t_tok_stk *p)
-{
-	t_tok_nd	*tmp;
-	t_tok_nd	*cur;
-
-	tmp = p->top;
-	cur = p->top;
-	while (cur)
-	{
-		cur = cur->next;
-		free(tmp->word);
-		free(tmp);
-		tmp = cur;
-	}
-	p->top = NULL;
-}
-
-void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
+void	lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd)
 {
 	t_tok_nd	*tmp;
 
@@ -53,38 +36,34 @@ void	lstadd_back_token(t_tok_stk *stk, t_tok_nd *nd)
 	}
 }
 
-t_tok_nd	*lstnew_nd_token(int size, t_global *g)
-{
-	t_tok_nd	*new;
-
-	new = malloc(sizeof(t_tok_nd));
-	if (!new)
-		ft_exit("Malloc", g);
-	new->word = malloc(sizeof(char) * (size + 1));
-	if (!new->word)
-		ft_exit("Malloc", g);
-	new->word[0] = '\0';
-    new->type = CMD;
-    new->varenv = 0;
-	new->next = NULL;
-	return (new);
-}
-
-t_tok_nd *lstget_last_nd(t_tok_stk *stk)
+t_tok_nd *lstget_last_nd_tok(t_tok_nd *top)
 {
 	t_tok_nd *tmp;
 
-	if (stk->top == NULL)
+	if (!top)
 		return (NULL);
-	tmp = stk->top;
-	if (!stk)
-		return (NULL);
+	tmp = top;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	return (tmp);
 }
 
-int lstcount_nd_token(t_tok_stk *stk)
+int	lstget_pos_nd_tok(t_tok_nd *cur, t_tok_nd *target)
+{
+	int	i;
+
+	i = 0;
+	while (cur)
+	{
+		if (cur == target)
+			return (i);
+		cur = cur->next;
+		i++;
+	}
+	return (-1);
+}
+
+int lstcount_nd_tok(t_tok_stk *stk)
 {
 	int count;
 	t_tok_nd *nd;
@@ -99,7 +78,7 @@ int lstcount_nd_token(t_tok_stk *stk)
 	return (count);
 }
 
-void lstdel_last_nd(t_tok_stk *stk)
+void lstdel_last_nd_tok(t_tok_stk *stk)
 {
     t_tok_nd *tmp;
 
@@ -108,7 +87,7 @@ void lstdel_last_nd(t_tok_stk *stk)
     tmp = stk->top;
     if (!tmp->next)
     {
-        free(stk->top->word);
+        lstfree_subtok(&stk->top->top);
         free(stk->top);
         stk->top = NULL;
         return ;
@@ -117,7 +96,7 @@ void lstdel_last_nd(t_tok_stk *stk)
     {
         if (!tmp->next->next)
         {
-            free(tmp->next->word);
+			lstfree_subtok(&tmp->next->top);
             free(tmp->next);
             tmp->next = NULL;
             return ;

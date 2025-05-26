@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 15:58:52 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 12:51:35 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_backslash(char *line, int *i, t_tok_stk *stk)
 {
-	if (line[0] == '\\' && !stk->sq)
+	if (line[0] == '\\' && stk->state != SQ)
 	{
 		stk->backslash = 1;
 		if (line[1])
@@ -30,9 +30,18 @@ int	handle_backslash(char *line, int *i, t_tok_stk *stk)
 
 int	handle_sq(char *line, int *i, t_tok_stk *stk)
 {
-	if (line[0] == '\'' && !stk->dq)
+	t_tok_nd *nd;
+	t_subtok *subtok;
+
+	nd = lstget_last_nd_tok(stk->top);
+	subtok = lstget_last_nd_subtok(nd->top);
+	if (line[0] == '\'' && stk->state != DQ)
 	{
-		stk->sq = !stk->sq;
+		if (stk->state == SQ)
+			stk->state = NORMAL;
+		else
+			stk->state = SQ;
+		subtok->state = stk->state;
 		(*i)++;
 		return (1);
 	}
@@ -41,9 +50,18 @@ int	handle_sq(char *line, int *i, t_tok_stk *stk)
 
 int	handle_dq(char *line, int *i, t_tok_stk *stk)
 {
-	if (line[0] == '\"' && !stk->sq)
+	t_tok_nd *nd;
+	t_subtok *subtok;
+
+	nd = lstget_last_nd_tok(stk->top);
+	subtok = lstget_last_nd_subtok(nd->top);
+	if (line[0] == '\"' && stk->state != SQ)
 	{
-		stk->dq = !stk->dq;
+		if (stk->state != DQ)
+			stk->state = NORMAL;
+		else
+			stk->state = DQ;
+		subtok->state = stk->state;
 		(*i)++;
 		return (1);
 	}
@@ -52,7 +70,7 @@ int	handle_dq(char *line, int *i, t_tok_stk *stk)
 
 int	handle_space_sep(char *line, t_tok_stk *stk)
 {
-	if (line[0] == ' ' && !stk->sq && !stk->dq)
+	if (line[0] == ' ' && stk->state == NORMAL)
     {
         stk->backslash = 0;
 		return (1);
@@ -67,7 +85,7 @@ int	handle_sep(char *line, int *i, t_global *g, t_tok_nd *nd)
 
 	stk = &g->tok_stk;
 	nd->type = CMD;
-	if (stk->sq || stk->dq)
+	if (stk->state != NORMAL)
 		return (0);
 	defined_type(line, nd);
 	if (nd->type != CMD)

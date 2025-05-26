@@ -6,11 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:49:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 12:45:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/21 18:24:04 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	ft_strcpy(char *dst, char *src)
 {

@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/05 12:12:12 by rodeulio          #+#    #+#              #
-#    Updated: 2025/05/21 16:05:47 by nicolasbrec      ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
@@ -31,7 +19,10 @@ LIBFT_DIR  = libft_add
 
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
- 		srcs/history.c srcs/lst.c srcs/minishell.c srcs/utils.c srcs/utils_minishell.c \
+ 		srcs/history.c srcs/minishell.c \
+
+# lst
+SRCS += srcs/lst/lst_subtok.c srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
 
 # parsing/syntax
 SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \
@@ -41,6 +32,9 @@ SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c 
 		srcs/parsing/token/handle_multi_line_utils.c srcs/parsing/token/handle_multi_line.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_token.c \
+	
+# utils
+SRCS += srcs/utils/utils.c srcs/utils/utils_minishell.c \
 
 # 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))

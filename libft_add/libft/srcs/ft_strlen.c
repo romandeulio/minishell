@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:33:44 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/03/30 13:19:39 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:19:33 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	int	len;
 
 	len = 0;
-	while (s[len] != '\0')
+	while (s && s[len] != '\0')
 		len++;
 	return (len);
 }

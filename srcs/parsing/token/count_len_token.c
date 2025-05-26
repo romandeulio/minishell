@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:18:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 15:58:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/26 12:47:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	count_sep(char *line, int *i, int *count, t_tok_stk *stk)
 	int	sep;
 
 	sep = 0;
-	if (stk->sq || stk->dq || stk->backslash)
+	if (stk->state != NORMAL || stk->backslash)
 		return (0);
 	count_size_sep(line, &sep);
 	if (sep)
@@ -56,7 +56,35 @@ int	count_sep(char *line, int *i, int *count, t_tok_stk *stk)
 	return (0);
 }
 
-int	count_size_token(char *line, t_tok_stk *original_stk)
+int	count_sq(char *line, int *i, t_tok_stk *stk)
+{
+	if (line[0] == '\'' && stk->state != DQ)
+	{
+		if (stk->state == SQ)
+			stk->state = NORMAL;
+		else
+			stk->state = SQ;
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+int	count_dq(char *line, int *i, t_tok_stk *stk)
+{
+	if (line[0] == '\"' && stk->state != SQ)
+	{
+		if (stk->state == DQ)
+			stk->state = NORMAL;
+		else
+			stk->state = DQ;
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
+int	count_size_subword(char *line, t_tok_stk *original_stk)
 {
 	int			i;
 	int			count;
@@ -69,8 +97,8 @@ int	count_size_token(char *line, t_tok_stk *original_stk)
 	{
 		if (handle_backslash(&line[i], &i, &stk))
 			count++;
-		else if (handle_sq(&line[i], &i, &stk) || handle_dq(&line[i], &i, &stk))
-			continue ;
+		else if (count_sq(&line[i], &i, &stk) || count_dq(&line[i], &i, &stk))
+			break ;
 		else if (handle_space_sep(&line[i], &stk))
 			break ;
 		else if (count_sep(&line[i], &i, &count, &stk))
