@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/27 17:27:30 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 01:28:47 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	print_token(t_global *g)
 			"SEMICOLON"};
 	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
 
+	printf("\033[1;31mVISUALISATION DES TOKENS :\033[0m\n");
 	size = lstcount_nd_tok(&g->tok_stk);
 	i = 1;
 	stk = &g->tok_stk;
@@ -50,18 +51,68 @@ void	print_token(t_global *g)
 	}
 }
 
+void print_subtok(t_subtok *subtok)
+{
+	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
+	int i;
+
+	i = 1;
+	while (subtok)
+	{
+		if (i > 1)
+			printf(" | ");
+		printf("subword %d = {%s}", i, subtok->subword);
+		printf(" (state = %s)", state_name[subtok->state]);
+		subtok = subtok->next;
+		i++;
+	}
+	printf("\n");
+}
+
+void print_cmd(t_cmd *cmd)
+{
+	while (cmd)
+	{
+		print_subtok(cmd->subtok);
+		cmd = cmd->next;
+	}
+}
+
+void	print_ast(t_ast *ast)
+{
+	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
+		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND", 
+		"PIPE", "AND", "OR", "SEMICOLON"};
+
+	if (!ast)
+		return ;
+	printf("__________________________________\n");
+	printf("type = %s\n", type_name[ast->type]);
+	printf("subshell_lvl = %d\n", ast->subshell_lvl);
+	if (ast->cmds)
+	{
+		print_cmd(ast->cmds->topcmd);
+		printf("infile = %s\n", ast->cmds->infile.file);
+		printf("infile redir = %s\n", type_name[ast->cmds->infile.redir]);
+		printf("outfile = %s\n", ast->cmds->outfile.file);
+		printf("outfile redir = %s\n", type_name[ast->cmds->outfile.redir]);
+	}
+	print_ast(ast->left);
+	print_ast(ast->right);
+}
+
 int	get_priority(t_tok_nd *nd)
 {
 	int	value;
 
 	value = 0;
-	if (nd->type == PIPE)
+	if (nd->type == SEMICOLON)
 		value = -4;
-	else if (nd->type == AND)
-		value = -3;
 	else if (nd->type == OR)
+		value = -3;
+	else if (nd->type == AND)
 		value = -2;
-	else if (nd->type == SEMICOLON)
+	else if (nd->type == PIPE)
 		value = -1;
 	if (value < 0)
 		value = value - (4 * nd->paren_lvl);
@@ -103,8 +154,16 @@ char	*join_subword(t_global *g, t_subtok *subtok)
 
 void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
 {
-	cmds->infile.file = join_subword(g, nd->next->top);
-	cmds->infile.redir = nd->type;
+	if (nd->type == IN_REDIR || nd->type == HERE_DOC)
+	{
+		cmds->infile.file = join_subword(g, nd->next->top);
+		cmds->infile.redir = nd->type;
+	}
+	else if (nd->type == OUT_REDIR || nd->type == APPEND)
+	{
+		cmds->outfile.file = join_subword(g, nd->next->top);
+		cmds->outfile.redir = nd->type;
+	}
 }
 
 t_cmd *lstnew_nd_cmd(t_global *g, t_subtok *nd)
@@ -247,12 +306,21 @@ void	parsing(t_global *g)
 	t_tok_nd	*end;
 
 	parsing_tokens(g);
-	print_token(g);
-	check_syntax(g);
-	lstconnect_prev_node_tok(g->tok_stk.top);
+	print_token(g); // temporaire
+	if (check_syntax(g))
+		return ;
+	lstinit_prev_node_tok(g->tok_stk.top);
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
+	printf("\033[1;31mVISUALISATION DE L'AST :\033[0m\n");
+	print_ast(g->ast); // temporaire
+}
+
+void exec_cmd(t_global *g)
+{
+	printf("exec_cmd = %s\n", g->rd.full_line);
+	return ;
 }
 
 void	minishell(t_global *g)
@@ -264,11 +332,11 @@ void	minishell(t_global *g)
 			ft_exit(NULL, g);
 		else
 		{
-			g->rd.full_line = g->rd.line;
+			g->rd.full_line = ft_strdup(g->rd.line);
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
-			// if (!g->error_line)
-			// exec_cmd(g);
+			if (!g->error_line)
+				exec_cmd(g);
 		}
 		free_and_reset_readline(g);
 		free_and_reset_parsing(g);

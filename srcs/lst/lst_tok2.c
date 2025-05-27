@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:58:25 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 16:15:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 00:37:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd)
 	}
 }
 
-t_tok_nd *lstget_last_nd_tok(t_tok_nd *top)
+t_tok_nd	*lstget_last_nd_tok(t_tok_nd *top)
 {
-	t_tok_nd *tmp;
+	t_tok_nd	*tmp;
 
 	if (!top)
 		return (NULL);
@@ -57,10 +57,10 @@ int	lstget_pos_nd_tok(t_tok_nd *cur, t_tok_nd *target)
 	return (-1);
 }
 
-int lstcount_nd_tok(t_tok_stk *stk)
+int	lstcount_nd_tok(t_tok_stk *stk)
 {
-	int count;
-	t_tok_nd *nd;
+	int			count;
+	t_tok_nd	*nd;
 
 	count = 0;
 	nd = stk->top;
@@ -72,29 +72,29 @@ int lstcount_nd_tok(t_tok_stk *stk)
 	return (count);
 }
 
-void lstdel_last_nd_tok(t_tok_stk *stk)
+void	lstdel_last_nd_tok(t_tok_stk *stk)
 {
-    t_tok_nd *tmp;
+	t_tok_nd	*tmp;
 
-    if (!stk->top)
-        return ;
-    tmp = stk->top;
-    if (!tmp->next)
-    {
-        lstfree_subtok(&stk->top->top);
-        free(stk->top);
-        stk->top = NULL;
-        return ;
-    }
-    while (tmp && tmp->next)
-    {
-        if (!tmp->next->next)
-        {
+	if (!stk->top)
+		return ;
+	tmp = stk->top;
+	if (!tmp->next)
+	{
+		lstfree_subtok(&stk->top->top);
+		free(stk->top);
+		stk->top = NULL;
+		return ;
+	}
+	while (tmp && tmp->next)
+	{
+		if (!tmp->next->next)
+		{
 			lstfree_subtok(&tmp->next->top);
-            free(tmp->next);
-            tmp->next = NULL;
-            return ;
-        }
-        tmp = tmp->next;
-    }
+			free(tmp->next);
+			tmp->next = NULL;
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }

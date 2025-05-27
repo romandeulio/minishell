@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/27 17:25:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 00:40:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void				lstadd_back_subtok(t_subtok **top, t_subtok *nd);
 // lst_tok.c
 t_tok_nd			*lstnew_nd_tok(t_global *g);
 void				lstfree_tok(t_tok_stk *p);
-void				lstconnect_prev_node_tok(t_tok_nd *nd);
+void				lstinit_prev_node_tok(t_tok_nd *nd);
 
 // lst_tok2.c
 void				lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd);
@@ -159,7 +159,7 @@ int					check_start_error(t_tok_nd *first, t_global *g);
 int					check_middle_error(t_tok_nd *first, t_tok_nd *next,
 						t_global *g);
 int					check_end_error(t_tok_nd *first, t_global *g);
-void				check_syntax(t_global *g);
+int					check_syntax(t_global *g);
 
 // check_type.c
 int					is_operator(t_type t);
