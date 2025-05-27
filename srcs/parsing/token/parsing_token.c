@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 16:20:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:56:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ int	parse_word(char *line, t_global *g, t_tok_nd *nd)
 	t_subtok	*subtok;
 
 	i = 0;
+	nd->paren_lvl = g->tok_stk.paren_lvl;
 	while (line[i])
 	{
 		subtok = get_and_addback_subtok(&line[i], g, nd);
-		j = ft_strlen(subtok->subword); // 
+		j = ft_strlen(subtok->subword);
 		i += parse_subword(&j, &line[i], g, nd);
 		subtok->subword[j] = '\0';
 		if (handle_space_sep(&line[i], &g->tok_stk) || is_sep(&line[i], nd))

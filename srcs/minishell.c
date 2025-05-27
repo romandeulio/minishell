@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 17:38:56 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 16:11:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,200 +50,208 @@ void	print_token(t_global *g)
 	}
 }
 
-int	get_priority_value(t_tok_nd *nd, int paren_lvl)
+int	get_priority(t_tok_nd *nd)
 {
 	int	value;
 
 	value = 0;
 	if (nd->type == PIPE)
-		value = 4;
+		value = -4;
 	else if (nd->type == AND)
-		value = 3;
+		value = -3;
 	else if (nd->type == OR)
-		value = 2;
+		value = -2;
 	else if (nd->type == SEMICOLON)
-		value = 1;
-	if (value != 0)
-		value = value + (4 * paren_lvl);
+		value = -1;
+	if (value < 0)
+		value = value - (4 * nd->paren_lvl);
 	return (value);
 }
 
-t_tok_nd	*lstget_nd_index(t_tok_nd *cur, int index)
+int	count_join_subword(t_subtok *subtok)
 {
-	int	i;
+	int	count;
 
-	if (index < 0)
-		return (NULL);
-	i = 0;
-	while (cur)
+	count = 0;
+	while (subtok)
 	{
-		if (i == index)
-			return (cur);
-		cur = cur->next;
-		i++;
+		count += ft_strlen(subtok->subword);
+		subtok = subtok->next;
 	}
-	return (NULL);
+	return (count);
 }
 
-int	lstget_idx_nd(t_tok_nd *cur, t_tok_nd *target)
+char	*join_subword(t_global *g, t_subtok *subtok)
 {
-	int	i;
+	char	*allword;
+	char	*tmp;
 
-	i = 0;
-	while (cur)
+	allword = malloc(sizeof(char) * (count_join_subword(subtok) + 1));
+	if (!allword)
+		ft_exit("Malloc", g);
+	allword = NULL;
+	tmp = ft_strdup("");
+	while (subtok)
 	{
-		if (cur == target)
-			return (i);
-		cur = cur->next;
-		i++;
+		allword = ft_strjoin(tmp, subtok->subword);
+		free(tmp);
+		tmp = allword;
+		subtok = subtok->next;
 	}
-	return (-1);
+	return (allword);
 }
 
-void	call_recursive_ast(t_global *g, t_tok_nd *nd, t_parse_ast *pa_ast)
+void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
 {
-	t_parse_ast	*new_pa_ast;
-	int			new_start;
-	int			tmp_end;
-
-	new_start = lstget_idx_nd(g->tok_stk.top, nd);
-	tmp_end = pa_ast->end;
-	if (pa_ast->dir == 1)
-	{
-		pa_ast->end = pa_ast->start;
-		ast_recursive(g, ft_memcpy(new_pa_ast, pa_ast, sizeof(t_parse_ast)));
-		pa_ast->end = tmp_end;
-		ast_recursive(g, ft_memcpy(new_pa_ast, pa_ast, sizeof(t_parse_ast)));
-	}
-	else
-	{
-		ast_recursive(g, ft_memcpy(new_pa_ast, pa_ast, sizeof(t_parse_ast)));
-		pa_ast->end = pa_ast->start;
-		ast_recursive(g, ft_memcpy(new_pa_ast, pa_ast, sizeof(t_parse_ast)));
-	}
+	cmds->infile.file = join_subword(g, nd->next->top);
+	cmds->infile.redir = nd->type;
 }
 
-char *join_subword(t_subtok *subtok)
+t_cmd *lstnew_nd_cmd(t_global *g, t_subtok *nd)
 {
-	// Faire une fonction qui rejoint tout les subword en un seul char *
-	// Le faire avec une boucle et ft_strjoin je pense
+	t_cmd *new;
+
+	new = malloc(sizeof(t_cmd));
+	if (!new)
+		ft_exit("Malloc", g);
+	new->subtok = nd;
+	new->next = NULL;
+	return (new);
 }
 
-void	init_cmdfile(t_tok_nd *nd)
+void	add_back_cmd(t_global *g, t_cmd **top, t_subtok *nd)
 {
-	if (nd->type == IN_REDIR)
-		cmds->infile = nd->next->top
-	else if (nd->type == OUT_REDIR)
-		//
-	else if (nd->type == HERE_DOC)
-		//
-	else if (nd->type == APPEND)
-	//
+	t_cmd	*tmp;
+
+	if (!*top)
+	{
+		*top = lstnew_nd_cmd(g, nd);
+		return ;
+	}
+	tmp = *top;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = lstnew_nd_cmd(g, nd);
 }
 
-t_cmds	*full_init_cmds(t_global *g, t_cmds t_parse_ast *pa_ast)
+t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 {
-	t_cmds		*new;
-	t_tok_stk	*stk;
-	t_tok_nd	*first_cmd;
-	t_tok_nd	*last_cmd;
+	t_cmds		*cmds;
+	t_tok_nd	*cur;
 
-	new = 
-	stk = &g->tok_stk;
-	if (pa_ast->dir == 1)
+	// t_tok_nd	*last_cmd;
+	cmds = malloc(sizeof(t_cmds));
+	if (!cmds)
+		ft_exit("Malloc", g); // verif si il faut liberer des trucs en
+	cur = start;
+	while (1)
 	{
-		first_cmd = lstget_nd_idx(stk->top, pa_ast->start + 1);
-		last_cmd = lstget_nd_idx(stk->top, pa_ast->end - 1);
-	}
-	else
-	{
-		first_cmd = lstget_nd_idx(stk->top, pa_ast->end + 1);
-		last_cmd = lstget_nd_idx(stk->top, pa_ast->start - 1);
-	}
-	while (first_cmd != last_cmd)
-	{
-		if (is_redir(first_cmd->type))
+		if (is_redir(cur->type))
 		{
-			init_cmdfile(first_cmd);
+			init_cmdfile(g, cmds, cur);
+			cur = cur->next;
 		}
-		first_cmd = first_cmd->next;
+		else if (!is_parenthesis(cur->type))
+			add_back_cmd(g, &cmds->topcmd, cur->top);
+		if (cur == end)
+			break ;
+		cur = cur->next;
 	}
+	return (cmds);
 }
 
-t_ast	*astcreate_nd(t_global *g, t_tok_nd *nd, t_parse_ast *pa_ast)
+t_tok_nd	*find_lowest_prio_op(t_tok_nd *start, t_tok_nd *end)
+{
+	t_tok_nd	*cur;
+	t_tok_nd	*lowest_nd;
+
+	cur = start;
+	lowest_nd = start;
+	while (1)
+	{
+		if (get_priority(cur) <= get_priority(lowest_nd))
+			lowest_nd = cur;
+		if (cur == end)
+			break ;
+		cur = cur->next;
+	}
+	if (get_priority(lowest_nd) == 0)
+		return (NULL);
+	return (lowest_nd);
+}
+
+int	count_parenlvl_cmd(t_tok_nd *start, t_tok_nd *end)
+{
+	int			count;
+	t_tok_nd	*cur;
+
+	count = 0;
+	cur = start;
+	while (1)
+	{
+		if (cur->type == PAREN_OPEN)
+			count++;
+		if (cur == end)
+			break ;
+	}
+	return (count);
+}
+
+t_ast	*create_ast_cmd(t_global *g, t_tok_nd *start, t_tok_nd *end)
 {
 	t_ast	*new;
 
 	new = malloc(sizeof(t_ast));
 	if (!new)
-		ft_exit("Malloc", g); // verif si il faut liberer des trucs en
-	// + a cette etape
-	new->type = nd->type;
-	new->subshell_lvl = pa_ast->paren_lvl;
-	if (new->type == CMD)
-	{
-		new->cmds = // Continuer ici
-	}
-	else
-		new->cmds = NULL;
+		ft_exit("Malloc", g);
+	new->type = CMD;
+	new->subshell_lvl = start->paren_lvl;
+	new->cmds = new_cmds(g, start, end);
+	new->left = NULL;
+	new->right = NULL;
+	return (new);
 }
 
-void	fill_ast(t_global *g, t_tok_nd *nd, t_parse_ast *pa_ast)
+t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
 {
-	if (!pa_ast->previous)
-	{
-	}
+	t_ast	*new;
+
+	new = malloc(sizeof(t_ast));
+	if (!new)
+		ft_exit("Malloc", g);
+	new->type = pivot->type;
+	new->subshell_lvl = pivot->paren_lvl;
+	new->cmds = NULL;
+	new->left = NULL;
+	new->right = NULL;
+	return (new);
 }
 
-void	ast_recursive(t_global *g, void *cp_pa_ast)
+t_ast	*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end)
 {
-	t_parse_ast	*pa_ast;
-	int			prio_min;
-	t_tok_nd	*nd_min_prio;
-	int			cur_i;
-	t_tok_nd	*cur_nd;
+	t_ast		*nd_ast;
+	t_tok_nd	*pivot;
 
-	if (/*condition d'arret*/)
-		return ;
-	pa_ast = (t_parse_ast *)cp_pa_ast;
-	prio_min = 0;
-	cur_i = pa_ast->start;
-	if (!pa_ast->previous)
-		cur_i += pa_ast->dir; // Pour ne pas recompter le start
-	while (pa_ast->start != pa_ast->end)
-	{
-		cur_nd = lstget_nd_idx(g->tok_stk.top, cur_i);
-		if (cur_nd->type == PAREN_OPEN)
-			pa_ast->paren_lvl++;
-		else if (cur_nd->type == PAREN_CLOSE)
-			pa_ast->paren_lvl--;
-		if (prio_min >= get_priority_value(cur_nd, pa_ast->paren_lvl))
-			nd_min_prio = cur_nd;
-		cur_i += pa_ast->dir;
-	}
-	if (prio_min != 0)
-		call_recursive_ast(g, nd_min_prio, pa_ast);
-}
-
-void	parsing_ast(t_global *g)
-{
-	t_ast		*ast;
-	t_parse_ast	parse_ast;
-
-	parse_ast.start = 0;
-	parse_ast.end = lstcount_nd_tok(&g->tok_stk) - 1;
-	parse_ast.dir = 1;
-	parse_ast.paren_lvl = 0;
-	parse_ast.previous = NULL;
-	ast = &g->ast;
-	ast_recursive(g, (void *)&parse_ast);
+	pivot = find_lowest_prio_op(start, end);
+	if (!pivot)
+		return (create_ast_cmd(g, start, end));
+	nd_ast = create_ast_op(g, pivot);
+	nd_ast->left = parsing_ast(g, start, pivot->prev);
+	nd_ast->right = parsing_ast(g, pivot->next, end);
+	return (nd_ast);
 }
 
 void	parsing(t_global *g)
 {
+	t_tok_nd	*start;
+	t_tok_nd	*end;
+
 	parsing_tokens(g);
 	check_syntax(g);
-	parsing_ast(g);
+	lstconnect_prev_node_tok(g->tok_stk.top);
+	start = g->tok_stk.top;
+	end = lstget_last_nd_tok(g->tok_stk.top);
+	g->ast = parsing_ast(g, start, end);
 }
 
 void	minishell(t_global *g)

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 13:49:35 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 13:45:05 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_tok_nd	*lstnew_nd_tok(t_global *g)
 	new->top = NULL;
 	new->type = CMD;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
@@ -40,6 +41,19 @@ void	lstfree_tok(t_tok_stk *stk)
 		tmp = cur;
 	}
 	stk->top = NULL;
+}
+
+void lstconnect_prev_node_tok(t_tok_nd *nd)
+{
+	t_tok_nd *prev;
+
+	prev = NULL;
+	while (nd)
+	{
+		nd->prev = prev;
+		prev = nd;
+		nd = nd->next;
+	}
 }
 
 

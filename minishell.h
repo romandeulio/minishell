@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 17:26:16 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 16:02:27 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ typedef struct s_tok_nd
 {
 	struct s_subtok	*top;
 	t_type			type;
+	int				paren_lvl;
 	struct s_tok_nd	*next;
+	struct s_tok_nd	*prev;
 }					t_tok_nd;
 
 typedef struct s_tok_stk
 {
 	t_tok_nd		*top;
 	t_state			state;
-	int				parenthesis;
+	int				paren_lvl;
 	int				backslash;
 }					t_tok_stk;
 
@@ -87,22 +89,15 @@ typedef struct s_file
 	t_type			redir;
 }					t_file;
 
-typedef struct s_subcmd
-{
-	char			*subcmd;
-	t_state			state;
-	struct s_subcmd	*next;
-}					t_subcmd;
-
 typedef struct s_cmd
 {
-	char			*cmd;
-	struct s_subcmd	*next;
+	t_subtok		*subtok;
+	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_cmds
 {
-	t_subcmd		*topcmd;
+	t_cmd			*topcmd;
 	t_file			infile;
 	t_file			outfile;
 }					t_cmds;
@@ -111,9 +106,9 @@ typedef struct s_ast
 {
 	t_type			type;
 	int				subshell_lvl;
-	t_cmds 			*cmds; // Voir si mettre sur ptr ou non
-	struct t_ast	*left;
-	struct t_ast	*right;
+	t_cmds *cmds; // Voir si mettre sur ptr ou non
+	struct s_ast	*left;
+	struct s_ast	*right;
 }					t_ast;
 
 typedef struct s_parse_ast
@@ -131,7 +126,7 @@ typedef struct s_global
 	t_rdline		rd;
 	t_tok_stk		tok_stk;
 	int				error_line;
-	t_ast			ast;
+	t_ast			*ast;
 }					t_global;
 
 /*--------------------------------Lst--------------------------------*/
@@ -145,6 +140,7 @@ void				lstadd_back_subtok(t_subtok **top, t_subtok *nd);
 // lst_tok.c
 t_tok_nd			*lstnew_nd_tok(t_global *g);
 void				lstfree_tok(t_tok_stk *p);
+void				lstconnect_prev_node_tok(t_tok_nd *nd);
 
 // lst_tok2.c
 void				lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd);

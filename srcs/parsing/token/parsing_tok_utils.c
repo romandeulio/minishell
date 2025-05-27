@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 16:17:39 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:55:06 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	handle_parentheses(t_global *g, t_tok_nd *nd)
 
 	stk = &g->tok_stk;
 	if (nd->type == PAREN_OPEN)
-		stk->parenthesis++;
+		stk->paren_lvl++;
 	else if (nd->type == PAREN_CLOSE)
-		stk->parenthesis--;
-	if (stk->parenthesis == -1)
+		stk->paren_lvl--;
+	if (stk->paren_lvl == -1)
 	{
 		write_syntax_error(nd->top);
 		ft_exit(NULL, g);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 16:01:39 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 14:14:53 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_operator_endline(t_tok_stk *stk)
 
 int	is_end_line(t_tok_stk *stk)
 {
-	if (stk->parenthesis == 0 && stk->state == NORMAL
+	if (stk->paren_lvl == 0 && stk->state == NORMAL
 		&& stk->backslash == 0 && !is_operator_endline(stk))
 	{
 		printf("END LINE\n");

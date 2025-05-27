@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 12:57:34 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 00:38:09 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,8 @@ void	lstadd_back_subtok(t_subtok **top, t_subtok *nd)
 		*top = nd;
 		return ;
 	}
-	else
-	{
-		tmp = *top;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = nd;
-	}
+	tmp = *top;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = nd;
 }
