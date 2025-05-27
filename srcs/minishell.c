@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/27 16:11:46 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 17:27:30 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 	t_cmds		*cmds;
 	t_tok_nd	*cur;
 
-	// t_tok_nd	*last_cmd;
 	cmds = malloc(sizeof(t_cmds));
 	if (!cmds)
 		ft_exit("Malloc", g); // verif si il faut liberer des trucs en
 	cur = start;
+	ft_bzero(cmds, sizeof(t_cmds));
 	while (1)
 	{
 		if (is_redir(cur->type))
@@ -247,6 +247,7 @@ void	parsing(t_global *g)
 	t_tok_nd	*end;
 
 	parsing_tokens(g);
+	print_token(g);
 	check_syntax(g);
 	lstconnect_prev_node_tok(g->tok_stk.top);
 	start = g->tok_stk.top;
@@ -263,8 +264,9 @@ void	minishell(t_global *g)
 			ft_exit(NULL, g);
 		else
 		{
+			g->rd.full_line = g->rd.line;
 			parsing(g);
-			check_and_add_history(g->rd.line);
+			check_and_add_history(g->rd.full_line);
 			// if (!g->error_line)
 			// exec_cmd(g);
 		}

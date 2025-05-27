@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/27 15:56:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 17:47:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	check_end_line(t_global *g)
 		else
 			handle_incomplete_parenthesis(g);
 	}
-	print_token(g);
 }
 
 void	parsing_tokens(t_global *g)
@@ -93,7 +92,7 @@ void	parsing_tokens(t_global *g)
 	i = 0;
 	while (g->rd.line[i])
 	{
-		while (handle_space_sep(&g->rd.line[i], stk))
+		while (handle_space_sep(&g->rd.line[i], stk)) // voir les autres ch a sauter en plus du space
 			i++;
 		nd = get_and_addback_nd(g);
 		i += parse_word(&g->rd.line[i], g, nd);

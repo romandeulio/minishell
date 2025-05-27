@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 15:17:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 16:20:25 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	handle_sep(char *line, int *i, int *j, t_global *g)
 	if (stk->state != NORMAL)
 		return (0);
 	defined_type(line, nd);
-	printf("type = %d\n", nd->type);
 	if (nd->type != CMD)
 	{
 		if (*i == 0)

@@ -29,7 +29,7 @@ SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \
 
 # parsing/token
 SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c \
-		srcs/parsing/token/handle_multi_line_utils.c srcs/parsing/token/handle_multi_line.c \
+		srcs/parsing/token/handle_incomplete_line.c srcs/parsing/token/handle_multi_line_utils.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
 	

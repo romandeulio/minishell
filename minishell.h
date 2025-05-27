@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/27 16:02:27 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 17:25:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_rdline
 {
 	char			*cur_dir;
 	char			*line;
+	char			*full_line;
 }					t_rdline;
 
 typedef enum e_type
@@ -106,7 +107,7 @@ typedef struct s_ast
 {
 	t_type			type;
 	int				subshell_lvl;
-	t_cmds *cmds; // Voir si mettre sur ptr ou non
+	t_cmds			*cmds;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
@@ -179,17 +180,17 @@ int					count_size_subword(char *line, t_tok_stk *original_stk);
 void				defined_type(char *line, t_tok_nd *nd);
 // void				defined_state(t_tok_stk *stk, t_tok_nd *nd);
 
+// handle_inclomplete_line.c
+void				handle_incomplete_bs(t_global *g);
+void				handle_incomplete_op(t_global *g);
+void				handle_incomplete_quote(t_global *g);
+void				handle_incomplete_parenthesis(t_global *g);
+
 // multi_line_utils.c
 int					is_operator_endline(t_tok_stk *stk);
 int					is_end_line(t_tok_stk *stk);
 void				add_semicolon(t_global *g);
 void				add_nl_last_nd(t_global *g);
-
-// handle_multi_line.c
-void				handle_incomplete_bs(t_global *g);
-void				handle_incomplete_op(t_global *g);
-void				handle_incomplete_quote(t_global *g);
-void				handle_incomplete_parenthesis(t_global *g);
 
 // handle_parsing.c
 int					handle_backslash(char *line, int *i, t_tok_stk *stk);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/27 14:14:53 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/27 16:23:16 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ int	is_operator_endline(t_tok_stk *stk)
 	t_tok_nd	*nd;
 	t_type		type;
 
-	printf("4lolololo\n");
-	printf("5lolololo\n");
 	nd = lstget_last_nd_tok(stk->top);
-	printf("6lolololo\n");
 	if (!nd)
 		return (0);
 	type = nd->type;
@@ -31,11 +28,7 @@ int	is_end_line(t_tok_stk *stk)
 {
 	if (stk->paren_lvl == 0 && stk->state == NORMAL
 		&& stk->backslash == 0 && !is_operator_endline(stk))
-	{
-		printf("END LINE\n");
 		return (1);
-	}
-	printf("NOO END LINE\n");
 	return (0);
 }
 
