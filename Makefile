@@ -22,7 +22,12 @@ SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
  		srcs/history.c srcs/minishell.c \
 
 # lst
-SRCS += srcs/lst/lst_ast.c srcs/lst/lst_subtok.c srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
+SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
+		srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
+
+# parsing/ast
+SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
+		srcs/parsing/ast/parsing_ast.c \
 
 # parsing/syntax
 SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \

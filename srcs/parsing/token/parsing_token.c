@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/27 17:47:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 13:30:11 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	parse_subword(int *j, char *line, t_global *g, t_tok_nd *nd)
 		else if (handle_sep(&line[i], &i, j, g))
 			break ;
 		else if (line[i])
+		{
+			check_dollar(&line[i], stk, subtok);
 			subtok->subword[(*j)++] = line[i++];
+		}
 	}
 	return (i);
 }
@@ -70,12 +73,12 @@ void	check_end_line(t_global *g)
 {
 	while (!is_end_line(&g->tok_stk))
 	{
-		if (g->tok_stk.backslash == 1)
-			handle_incomplete_bs(g);
-		else if (is_operator_endline(&g->tok_stk))
+		if (is_operator_endline(&g->tok_stk))
 			handle_incomplete_op(g);
 		else if (g->tok_stk.state != NORMAL)
 			handle_incomplete_quote(g);
+		else if (g->tok_stk.backslash == 1)
+			handle_incomplete_bs(g);
 		else
 			handle_incomplete_parenthesis(g);
 	}

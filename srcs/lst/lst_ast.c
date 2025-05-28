@@ -6,40 +6,38 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 00:37:30 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 12:47:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// t_tok_nd	*lstget_nd_index(t_tok_nd *cur, int index)
-// {
-// 	int	i;
+t_ast	*create_ast_cmd(t_global *g, t_tok_nd *start, t_tok_nd *end)
+{
+	t_ast	*new;
 
-// 	if (index < 0)
-// 		return (NULL);
-// 	i = 0;
-// 	while (cur)
-// 	{
-// 		if (i == index)
-// 			return (cur);
-// 		cur = cur->next;
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
+	new = malloc(sizeof(t_ast));
+	if (!new)
+		ft_exit("Malloc", g);
+	new->type = CMD;
+	new->subshell_lvl = start->paren_lvl;
+	new->cmds = new_cmds(g, start, end);
+	new->left = NULL;
+	new->right = NULL;
+	return (new);
+}
 
-// int	lstget_idx_nd(t_tok_nd *cur, t_tok_nd *target)
-// {
-// 	int	i;
+t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
+{
+	t_ast	*new;
 
-// 	i = 0;
-// 	while (cur)
-// 	{
-// 		if (cur == target)
-// 			return (i);
-// 		cur = cur->next;
-// 		i++;
-// 	}
-// 	return (-1);
-// }
+	new = malloc(sizeof(t_ast));
+	if (!new)
+		ft_exit("Malloc", g);
+	new->type = pivot->type;
+	new->subshell_lvl = pivot->paren_lvl;
+	new->cmds = NULL;
+	new->left = NULL;
+	new->right = NULL;
+	return (new);
+}

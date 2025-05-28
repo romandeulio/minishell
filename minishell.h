@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/28 00:40:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 13:59:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_rdline
 {
@@ -64,6 +65,7 @@ typedef struct s_subtok
 {
 	char			*subword;
 	t_state			state;
+	int				varenv;
 	struct s_subtok	*next;
 }					t_subtok;
 
@@ -84,12 +86,6 @@ typedef struct s_tok_stk
 	int				backslash;
 }					t_tok_stk;
 
-typedef struct s_file
-{
-	char			*file;
-	t_type			redir;
-}					t_file;
-
 typedef struct s_cmd
 {
 	t_subtok		*subtok;
@@ -99,8 +95,8 @@ typedef struct s_cmd
 typedef struct s_cmds
 {
 	t_cmd			*topcmd;
-	t_file			infile;
-	t_file			outfile;
+	char			*file;
+	t_type			redir;
 }					t_cmds;
 
 typedef struct s_ast
@@ -132,6 +128,15 @@ typedef struct s_global
 
 /*--------------------------------Lst--------------------------------*/
 
+// lst_ast.c
+t_ast				*create_ast_cmd(t_global *g, t_tok_nd *start,
+						t_tok_nd *end);
+t_ast				*create_ast_op(t_global *g, t_tok_nd *pivot);
+
+// lst_cmd.c
+t_cmd				*lstnew_nd_cmd(t_global *g, t_subtok *nd);
+void				lstadd_back_cmd(t_global *g, t_cmd **top, t_subtok *nd);
+
 // lst_subtok.c
 t_subtok			*lstnew_nd_subtok(int size, t_global *g);
 void				lstfree_subtok(t_subtok **subtok);
@@ -151,6 +156,21 @@ int					lstcount_nd_tok(t_tok_stk *stk);
 void				lstdel_last_nd_tok(t_tok_stk *stk);
 
 /*------------------------------Parsing------------------------------*/
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~Ast~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+// handle_priority.c
+int					get_priority(t_tok_nd *nd);
+t_tok_nd			*find_lowest_prio_op(t_tok_nd *start, t_tok_nd *end);
+
+// join_subword.c
+int					count_join_subword(t_subtok *subtok);
+char				*join_subword(t_global *g, t_subtok *subtok);
+
+// parsing_ast.c
+void				init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd);
+t_cmds				*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end);
+t_ast				*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -209,6 +229,7 @@ t_tok_nd			*get_and_addback_nd(t_global *g);
 
 // parsing_tok_utils2.c
 int					is_sep(char *line, t_tok_nd *nd);
+void				check_dollar(char *line, t_tok_stk *stk, t_subtok *subtok);
 
 // parsing_token.c
 int					parse_subword(int *j, char *line, t_global *g,

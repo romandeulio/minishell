@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:16:39 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/27 16:20:25 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 12:23:33 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int	handle_sep(char *line, int *i, int *j, t_global *g)
 	t_tok_nd	*nd;
 	int			size_sep;
 
-	nd = lstget_last_nd_tok(g->tok_stk.top);
 	stk = &g->tok_stk;
-	nd->type = CMD;
 	if (stk->state != NORMAL)
 		return (0);
+	nd = lstget_last_nd_tok(g->tok_stk.top);
+	nd->type = CMD;
 	defined_type(line, nd);
 	if (nd->type != CMD)
 	{

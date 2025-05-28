@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/28 01:28:47 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 13:46:51 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	print_token(t_global *g)
 				printf(" | ");
 			printf("subword %d = {%s}", j++, subtok->subword);
 			printf(" (state = %s)", state_name[subtok->state]);
+			printf(" (varenv = %d)", subtok->varenv);
 			subtok = subtok->next;
 		}
 		printf("\n");
@@ -51,253 +52,107 @@ void	print_token(t_global *g)
 	}
 }
 
+// void	print_ast_pretty(t_ast *ast, const char *prefix, int is_left)
+// {
+// 	const char *type_name[] = {
+// 		"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
+// 		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND", 
+// 		"PIPE", "AND", "OR", "SEMICOLON"
+// 	};
+
+// 	if (!ast)
+// 		return ;
+
+// 	// ├── ou └── selon la branche
+// 	printf("%s%s\033[1;36m[%s]\033[0m (subshell_lvl = %d)\n",
+// 		prefix,
+// 		is_left ? "├── " : "└── ",
+// 		type_name[ast->type],
+// 		ast->subshell_lvl);
+
+// 	// affichage des commandes si CMD
+// 	if (ast->cmds && ast->type == CMD)
+// 	{
+// 		t_cmd *cmd = ast->cmds->topcmd;
+// 		while (cmd)
+// 		{
+// 			t_subtok *sub = cmd->subtok;
+// 			while (sub)
+// 			{
+// 				printf("%s│   \033[1;33m→ \"%s\"\033[0m [state: %d, varenv: %d]\n",
+// 					prefix, sub->subword, sub->state, sub->varenv);
+// 				sub = sub->next;
+// 			}
+// 			cmd = cmd->next;
+// 		}
+// 	}
+
+// 	// Préparation du nouveau préfixe
+// 	char new_prefix[256];
+// 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_left ? "│   " : "    ");
+
+// 	// récursivité sur left et right
+// 	if (ast->left || ast->right)
+// 	{
+// 		print_ast_pretty(ast->left, new_prefix, 1);
+// 		print_ast_pretty(ast->right, new_prefix, 0);
+// 	}
+// }
+
 void print_subtok(t_subtok *subtok)
 {
 	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
-	int i;
+	int			i = 1;
 
-	i = 1;
 	while (subtok)
 	{
 		if (i > 1)
-			printf(" | ");
-		printf("subword %d = {%s}", i, subtok->subword);
-		printf(" (state = %s)", state_name[subtok->state]);
+			printf("    \033[1;34m| \033[0m");
+		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword", subtok->subword);
+		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state", state_name[subtok->state]);
+		printf("\033[1;35m%-8s\033[0m = %d", "varenv", subtok->varenv);
+		printf("\n");
 		subtok = subtok->next;
 		i++;
 	}
-	printf("\n");
 }
 
 void print_cmd(t_cmd *cmd)
 {
+	int i = 1;
 	while (cmd)
 	{
+		printf("  \033[1;4;34m[CMD #%d]\033[0m\n", i++);
 		print_subtok(cmd->subtok);
 		cmd = cmd->next;
 	}
 }
 
-void	print_ast(t_ast *ast)
+void print_ast(t_ast *ast)
 {
-	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
+	const char *type_name[] = {
+		"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
 		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND", 
-		"PIPE", "AND", "OR", "SEMICOLON"};
+		"PIPE", "AND", "OR", "SEMICOLON"
+	};
 
 	if (!ast)
 		return ;
-	printf("__________________________________\n");
-	printf("type = %s\n", type_name[ast->type]);
-	printf("subshell_lvl = %d\n", ast->subshell_lvl);
+
+	printf("\n\033[1;4;44m=== AST NODE ===\033[0m\n");
+	printf("\033[1;32m%-16s\033[0m : %s\n", "type", type_name[ast->type]);
+	printf("\033[1;32m%-16s\033[0m : %d\n", "subshell_lvl", ast->subshell_lvl);
+
 	if (ast->cmds)
 	{
+		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
 		print_cmd(ast->cmds->topcmd);
-		printf("infile = %s\n", ast->cmds->infile.file);
-		printf("infile redir = %s\n", type_name[ast->cmds->infile.redir]);
-		printf("outfile = %s\n", ast->cmds->outfile.file);
-		printf("outfile redir = %s\n", type_name[ast->cmds->outfile.redir]);
+
+		printf("\033[1;34m%-16s\033[0m : %s\n", "file", ast->cmds->file);
+		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir", type_name[ast->cmds->redir]);
 	}
 	print_ast(ast->left);
 	print_ast(ast->right);
-}
-
-int	get_priority(t_tok_nd *nd)
-{
-	int	value;
-
-	value = 0;
-	if (nd->type == SEMICOLON)
-		value = -4;
-	else if (nd->type == OR)
-		value = -3;
-	else if (nd->type == AND)
-		value = -2;
-	else if (nd->type == PIPE)
-		value = -1;
-	if (value < 0)
-		value = value - (4 * nd->paren_lvl);
-	return (value);
-}
-
-int	count_join_subword(t_subtok *subtok)
-{
-	int	count;
-
-	count = 0;
-	while (subtok)
-	{
-		count += ft_strlen(subtok->subword);
-		subtok = subtok->next;
-	}
-	return (count);
-}
-
-char	*join_subword(t_global *g, t_subtok *subtok)
-{
-	char	*allword;
-	char	*tmp;
-
-	allword = malloc(sizeof(char) * (count_join_subword(subtok) + 1));
-	if (!allword)
-		ft_exit("Malloc", g);
-	allword = NULL;
-	tmp = ft_strdup("");
-	while (subtok)
-	{
-		allword = ft_strjoin(tmp, subtok->subword);
-		free(tmp);
-		tmp = allword;
-		subtok = subtok->next;
-	}
-	return (allword);
-}
-
-void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
-{
-	if (nd->type == IN_REDIR || nd->type == HERE_DOC)
-	{
-		cmds->infile.file = join_subword(g, nd->next->top);
-		cmds->infile.redir = nd->type;
-	}
-	else if (nd->type == OUT_REDIR || nd->type == APPEND)
-	{
-		cmds->outfile.file = join_subword(g, nd->next->top);
-		cmds->outfile.redir = nd->type;
-	}
-}
-
-t_cmd *lstnew_nd_cmd(t_global *g, t_subtok *nd)
-{
-	t_cmd *new;
-
-	new = malloc(sizeof(t_cmd));
-	if (!new)
-		ft_exit("Malloc", g);
-	new->subtok = nd;
-	new->next = NULL;
-	return (new);
-}
-
-void	add_back_cmd(t_global *g, t_cmd **top, t_subtok *nd)
-{
-	t_cmd	*tmp;
-
-	if (!*top)
-	{
-		*top = lstnew_nd_cmd(g, nd);
-		return ;
-	}
-	tmp = *top;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = lstnew_nd_cmd(g, nd);
-}
-
-t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
-{
-	t_cmds		*cmds;
-	t_tok_nd	*cur;
-
-	cmds = malloc(sizeof(t_cmds));
-	if (!cmds)
-		ft_exit("Malloc", g); // verif si il faut liberer des trucs en
-	cur = start;
-	ft_bzero(cmds, sizeof(t_cmds));
-	while (1)
-	{
-		if (is_redir(cur->type))
-		{
-			init_cmdfile(g, cmds, cur);
-			cur = cur->next;
-		}
-		else if (!is_parenthesis(cur->type))
-			add_back_cmd(g, &cmds->topcmd, cur->top);
-		if (cur == end)
-			break ;
-		cur = cur->next;
-	}
-	return (cmds);
-}
-
-t_tok_nd	*find_lowest_prio_op(t_tok_nd *start, t_tok_nd *end)
-{
-	t_tok_nd	*cur;
-	t_tok_nd	*lowest_nd;
-
-	cur = start;
-	lowest_nd = start;
-	while (1)
-	{
-		if (get_priority(cur) <= get_priority(lowest_nd))
-			lowest_nd = cur;
-		if (cur == end)
-			break ;
-		cur = cur->next;
-	}
-	if (get_priority(lowest_nd) == 0)
-		return (NULL);
-	return (lowest_nd);
-}
-
-int	count_parenlvl_cmd(t_tok_nd *start, t_tok_nd *end)
-{
-	int			count;
-	t_tok_nd	*cur;
-
-	count = 0;
-	cur = start;
-	while (1)
-	{
-		if (cur->type == PAREN_OPEN)
-			count++;
-		if (cur == end)
-			break ;
-	}
-	return (count);
-}
-
-t_ast	*create_ast_cmd(t_global *g, t_tok_nd *start, t_tok_nd *end)
-{
-	t_ast	*new;
-
-	new = malloc(sizeof(t_ast));
-	if (!new)
-		ft_exit("Malloc", g);
-	new->type = CMD;
-	new->subshell_lvl = start->paren_lvl;
-	new->cmds = new_cmds(g, start, end);
-	new->left = NULL;
-	new->right = NULL;
-	return (new);
-}
-
-t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
-{
-	t_ast	*new;
-
-	new = malloc(sizeof(t_ast));
-	if (!new)
-		ft_exit("Malloc", g);
-	new->type = pivot->type;
-	new->subshell_lvl = pivot->paren_lvl;
-	new->cmds = NULL;
-	new->left = NULL;
-	new->right = NULL;
-	return (new);
-}
-
-t_ast	*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end)
-{
-	t_ast		*nd_ast;
-	t_tok_nd	*pivot;
-
-	pivot = find_lowest_prio_op(start, end);
-	if (!pivot)
-		return (create_ast_cmd(g, start, end));
-	nd_ast = create_ast_op(g, pivot);
-	nd_ast->left = parsing_ast(g, start, pivot->prev);
-	nd_ast->right = parsing_ast(g, pivot->next, end);
-	return (nd_ast);
 }
 
 void	parsing(t_global *g)
@@ -306,20 +161,20 @@ void	parsing(t_global *g)
 	t_tok_nd	*end;
 
 	parsing_tokens(g);
-	print_token(g); // temporaire
+	// print_token(g); // temporaire
 	if (check_syntax(g))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
-	printf("\033[1;31mVISUALISATION DE L'AST :\033[0m\n");
-	print_ast(g->ast); // temporaire
+	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
+	print_ast(g->ast);
 }
 
-void exec_cmd(t_global *g)
+void	exec_cmd(t_global *g)
 {
-	printf("exec_cmd = %s\n", g->rd.full_line);
+	printf("\n\033[1;45mEXEC_CMD :\033[0m \033[1;35m%s\033[0m\n", g->rd.full_line);
 	return ;
 }
 
