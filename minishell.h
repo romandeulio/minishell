@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 16:45:35 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:56:34 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ void							minishell(t_global *g);
 int								main(int ac, char **av, char **env);
 
 // signal.c
-void							interpret_signal(t_global *g, int signum);
+void							interpret_signal(t_global *g);
 void							handler(int signum);
 void							handle_signal(void);
 

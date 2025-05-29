@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 16:47:13 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:33:27 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,10 +212,7 @@ void	minishell(t_global *g)
 	while (1)
 	{
 		if (g_signal)
-		{
-			interpret_signal(g, g_signal);
-			g_signal = 0;
-		}
+			interpret_signal(g);
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
 			ft_exit(g, "Exit", 1, 0);
