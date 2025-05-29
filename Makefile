@@ -19,7 +19,7 @@ LIBFT_DIR  = libft_add
 
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
- 		srcs/history.c srcs/minishell.c \
+ 		srcs/history.c srcs/minishell.c srcs/signal.c \
 
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \

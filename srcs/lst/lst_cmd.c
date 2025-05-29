@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 15:14:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:13:49 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd *lstnew_nd_cmd(t_global *g, t_subtok *nd)
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
-		ft_exit("Malloc", g);
+		ft_exit(g, "Malloc", -1, 1);
 	new->subtok = nd;
 	new->next = NULL;
 	return (new);

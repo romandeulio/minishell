@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi_line_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 20:58:38 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:14:58 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void add_nl_last_nd(t_global *g)
 		return ;
 	new = ft_strjoin(last_subtok->subword, "\n");
 	if (!new)
-		ft_exit("Malloc", g);
+		ft_exit(g, "Malloc", -1, 1);
 	free(last_subtok->subword);
 	last_subtok->subword = new;
 }

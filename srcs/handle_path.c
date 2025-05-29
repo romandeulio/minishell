@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:06:55 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/19 00:19:19 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:13:21 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ char    *get_cur_dir(t_global *g)
     g->rd.cur_dir = ft_strjoin(&name_cur_dir[1], "$ ");
     free(path_abs);
     if (!g->rd.cur_dir)
-        ft_exit("Malloc", g);
+        ft_exit(g, "Malloc", -1, 1);
     return (g->rd.cur_dir);
 }

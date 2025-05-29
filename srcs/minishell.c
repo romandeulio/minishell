@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 12:20:14 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:47:13 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+volatile sig_atomic_t g_signal = 0;
 
 void	print_token(t_global *g)
 {
@@ -181,37 +183,42 @@ void	exec_cmd(t_global *g)
 	return ;
 }
 
-// int check_operator(t_ast *ast)
-// {
-// 	if (ast->type == AND && )
-// 	{
+/* int check_operator(t_ast *ast)
+{
+	if (ast->type == AND && )
+	{
 		
-// 	}
-// }
+	}
+}
 
-// int	exec_ast(t_ast *ast)
-// {
-// 	if (!ast)
-// 		return ;
-// 	exec_ast(ast->left, ast);
-// 	if (ast->type == CMD)
-// 	{
+int	exec_ast(t_ast *ast)
+{
+	if (!ast)
+		return ;
+	exec_ast(ast->left, ast);
+	if (ast->type == CMD)
+	{
 		
-// 	}
-// 	else if (check_operator(ast))
-// 	{
+	}
+	else if (check_operator(ast))
+	{
 		
-// 	}
-// 	exec_ast(ast->right, ast);
-// }
+	}
+	exec_ast(ast->right, ast);
+} */
 
 void	minishell(t_global *g)
 {
 	while (1)
 	{
+		if (g_signal)
+		{
+			interpret_signal(g, g_signal);
+			g_signal = 0;
+		}
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
-			ft_exit(NULL, g);
+			ft_exit(g, "Exit", 1, 0);
 		else
 		{
 			g->rd.full_line = ft_strdup(g->rd.line);
@@ -234,11 +241,13 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 	{
-		ft_putendl_fd("Usage: ./minishell", 2);
+		ft_putendl_fd("Usage: ./Minishell", 2);
 		return (1);
 	}
 	ft_bzero(&g, sizeof(t_global));
 	g.env = env;
+	g.is_interactive = isatty(0);
+	handle_signal();
 	minishell(&g);
 	return (0);
 }

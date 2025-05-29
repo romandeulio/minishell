@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/28 23:20:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:45:35 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@
 # include <termios.h>
 # include <unistd.h>
 
+// global
+extern volatile sig_atomic_t	g_signal;
+
+// struct
 typedef struct s_rdline
 {
-	char			*cur_dir;
-	char			*line;
-	char			*full_line;
-}					t_rdline;
+	char						*cur_dir;
+	char						*line;
+	char						*full_line;
+}								t_rdline;
 
 typedef enum e_type
 {
@@ -52,232 +56,254 @@ typedef enum e_type
 	AND,
 	OR,
 	SEMICOLON,
-}					t_type;
+}								t_type;
 
 typedef enum e_state
 {
 	NORMAL,
 	SQ,
 	DQ,
-}					t_state;
+}								t_state;
 
 typedef struct s_subtok
 {
-	char			*subword;
-	t_state			state;
-	int				varenv;
-	int				wildcard;
-	struct s_subtok	*next;
-}					t_subtok;
+	char						*subword;
+	t_state						state;
+	int							varenv;
+	int							wildcard;
+	struct s_subtok				*next;
+}								t_subtok;
 
 typedef struct s_tok_nd
 {
-	struct s_subtok	*top;
-	t_type			type;
-	int				paren_lvl;
-	struct s_tok_nd	*next;
-	struct s_tok_nd	*prev;
-}					t_tok_nd;
+	struct s_subtok				*top;
+	t_type						type;
+	int							paren_lvl;
+	struct s_tok_nd				*next;
+	struct s_tok_nd				*prev;
+}								t_tok_nd;
 
 typedef struct s_tok_stk
 {
-	t_tok_nd		*top;
-	t_state			state;
-	int				paren_lvl;
-	int				paren_err;
-	int				backslash;
-}					t_tok_stk;
+	t_tok_nd					*top;
+	t_state						state;
+	int							paren_lvl;
+	int							paren_err;
+	int							backslash;
+}								t_tok_stk;
 
 typedef struct s_cmd
 {
-	t_subtok		*subtok;
-	struct s_cmd	*next;
-}					t_cmd;
+	t_subtok					*subtok;
+	struct s_cmd				*next;
+}								t_cmd;
 
 typedef struct s_cmds
 {
-	t_cmd			*topcmd;
-	char			*file;
-	t_type			redir;
-}					t_cmds;
+	t_cmd						*topcmd;
+	char						*file;
+	t_type						redir;
+}								t_cmds;
 
 typedef struct s_ast
 {
-	t_type			type;
-	int				subshell_lvl;
-	t_cmds			*cmds;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}					t_ast;
+	t_type						type;
+	int							subshell_lvl;
+	t_cmds						*cmds;
+	struct s_ast				*left;
+	struct s_ast				*right;
+}								t_ast;
 
 typedef struct s_parse_ast
 {
-	int				start;
-	int				end;
-	int				dir;
-	int				paren_lvl;
-	t_ast			*previous;
-}					t_parse_ast;
+	int							start;
+	int							end;
+	int							dir;
+	int							paren_lvl;
+	t_ast						*previous;
+}								t_parse_ast;
 
 typedef struct s_global
 {
-	char			**env;
-	t_rdline		rd;
-	t_tok_stk		tok_stk;
-	int				error_line;
-	t_ast			*ast;
-}					t_global;
+	char						**env;
+	int							error_line;
+	int							is_interactive;
+	t_rdline					rd;
+	t_tok_stk					tok_stk;
+	t_ast						*ast;
+}								t_global;
 
 /*--------------------------------Lst--------------------------------*/
 
 // lst_ast.c
-t_ast				*create_ast_cmd(t_global *g, t_tok_nd *start,
-						t_tok_nd *end);
-t_ast				*create_ast_op(t_global *g, t_tok_nd *pivot);
+t_ast							*create_ast_cmd(t_global *g, t_tok_nd *start,
+									t_tok_nd *end);
+t_ast							*create_ast_op(t_global *g, t_tok_nd *pivot);
 
 // lst_cmd.c
-t_cmd				*lstnew_nd_cmd(t_global *g, t_subtok *nd);
-void				lstadd_back_cmd(t_global *g, t_cmd **top, t_subtok *nd);
+t_cmd							*lstnew_nd_cmd(t_global *g, t_subtok *nd);
+void							lstadd_back_cmd(t_global *g, t_cmd **top,
+									t_subtok *nd);
 
 // lst_subtok.c
-t_subtok			*lstnew_nd_subtok(int size, t_global *g);
-void				lstfree_subtok(t_subtok **subtok);
-t_subtok			*lstget_last_nd_subtok(t_subtok *top);
-void				lstadd_back_subtok(t_subtok **top, t_subtok *nd);
+t_subtok						*lstnew_nd_subtok(int size, t_global *g);
+void							lstfree_subtok(t_subtok **subtok);
+t_subtok						*lstget_last_nd_subtok(t_subtok *top);
+void							lstadd_back_subtok(t_subtok **top,
+									t_subtok *nd);
 
 // lst_tok.c
-t_tok_nd			*lstnew_nd_tok(t_global *g);
-void				lstfree_tok(t_tok_stk *p);
-void				lstinit_prev_node_tok(t_tok_nd *nd);
+t_tok_nd						*lstnew_nd_tok(t_global *g);
+void							lstfree_tok(t_tok_stk *p);
+void							lstinit_prev_node_tok(t_tok_nd *nd);
 
 // lst_tok2.c
-void				lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd);
-t_tok_nd			*lstget_last_nd_tok(t_tok_nd *top);
-int					lstget_pos_nd_tok(t_tok_nd *cur, t_tok_nd *target);
-int					lstcount_nd_tok(t_tok_stk *stk);
-void				lstdel_last_nd_tok(t_tok_stk *stk);
+void							lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd);
+t_tok_nd						*lstget_last_nd_tok(t_tok_nd *top);
+int								lstget_pos_nd_tok(t_tok_nd *cur,
+									t_tok_nd *target);
+int								lstcount_nd_tok(t_tok_stk *stk);
+void							lstdel_last_nd_tok(t_tok_stk *stk);
 
 /*------------------------------Parsing------------------------------*/
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~Ast~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // handle_priority.c
-int					get_priority(t_tok_nd *nd);
-t_tok_nd			*get_first_cmd(t_tok_nd *start, t_tok_nd *end);
-t_tok_nd			*find_lowest_prio_op(t_tok_nd *start, t_tok_nd *end);
+int								get_priority(t_tok_nd *nd);
+t_tok_nd						*get_first_cmd(t_tok_nd *start, t_tok_nd *end);
+t_tok_nd						*find_lowest_prio_op(t_tok_nd *start,
+									t_tok_nd *end);
 
 // join_subword.c
-int					count_join_subword(t_subtok *subtok);
-char				*join_subword(t_global *g, t_subtok *subtok);
+int								count_join_subword(t_subtok *subtok);
+char							*join_subword(t_global *g, t_subtok *subtok);
 
 // parsing_ast.c
-void				init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd);
-t_cmds				*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end);
-t_ast				*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end);
+void							init_cmdfile(t_global *g, t_cmds *cmds,
+									t_tok_nd *nd);
+t_cmds							*new_cmds(t_global *g, t_tok_nd *start,
+									t_tok_nd *end);
+t_ast							*parsing_ast(t_global *g, t_tok_nd *start,
+									t_tok_nd *end);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // check_paren_syntax.c
-int					check_double_paren(t_tok_nd *first, int lvl_ref);
-int					check_paren_expr(t_tok_nd *cur);
-int					check_paren_close(t_global *g, t_tok_nd *first);
-int					check_paren_err(t_global *g, t_tok_nd *first);
+int								check_double_paren(t_tok_nd *first,
+									int lvl_ref);
+int								check_paren_expr(t_tok_nd *cur);
+int								check_paren_close(t_global *g, t_tok_nd *first);
+int								check_paren_err(t_global *g, t_tok_nd *first);
 
 // check_syntax.c
-int					check_start_error(t_tok_nd *first, t_global *g);
-int					check_middle_error(t_tok_nd *first, t_tok_nd *next,
-						t_global *g);
-int					check_end_error(t_tok_nd *first, t_global *g);
-int					check_syntax(t_global *g, int check_end);
+int								check_start_error(t_tok_nd *first, t_global *g);
+int								check_middle_error(t_tok_nd *first,
+									t_tok_nd *next, t_global *g);
+int								check_end_error(t_tok_nd *first, t_global *g);
+int								check_syntax(t_global *g, int check_end);
 
 // check_type.c
-int					is_operator(t_type t);
-int					is_weak_op(t_type t);
-int					is_redir(t_type t);
-int					is_parenthesis(t_type t);
-int					is_cmd(t_type t);
+int								is_operator(t_type t);
+int								is_weak_op(t_type t);
+int								is_redir(t_type t);
+int								is_parenthesis(t_type t);
+int								is_cmd(t_type t);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Token~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 // count_len_token.c
-void				count_size_sep(char *line, int *sep);
-int					count_sep(char *line, int *i, int *count, t_tok_stk *stk);
-int					count_sq(char *line, int *i, t_tok_stk *stk);
-int					count_dq(char *line, int *i, t_tok_stk *stk);
-int					count_size_subword(char *line, t_tok_stk *original_stk);
+void							count_size_sep(char *line, int *sep);
+int								count_sep(char *line, int *i, int *count,
+									t_tok_stk *stk);
+int								count_sq(char *line, int *i, t_tok_stk *stk);
+int								count_dq(char *line, int *i, t_tok_stk *stk);
+int								count_size_subword(char *line,
+									t_tok_stk *original_stk);
 
 // defined_token.c
-void				defined_type(char *line, t_tok_nd *nd);
+void							defined_type(char *line, t_tok_nd *nd);
 // void				defined_state(t_tok_stk *stk, t_tok_nd *nd);
 
 // handle_inclomplete_line.c
-void				handle_incomplete_bs(t_global *g);
-void				handle_incomplete_op(t_global *g);
-void				handle_incomplete_quote(t_global *g);
-void				handle_incomplete_parenthesis(t_global *g);
+void							handle_incomplete_bs(t_global *g);
+void							handle_incomplete_op(t_global *g);
+void							handle_incomplete_quote(t_global *g);
+void							handle_incomplete_parenthesis(t_global *g);
 
 // multi_line_utils.c
-int					is_operator_endline(t_tok_stk *stk);
-int					is_end_line(t_tok_stk *stk);
-void				add_semicolon(t_global *g);
-void				add_nl_last_nd(t_global *g);
+int								is_operator_endline(t_tok_stk *stk);
+int								is_end_line(t_tok_stk *stk);
+void							add_semicolon(t_global *g);
+void							add_nl_last_nd(t_global *g);
 
 // handle_parsing.c
-int					handle_backslash(char *line, int *i, t_tok_stk *stk);
-int					handle_sq(char *line, int *i, t_tok_stk *stk);
-int					handle_dq(char *line, int *i, t_tok_stk *stk);
-int					handle_space_sep(char *line, t_tok_stk *stk);
-int					handle_sep(char *line, int *i, int *j, t_global *g);
+int								handle_backslash(char *line, int *i,
+									t_tok_stk *stk);
+int								handle_sq(char *line, int *i, t_tok_stk *stk);
+int								handle_dq(char *line, int *i, t_tok_stk *stk);
+int								handle_space_sep(char *line, t_tok_stk *stk);
+int								handle_sep(char *line, int *i, int *j,
+									t_global *g);
 
 // parsing_tok_utils.c
-void				handle_parentheses(t_global *g, t_tok_nd *nd);
-int					save_sep(char *line, t_tok_nd *nd);
-void				realloc_subword(char *line, t_global *g, t_subtok *last);
-t_subtok			*get_and_addback_subtok(char *line, t_global *g,
-						t_tok_nd *nd);
-t_tok_nd			*get_and_addback_nd(t_global *g);
+void							handle_parentheses(t_global *g, t_tok_nd *nd);
+int								save_sep(char *line, t_tok_nd *nd);
+void							realloc_subword(char *line, t_global *g,
+									t_subtok *last);
+t_subtok						*get_and_addback_subtok(char *line, t_global *g,
+									t_tok_nd *nd);
+t_tok_nd						*get_and_addback_nd(t_global *g);
 
 // parsing_tok_utils2.c
-int					is_sep(char *line, t_tok_nd *nd);
-void				check_meta(char *line, t_tok_stk *stk, t_subtok *subtok);
+int								is_sep(char *line, t_tok_nd *nd);
+void							check_meta(char *line, t_tok_stk *stk,
+									t_subtok *subtok);
 
 // parsing_token.c
-int					parse_subword(int *j, char *line, t_global *g,
-						t_tok_nd *nd);
-int					parse_word(char *line, t_global *g, t_tok_nd *nd);
-int					check_syntax2(t_global *g);
-void				check_end_line(t_global *g);
-void				parsing_tokens(t_global *g);
+int								parse_subword(int *j, char *line, t_global *g,
+									t_tok_nd *nd);
+int								parse_word(char *line, t_global *g,
+									t_tok_nd *nd);
+int								check_syntax2(t_global *g);
+void							check_end_line(t_global *g);
+void							parsing_tokens(t_global *g);
 
 /*-------------------------------Utils-------------------------------*/
 
 // utils.c
-void				ft_strcpy(char *dst, char *src);
-char				*ft_strndup(const char *s, int size);
+void							ft_strcpy(char *dst, char *src);
+char							*ft_strndup(const char *s, int size);
 
 /*------------------------------...------------------------------*/
 
 // exit.c
-void				ft_exit(char *msg, t_global *g);
+void							ft_exit(t_global *g, char *msg, int fd,
+									int n_exit);
 
 // ft_free.c
-void				free_and_reset_readline(t_global *g);
-void				free_and_reset_parsing(t_global *g);
+void							free_and_reset_readline(t_global *g);
+void							free_and_reset_parsing(t_global *g);
 
 // handle_error.c
-void				close_line(t_subtok *subtok, t_global *g);
-void				write_syntax_error(t_subtok *subtok);
+void							close_line(t_subtok *subtok, t_global *g);
+void							write_syntax_error(t_subtok *subtok);
 
 // handle_path.c
-char				*get_cur_dir(t_global *g);
+char							*get_cur_dir(t_global *g);
 
 // history.c
-void				check_and_add_history(char *str);
+void							check_and_add_history(char *str);
 
 // minishell.c
-void				print_token(t_global *g);
-void				parsing(t_global *g);
-void				minishell(t_global *g);
-int					main(int ac, char **av, char **env);
+void							print_token(t_global *g);
+void							parsing(t_global *g);
+void							minishell(t_global *g);
+int								main(int ac, char **av, char **env);
+
+// signal.c
+void							interpret_signal(t_global *g, int signum);
+void							handler(int signum);
+void							handle_signal(void);
 
 #endif

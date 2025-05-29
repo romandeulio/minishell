@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 15:52:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:14:09 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_tok_nd	*lstnew_nd_tok(t_global *g)
 
 	new = malloc(sizeof(t_tok_nd));
 	if (!new)
-		ft_exit("Malloc", g);
+		ft_exit(g, "Malloc", -1, 1);
 	new->top = NULL;
 	new->type = CMD;
 	new->next = NULL;

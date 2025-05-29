@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 01:33:27 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 16:14:23 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 
 	cmds = malloc(sizeof(t_cmds));
 	if (!cmds)
-		ft_exit("Malloc", g); // verif si il faut liberer des trucs en plus
+		ft_exit(g, "Malloc", -1, 1); // verif si il faut liberer des trucs en plus
 	cur = start;
 	ft_bzero(cmds, sizeof(t_cmds));
 	while (1)
