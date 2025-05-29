@@ -30,7 +30,8 @@ SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
 		srcs/parsing/ast/parsing_ast.c \
 
 # parsing/syntax
-SRCS += srcs/parsing/syntax/check_syntax.c srcs/parsing/syntax/check_type.c \
+SRCS += srcs/parsing/syntax/check_paren_syntax.c srcs/parsing/syntax/check_syntax.c \
+		srcs/parsing/syntax/check_type.c \
 
 # parsing/token
 SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c \

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 16:18:11 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 13:28:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 15:53:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ int is_sep(char *line, t_tok_nd *nd)
 		return (0);
 }
 
-void check_dollar(char *line, t_tok_stk *stk, t_subtok *subtok)
+void check_meta(char *line, t_tok_stk *stk, t_subtok *subtok)
 {
 	if (line[0] == '$' && stk->state != SQ)
 		subtok->varenv = 1;
+    else if (line[0] == '*' && stk->state == NORMAL)
+        subtok->wildcard = 1;
 }

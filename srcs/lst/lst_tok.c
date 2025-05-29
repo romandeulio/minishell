@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 00:37:36 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 15:52:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,37 +55,3 @@ void	lstinit_prev_node_tok(t_tok_nd *nd)
 		nd = nd->next;
 	}
 }
-
-// t_tok_nd	*lstnew_nd_tok(t_global *g)
-// {
-// 	t_tok_nd	*new;
-
-// 	new = malloc(sizeof(t_tok_nd));
-// 	if (!new)
-// 		ft_exit("Malloc", g);
-// 	new->word = malloc(sizeof(char) * (size + 1));
-// 	if (!new->word)
-// 		ft_exit("Malloc", g);
-// 	new->word[0] = '\0';
-//     new->type = CMD;
-//     new->varenv = 0;
-// 	new->next = NULL;
-// 	return (new);
-// }
-
-// void	lstfree_tok(t_tok_stk *p)
-// {
-// 	t_tok_nd	*tmp;
-// 	t_tok_nd	*cur;
-
-// 	tmp = p->top;
-// 	cur = p->top;
-// 	while (cur)
-// 	{
-// 		cur = cur->next;
-// 		free(tmp->word);
-// 		free(tmp);
-// 		tmp = cur;
-// 	}
-// 	p->top = NULL;
-// }

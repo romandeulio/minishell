@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/28 13:59:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 23:20:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <curses.h>
 # include <dirent.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -30,7 +31,6 @@
 # include <term.h>
 # include <termios.h>
 # include <unistd.h>
-# include <limits.h>
 
 typedef struct s_rdline
 {
@@ -66,6 +66,7 @@ typedef struct s_subtok
 	char			*subword;
 	t_state			state;
 	int				varenv;
+	int				wildcard;
 	struct s_subtok	*next;
 }					t_subtok;
 
@@ -83,6 +84,7 @@ typedef struct s_tok_stk
 	t_tok_nd		*top;
 	t_state			state;
 	int				paren_lvl;
+	int				paren_err;
 	int				backslash;
 }					t_tok_stk;
 
@@ -161,6 +163,7 @@ void				lstdel_last_nd_tok(t_tok_stk *stk);
 
 // handle_priority.c
 int					get_priority(t_tok_nd *nd);
+t_tok_nd			*get_first_cmd(t_tok_nd *start, t_tok_nd *end);
 t_tok_nd			*find_lowest_prio_op(t_tok_nd *start, t_tok_nd *end);
 
 // join_subword.c
@@ -174,15 +177,22 @@ t_ast				*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+// check_paren_syntax.c
+int					check_double_paren(t_tok_nd *first, int lvl_ref);
+int					check_paren_expr(t_tok_nd *cur);
+int					check_paren_close(t_global *g, t_tok_nd *first);
+int					check_paren_err(t_global *g, t_tok_nd *first);
+
 // check_syntax.c
 int					check_start_error(t_tok_nd *first, t_global *g);
 int					check_middle_error(t_tok_nd *first, t_tok_nd *next,
 						t_global *g);
 int					check_end_error(t_tok_nd *first, t_global *g);
-int					check_syntax(t_global *g);
+int					check_syntax(t_global *g, int check_end);
 
 // check_type.c
 int					is_operator(t_type t);
+int					is_weak_op(t_type t);
 int					is_redir(t_type t);
 int					is_parenthesis(t_type t);
 int					is_cmd(t_type t);
@@ -229,12 +239,13 @@ t_tok_nd			*get_and_addback_nd(t_global *g);
 
 // parsing_tok_utils2.c
 int					is_sep(char *line, t_tok_nd *nd);
-void				check_dollar(char *line, t_tok_stk *stk, t_subtok *subtok);
+void				check_meta(char *line, t_tok_stk *stk, t_subtok *subtok);
 
 // parsing_token.c
 int					parse_subword(int *j, char *line, t_global *g,
 						t_tok_nd *nd);
 int					parse_word(char *line, t_global *g, t_tok_nd *nd);
+int					check_syntax2(t_global *g);
 void				check_end_line(t_global *g);
 void				parsing_tokens(t_global *g);
 

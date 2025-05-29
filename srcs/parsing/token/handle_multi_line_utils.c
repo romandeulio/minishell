@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/27 16:23:16 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 20:58:38 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	is_operator_endline(t_tok_stk *stk)
 	if (!nd)
 		return (0);
 	type = nd->type;
-	return (is_operator(type));
+	return (is_operator(type) && !is_weak_op(type));
 }
 
 int	is_end_line(t_tok_stk *stk)
 {
-	if (stk->paren_lvl == 0 && stk->state == NORMAL
+	if (stk->paren_lvl <= 0 && stk->state == NORMAL
 		&& stk->backslash == 0 && !is_operator_endline(stk))
 		return (1);
 	return (0);
@@ -38,6 +38,7 @@ void	add_semicolon(t_global *g)
 
 	nd = lstnew_nd_tok(g);
 	nd->type = SEMICOLON;
+	nd->paren_lvl = g->tok_stk.paren_lvl;
 	nd->top = lstnew_nd_subtok(1, g);
 	nd->top->subword[0] = ';';
 	nd->top->subword[1] = '\0';

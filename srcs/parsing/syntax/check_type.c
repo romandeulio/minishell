@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 00:37:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 17:45:52 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	is_operator(t_type t)
 {
 	if (t == PIPE || t == AND || t == OR || t == SEMICOLON)
+		return (1);
+	return (0);
+}
+
+int is_weak_op(t_type t)
+{
+	if (t == SEMICOLON)
 		return (1);
 	return (0);
 }

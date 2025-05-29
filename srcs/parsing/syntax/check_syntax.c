@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 00:40:28 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 23:21:22 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_middle_error(t_tok_nd *first, t_tok_nd *next, t_global *g)
 
 int	check_end_error(t_tok_nd *first, t_global *g)
 {
-	if (is_operator(first->type))
+	if (is_operator(first->type) && !is_weak_op(first->type))
 	{
 		close_line(first->top, g);
 		return (1);
@@ -65,7 +65,7 @@ int	check_end_error(t_tok_nd *first, t_global *g)
 	return (0);
 }
 
-int	check_syntax(t_global *g)
+int	check_syntax(t_global *g, int check_end)
 {
 	int			i;
 	t_tok_stk	*stk;
@@ -75,17 +75,20 @@ int	check_syntax(t_global *g)
 	stk = &g->tok_stk;
 	first = stk->top;
 	i = 1;
+	if (check_paren_err(g, first))
+		return (1);
 	while (first)
 	{
 		next = first->next;
 		if (i == 1 && check_start_error(first, g))
-            return (1);
+			return (1);
 		else if (check_middle_error(first, next, g))
-            return (1);
-		else if (i == lstcount_nd_tok(stk) && check_end_error(first, g))
-            return (1);
+			return (1);
+		else if (check_end && i == lstcount_nd_tok(stk)
+			&& check_end_error(first, g))
+			return (1);
 		i++;
 		first = next;
 	}
-    return (0);
+	return (0);
 }

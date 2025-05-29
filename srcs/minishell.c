@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/28 13:46:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 12:20:14 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	print_token(t_global *g)
 			printf("subword %d = {%s}", j++, subtok->subword);
 			printf(" (state = %s)", state_name[subtok->state]);
 			printf(" (varenv = %d)", subtok->varenv);
+			printf(" (wildcard = %d)", subtok->wildcard);
 			subtok = subtok->next;
 		}
 		printf("\n");
@@ -110,7 +111,8 @@ void print_subtok(t_subtok *subtok)
 			printf("    \033[1;34m| \033[0m");
 		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword", subtok->subword);
 		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state", state_name[subtok->state]);
-		printf("\033[1;35m%-8s\033[0m = %d", "varenv", subtok->varenv);
+		printf("\033[1;33m%-6s\033[0m = %-1d   ", "varenv", subtok->varenv);
+		printf("\033[1;35m%-2s\033[0m = %d", "wildcard", subtok->wildcard);
 		printf("\n");
 		subtok = subtok->next;
 		i++;
@@ -160,16 +162,17 @@ void	parsing(t_global *g)
 	t_tok_nd	*start;
 	t_tok_nd	*end;
 
+	printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
-	// print_token(g); // temporaire
-	if (check_syntax(g))
+	print_token(g); // temporaire
+	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
 	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	print_ast(g->ast);
+	print_ast(g->ast); // temporaire
 }
 
 void	exec_cmd(t_global *g)
@@ -177,6 +180,30 @@ void	exec_cmd(t_global *g)
 	printf("\n\033[1;45mEXEC_CMD :\033[0m \033[1;35m%s\033[0m\n", g->rd.full_line);
 	return ;
 }
+
+// int check_operator(t_ast *ast)
+// {
+// 	if (ast->type == AND && )
+// 	{
+		
+// 	}
+// }
+
+// int	exec_ast(t_ast *ast)
+// {
+// 	if (!ast)
+// 		return ;
+// 	exec_ast(ast->left, ast);
+// 	if (ast->type == CMD)
+// 	{
+		
+// 	}
+// 	else if (check_operator(ast))
+// 	{
+		
+// 	}
+// 	exec_ast(ast->right, ast);
+// }
 
 void	minishell(t_global *g)
 {
@@ -193,6 +220,7 @@ void	minishell(t_global *g)
 			if (!g->error_line)
 				exec_cmd(g);
 		}
+		rl_clear_history();
 		free_and_reset_readline(g);
 		free_and_reset_parsing(g);
 		g->error_line = 0;

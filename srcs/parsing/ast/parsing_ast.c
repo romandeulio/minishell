@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 13:43:34 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/29 01:33:27 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,16 @@ t_ast	*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end)
 	t_ast		*nd_ast;
 	t_tok_nd	*pivot;
 
+    if (!start || !end)
+        return (NULL);
 	pivot = find_lowest_prio_op(start, end);
 	if (!pivot)
-		return (create_ast_cmd(g, start, end));
+    {
+        pivot = get_first_cmd(start, end);
+        if (!pivot || is_parenthesis(pivot->type))
+            return (NULL);
+		return (create_ast_cmd(g, pivot, end));
+    }
 	nd_ast = create_ast_op(g, pivot);
 	nd_ast->left = parsing_ast(g, start, pivot->prev);
 	nd_ast->right = parsing_ast(g, pivot->next, end);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 12:34:08 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/28 15:51:23 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_subtok	*lstnew_nd_subtok(int size, t_global *g)
 	new->subword[0] = '\0';
 	new->state = g->tok_stk.state;
 	new->varenv = 0;
+	new->wildcard = 0;
 	new->next = NULL;
 	return (new);
 }
