@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 03:20:19 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/30 15:34:14 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ void	minishell(t_global *g)
 		if (!g->rd.line)
 		{
 			free_and_reset_readline(g);
+			rl_clear_history();
 			ft_putendl_fd("Exit", 1);	
 			exit(0);
 		}

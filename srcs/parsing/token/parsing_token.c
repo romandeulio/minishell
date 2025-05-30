@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 12:22:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/30 16:02:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	check_end_line(t_global *g)
 {
 	while (!is_end_line(&g->tok_stk))
 	{
-		if (check_syntax(g, 0))
+		if (g->error_line || check_syntax(g, 0))
 			return ;
 		if (is_operator_endline(&g->tok_stk))
 			handle_incomplete_op(g);

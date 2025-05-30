@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_incomplete_line.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:33:07 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 16:14:52 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:54:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 void	handle_incomplete_bs(t_global *g)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = g->rd.full_line;
 	g->rd.full_line = ft_strndup(tmp, ft_strlen(tmp) - 1);
@@ -58,7 +58,7 @@ void	handle_incomplete_bs(t_global *g)
 
 void	handle_incomplete_op(t_global *g)
 {
-	char *tmp;
+	char	*tmp;
 
 	free(g->rd.line);
 	g->rd.line = readline(">");
@@ -91,11 +91,18 @@ void	handle_incomplete_quote(t_global *g)
 void	handle_incomplete_parenthesis(t_global *g)
 {
 	char	*line_separator;
+	char	*line_skip_sp;
 
-	add_semicolon(g);
 	free(g->rd.line);
 	g->rd.line = readline(">");
-	line_separator = ft_strjoin(g->rd.full_line, "; ");
+	line_skip_sp = skip_spaces(g->rd.line);
+	if (line_skip_sp[0] && !(line_skip_sp[0] == '(' || line_skip_sp[0] == ')'))
+	{
+		add_semicolon(g);
+		line_separator = ft_strjoin(g->rd.full_line, "; ");
+	}
+	else
+		line_separator = ft_strdup(g->rd.full_line);
 	if (!line_separator)
 		ft_exit(g, "Malloc", -1, 1);
 	free(g->rd.full_line);

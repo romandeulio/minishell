@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 13:33:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/30 15:57:03 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,9 +233,10 @@ void							handle_incomplete_op(t_global *g);
 void							handle_incomplete_quote(t_global *g);
 void							handle_incomplete_parenthesis(t_global *g);
 
-// multi_line_utils.c
+// handle_multi_line_utils.c
 int								is_operator_endline(t_tok_stk *stk);
 int								is_end_line(t_tok_stk *stk);
+char							*skip_spaces(char *str);
 void							add_semicolon(t_global *g);
 void							add_nl_last_nd(t_global *g);
 

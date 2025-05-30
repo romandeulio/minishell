@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi_line_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 16:14:58 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:54:33 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ int	is_end_line(t_tok_stk *stk)
 		&& stk->backslash == 0 && !is_operator_endline(stk))
 		return (1);
 	return (0);
+}
+
+char	*skip_spaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i] && str[i] == ' ')
+		i++;
+	return (&str[i]);
 }
 
 void	add_semicolon(t_global *g)

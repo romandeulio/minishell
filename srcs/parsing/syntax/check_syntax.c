@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 23:21:22 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/30 15:59:20 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,20 @@ int	check_start_error(t_tok_nd *first, t_global *g)
 int	check_middle_error(t_tok_nd *first, t_tok_nd *next, t_global *g)
 {
 	if (is_operator(first->type) && next && is_operator(next->type))
-	{
 		close_line(next->top, g);
-		return (1);
-	}
 	else if (is_redir(first->type) && next && !is_cmd(next->type))
-	{
 		close_line(first->next->top, g);
-		return (1);
-	}
 	else if (is_cmd(first->type) && next && next->type == PAREN_OPEN)
-	{
 		close_line(next->next->top, g);
-		return (1);
-	}
 	else if (first->type == PAREN_CLOSE && next && is_cmd(next->type))
-	{
 		close_line(first->top, g);
-		return (1);
-	}
-	return (0);
+    else if (first->type == PAREN_OPEN && next && next->type == PAREN_CLOSE)
+		close_line(first->top, g);
+    else if (first->type == PAREN_CLOSE && next && next->type == PAREN_OPEN)
+		close_line(first->top, g);
+    else
+        return (0);
+    return (1);
 }
 
 int	check_end_error(t_tok_nd *first, t_global *g)
@@ -80,9 +74,9 @@ int	check_syntax(t_global *g, int check)
 	while (first)
 	{
 		next = first->next;
-		if (check && i == 1 && check_start_error(first, g))
+		if (i == 1 && check_start_error(first, g))
 			return (1);
-		else if (check && heck_middle_error(first, next, g))
+		else if (check_middle_error(first, next, g))
 			return (1);
 		else if (check && i == lstcount_nd_tok(stk) && check_end_error(first,
 				g))

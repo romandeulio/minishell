@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 13:10:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/30 15:33:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_and_reset_parsing(t_global *g)
 
 void reinit_new_line(t_global *g)
 {
-	rl_clear_history();
 	free_and_reset_readline(g);
 	free_and_reset_parsing(g);
 	g->error_line = 0;
