@@ -207,18 +207,24 @@ int	exec_ast(t_ast *ast)
 	}
 	exec_ast(ast->right, ast);
 } */
+
 void	minishell(t_global *g)
 {
 	while (1)
 	{
 		// Pas besoin car on a handle_sig_no_interactif()
 		// Car la prant doit attendre le retour du signal de tout les enfants et
-		// renvoyer le dernier, ce n'est pas le parent qui doit quitter direct
+		// renvoyer le dernier sig, ce n'est pas le parent qui doit quitter direct
+		// Sans attendre les enfants
 		// if (g_signal)
 		// 	interpret_signal(g);
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
-			ft_exit(g, "Exit", 1, 0);
+		{
+			free_and_reset_readline(g);
+			ft_putendl_fd("Exit", 1);	
+			exit(0);
+		}
 		else
 		{
 			g->rd.full_line = ft_strdup(g->rd.line);
@@ -227,10 +233,7 @@ void	minishell(t_global *g)
 			if (!g->error_line)
 				exec_cmd(g);
 		}
-		rl_clear_history();
-		free_and_reset_readline(g);
-		free_and_reset_parsing(g);
-		g->error_line = 0;
+		reinit_new_line(g);
 	}
 }
 

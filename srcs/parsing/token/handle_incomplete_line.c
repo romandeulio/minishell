@@ -81,6 +81,7 @@ void	handle_incomplete_quote(t_global *g)
 		ft_exit(g, "Malloc", -1, 1);
 	free(g->rd.full_line);
 	g->rd.full_line = ft_strjoin(line_separator, g->rd.line);
+	free(line_separator);
 	if (!g->rd.full_line)
 		ft_exit(g, "Malloc", -1, 1);
 	add_nl_last_nd(g);
@@ -99,6 +100,7 @@ void	handle_incomplete_parenthesis(t_global *g)
 		ft_exit(g, "Malloc", -1, 1);
 	free(g->rd.full_line);
 	g->rd.full_line = ft_strjoin(line_separator, g->rd.line);
+	free(line_separator);
 	if (!g->rd.full_line)
 		ft_exit(g, "Malloc", -1, 1);
 	parsing_tokens(g);

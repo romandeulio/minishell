@@ -48,8 +48,11 @@ void free_ast(t_ast *ast)
         return ;
     free_ast(ast->left);
     free_ast(ast->right);
-    free_cmd(ast->cmds->topcmd);
-    free(ast->cmds->file);
+	if (ast->cmds)
+	{
+		free_cmd(ast->cmds->topcmd);
+		free(ast->cmds->file);
+	}
     free(ast->cmds);
     free(ast);
 }

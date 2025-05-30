@@ -65,7 +65,7 @@ int	check_end_error(t_tok_nd *first, t_global *g)
 	return (0);
 }
 
-int	check_syntax(t_global *g, int check_end)
+int	check_syntax(t_global *g, int check)
 {
 	int			i;
 	t_tok_stk	*stk;
@@ -80,12 +80,12 @@ int	check_syntax(t_global *g, int check_end)
 	while (first)
 	{
 		next = first->next;
-		if (i == 1 && check_start_error(first, g))
+		if (check && i == 1 && check_start_error(first, g))
 			return (1);
-		else if (check_middle_error(first, next, g))
+		else if (check && heck_middle_error(first, next, g))
 			return (1);
-		else if (check_end && i == lstcount_nd_tok(stk)
-			&& check_end_error(first, g))
+		else if (check && i == lstcount_nd_tok(stk) && check_end_error(first,
+				g))
 			return (1);
 		i++;
 		first = next;

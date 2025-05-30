@@ -203,7 +203,7 @@ int								check_start_error(t_tok_nd *first, t_global *g);
 int								check_middle_error(t_tok_nd *first,
 									t_tok_nd *next, t_global *g);
 int								check_end_error(t_tok_nd *first, t_global *g);
-int								check_syntax(t_global *g, int check_end);
+int								check_syntax(t_global *g, int check);
 
 // check_type.c
 int								is_operator(t_type t);
@@ -301,6 +301,7 @@ void							ft_exit(t_global *g, char *msg, int fd,
 // ft_free.c
 void							free_and_reset_readline(t_global *g);
 void							free_and_reset_parsing(t_global *g);
+void							reinit_new_line(t_global *g);
 
 // handle_error.c
 void							close_line(t_subtok *subtok, t_global *g);

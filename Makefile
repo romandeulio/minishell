@@ -1,7 +1,7 @@
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werror -I/opt/homebrew/opt/readline/include -fsanitize=address
+CFLAGS     = -Wall -Wextra -g -I/opt/homebrew/opt/readline/include
 LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory
@@ -13,7 +13,7 @@ RED        = \033[1;31m
 RESET      = \033[0m
 
 # 📌 Exec and lib name
-NAME       = Minishell
+NAME       = minishell
 LIBFT_LIB  = libft_add/libft++.a
 LIBFT_DIR  = libft_add
 
