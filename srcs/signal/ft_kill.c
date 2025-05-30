@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_kill.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 13:10:23 by nicolasbrec      ###   ########.fr       */
+/*   Created: 2025/05/30 03:14:15 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/05/30 13:32:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void free_and_reset_readline(t_global *g)
+void ft_kill(t_global *g, pid_t pid, int signal)
 {
-    free(g->rd.line);
-    free(g->rd.full_line);
-	free(g->rd.cur_dir);
-    ft_bzero(&g->rd, sizeof(t_rdline));
-}
-
-void	free_and_reset_parsing(t_global *g)
-{
-	lstfree_tok(&g->tok_stk);
-    ft_bzero(&g->tok_stk, sizeof(t_tok_stk));
+    lstfree_tok(&g->tok_stk);
+    free_ast(g->ast);
+    free_readline(g);
+    rl_clear_history();
+	if (kill(pid, signal) == -1)
+		ft_exit(g, "kill", -1, 1);
 }

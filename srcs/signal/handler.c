@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 13:10:23 by nicolasbrec      ###   ########.fr       */
+/*   Created: 2025/05/30 02:54:43 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/05/30 02:55:44 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-void free_and_reset_readline(t_global *g)
+void	handler(int signum)
 {
-    free(g->rd.line);
-    free(g->rd.full_line);
-	free(g->rd.cur_dir);
-    ft_bzero(&g->rd, sizeof(t_rdline));
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	g_signal = signum;
 }
 
-void	free_and_reset_parsing(t_global *g)
+void	handler_no_interactif(int signum)
 {
-	lstfree_tok(&g->tok_stk);
-    ft_bzero(&g->tok_stk, sizeof(t_tok_stk));
+	g_signal = signum;
 }

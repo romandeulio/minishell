@@ -19,7 +19,7 @@ LIBFT_DIR  = libft_add
 
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
- 		srcs/history.c srcs/minishell.c srcs/signal.c \
+ 		srcs/history.c srcs/minishell.c \
 
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
@@ -38,6 +38,9 @@ SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c 
 		srcs/parsing/token/handle_incomplete_line.c srcs/parsing/token/handle_multi_line_utils.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
+
+# signal
+SRCS += srcs/signal/ft_kill.c srcs/signal/handler.c srcs/signal/signal.c \
 	
 # utils
 SRCS += srcs/utils/utils.c srcs/utils/utils_minishell.c \

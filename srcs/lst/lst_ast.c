@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_ast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 16:13:39 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:35:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,16 @@ t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
 	new->left = NULL;
 	new->right = NULL;
 	return (new);
+}
+
+void free_ast(t_ast *ast)
+{
+    if (!ast)
+        return ;
+    free_ast(ast->left);
+    free_ast(ast->right);
+    free_cmd(ast->cmds->topcmd);
+    free(ast->cmds->file);
+    free(ast->cmds);
+    free(ast);
 }

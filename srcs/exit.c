@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 16:12:12 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:32:49 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ void    ft_exit(t_global *g, char *msg, int fd, int n_exit)
         ft_putendl_fd(msg, fd);	
     else if (msg && fd == -1)
         perror(msg);
-    free_readline(g);
     lstfree_tok(&g->tok_stk);
-    // free l'arbre ast (chaque nd de l'ast, chaque t_cmds, ..
-    // .. chaque nd de t_cmd, et chaque file dans infile et outile)
+    free_ast(g->ast);
+    free_readline(g);
     rl_clear_history();
     exit(n_exit);
 }

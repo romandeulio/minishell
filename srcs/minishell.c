@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 17:43:15 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 03:20:19 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t g_signal = 0;
+volatile sig_atomic_t	g_signal = 0;
 
 void	print_token(t_global *g)
 {
@@ -58,8 +58,8 @@ void	print_token(t_global *g)
 // void	print_ast_pretty(t_ast *ast, const char *prefix, int is_left)
 // {
 // 	const char *type_name[] = {
-// 		"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
-// 		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND", 
+// 		"CMD", "PAREN_OPEN", "PAREN_CLOSE",
+// 		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND",
 // 		"PIPE", "AND", "OR", "SEMICOLON"
 // 	};
 
@@ -82,7 +82,8 @@ void	print_token(t_global *g)
 // 			t_subtok *sub = cmd->subtok;
 // 			while (sub)
 // 			{
-// 				printf("%s│   \033[1;33m→ \"%s\"\033[0m [state: %d, varenv: %d]\n",
+// 				printf("%s│   \033[1;33m→ \"%s\"\033[0m [state: %d, varenv:
+//					%d]\n",
 // 					prefix, sub->subword, sub->state, sub->varenv);
 // 				sub = sub->next;
 // 			}
@@ -92,7 +93,8 @@ void	print_token(t_global *g)
 
 // 	// Préparation du nouveau préfixe
 // 	char new_prefix[256];
-// 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_left ? "│   " : "    ");
+// 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix,
+//		is_left ? "│   " : "    ");
 
 // 	// récursivité sur left et right
 // 	if (ast->left || ast->right)
@@ -102,17 +104,20 @@ void	print_token(t_global *g)
 // 	}
 // }
 
-void print_subtok(t_subtok *subtok)
+void	print_subtok(t_subtok *subtok)
 {
 	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
-	int			i = 1;
+	int			i;
 
+	i = 1;
 	while (subtok)
 	{
 		if (i > 1)
 			printf("    \033[1;34m| \033[0m");
-		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword", subtok->subword);
-		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state", state_name[subtok->state]);
+		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword",
+			subtok->subword);
+		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state",
+			state_name[subtok->state]);
 		printf("\033[1;33m%-6s\033[0m = %-1d   ", "varenv", subtok->varenv);
 		printf("\033[1;35m%-2s\033[0m = %d", "wildcard", subtok->wildcard);
 		printf("\n");
@@ -121,9 +126,11 @@ void print_subtok(t_subtok *subtok)
 	}
 }
 
-void print_cmd(t_cmd *cmd)
+void	print_cmd(t_cmd *cmd)
 {
-	int i = 1;
+	int	i;
+
+	i = 1;
 	while (cmd)
 	{
 		printf("  \033[1;4;34m[CMD #%d]\033[0m\n", i++);
@@ -132,28 +139,24 @@ void print_cmd(t_cmd *cmd)
 	}
 }
 
-void print_ast(t_ast *ast)
+void	print_ast(t_ast *ast)
 {
-	const char *type_name[] = {
-		"CMD", "PAREN_OPEN", "PAREN_CLOSE", 
-		"IN_REDIR", "OUT_REDIR", "HERE_DOC", "APPEND", 
-		"PIPE", "AND", "OR", "SEMICOLON"
-	};
+	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
+			"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR",
+			"SEMICOLON"};
 
 	if (!ast)
 		return ;
-
 	printf("\n\033[1;4;44m=== AST NODE ===\033[0m\n");
 	printf("\033[1;32m%-16s\033[0m : %s\n", "type", type_name[ast->type]);
 	printf("\033[1;32m%-16s\033[0m : %d\n", "subshell_lvl", ast->subshell_lvl);
-
 	if (ast->cmds)
 	{
 		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
 		print_cmd(ast->cmds->topcmd);
-
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file", ast->cmds->file);
-		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir", type_name[ast->cmds->redir]);
+		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
+			type_name[ast->cmds->redir]);
 	}
 	print_ast(ast->left);
 	print_ast(ast->right);
@@ -179,7 +182,8 @@ void	parsing(t_global *g)
 
 void	exec_cmd(t_global *g)
 {
-	printf("\n\033[1;45mEXEC_CMD :\033[0m \033[1;35m%s\033[0m\n", g->rd.full_line);
+	printf("\n\033[1;45mEXEC_CMD :\033[0m \033[1;35m%s\033[0m\n",
+		g->rd.full_line);
 	return ;
 }
 
@@ -187,7 +191,6 @@ void	exec_cmd(t_global *g)
 {
 	if (ast->type == AND && )
 	{
-		
 	}
 }
 
@@ -198,21 +201,21 @@ int	exec_ast(t_ast *ast)
 	exec_ast(ast->left, ast);
 	if (ast->type == CMD)
 	{
-		
 	}
 	else if (check_operator(ast))
 	{
-		
 	}
 	exec_ast(ast->right, ast);
 } */
-
 void	minishell(t_global *g)
 {
 	while (1)
 	{
-		if (g_signal)
-			interpret_signal(g);
+		// Pas besoin car on a handle_sig_no_interactif()
+		// Car la prant doit attendre le retour du signal de tout les enfants et
+		// renvoyer le dernier, ce n'est pas le parent qui doit quitter direct
+		// if (g_signal)
+		// 	interpret_signal(g);
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
 			ft_exit(g, "Exit", 1, 0);
@@ -244,7 +247,9 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&g, sizeof(t_global));
 	g.env = env;
 	g.is_interactive = isatty(0);
-	handle_signal();
+	if (!g.is_interactive)
+		sleep(10);
+	handle_signal(&g);
 	minishell(&g);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/29 16:56:34 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:33:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,11 @@ typedef struct s_global
 t_ast							*create_ast_cmd(t_global *g, t_tok_nd *start,
 									t_tok_nd *end);
 t_ast							*create_ast_op(t_global *g, t_tok_nd *pivot);
+void							free_ast(t_ast *ast);
 
 // lst_cmd.c
 t_cmd							*lstnew_nd_cmd(t_global *g, t_subtok *nd);
+void							free_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
 									t_subtok *nd);
 
@@ -265,9 +267,23 @@ int								parse_subword(int *j, char *line, t_global *g,
 									t_tok_nd *nd);
 int								parse_word(char *line, t_global *g,
 									t_tok_nd *nd);
-int								check_syntax2(t_global *g);
 void							check_end_line(t_global *g);
 void							parsing_tokens(t_global *g);
+
+/*------------------------------Signal------------------------------*/
+
+// ft_kill.c
+void							ft_kill(t_global *g, pid_t pid, int signal);
+
+// handler.c
+void							handler(int signum);
+void							handler_no_interactif(int signum);
+
+// signal.c
+void							interpret_signal(t_global *g);
+void							handle_sig_no_interactif(void);
+void							reinit_sigaction(void);
+void							handle_signal(t_global *g);
 
 /*-------------------------------Utils-------------------------------*/
 
@@ -278,6 +294,7 @@ char							*ft_strndup(const char *s, int size);
 /*------------------------------...------------------------------*/
 
 // exit.c
+void							free_readline(t_global *g);
 void							ft_exit(t_global *g, char *msg, int fd,
 									int n_exit);
 
@@ -300,10 +317,5 @@ void							print_token(t_global *g);
 void							parsing(t_global *g);
 void							minishell(t_global *g);
 int								main(int ac, char **av, char **env);
-
-// signal.c
-void							interpret_signal(t_global *g);
-void							handler(int signum);
-void							handle_signal(void);
 
 #endif
