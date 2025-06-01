@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_subtok.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 16:14:02 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/01 22:55:10 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,29 @@ void	lstadd_back_subtok(t_subtok **top, t_subtok *nd)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = nd;
+}
+
+void lstdelete_subtok(t_subtok **top, t_subtok *dlt)
+{
+	t_subtok *cur;
+	t_subtok *prev;
+
+	if (!top || !*top || !dlt)
+		return ;
+	cur = *top;
+	prev = NULL;
+	while (cur)
+	{
+		if (cur == dlt)
+		{
+			if (!prev)
+				*top = cur->next;
+			else
+				prev->next = cur->next;
+			lstfree_subtok(cur);
+			break ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
 }

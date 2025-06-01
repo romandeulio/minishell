@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_paren_syntax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:19:25 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 23:41:15 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 15:55:02 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int check_paren_close(t_global *g, t_tok_nd *first)
 			lvl--;
 		if (lvl < 0)
 		{
-			close_line(cur->top, g);
+			write_syntax_error(g, cur->top);
 			return (1);
 		}
 		cur = cur->next;

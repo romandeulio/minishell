@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/01 13:31:19 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/01 16:08:57 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ void	parsing(t_global *g)
 	printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
 	print_token(g); // temporaire
+	handle_expand(g);
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);

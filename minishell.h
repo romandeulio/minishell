@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/31 12:17:06 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 22:55:07 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct s_global
 {
 	char						**env;
 	int							error_line;
+	int							exit_code;
 	int							is_interactive;
 	t_rdline					rd;
 	t_tok_stk					tok_stk;
@@ -136,7 +137,7 @@ typedef struct s_global
 /*--------------------------------Exec-------------------------------*/
 
 // exec_cmd.c
-char							*get_path_line(t_global *g);
+char							*get_path_line(t_global *g, char *line);
 int								get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
@@ -144,7 +145,6 @@ int								exec_cmdfile(t_global *g, t_cmds *cmds);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_op.c
-
 
 // exec.c
 
@@ -168,6 +168,7 @@ void							lstfree_subtok(t_subtok **subtok);
 t_subtok						*lstget_last_nd_subtok(t_subtok *top);
 void							lstadd_back_subtok(t_subtok **top,
 									t_subtok *nd);
+void							lstdelete_subtok(t_subtok **top, t_subtok *dlt);
 
 // lst_tok.c
 t_tok_nd						*lstnew_nd_tok(t_global *g);
@@ -321,8 +322,8 @@ void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);
 
 // handle_error.c
-void							close_line(t_subtok *subtok, t_global *g);
-void							write_syntax_error(t_subtok *subtok);
+void							write_syntax_error(t_global *g,
+									t_subtok *subtok);
 
 // handle_path.c
 char							*get_cur_dir(t_global *g);

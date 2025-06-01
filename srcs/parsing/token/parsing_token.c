@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/30 16:02:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 16:08:18 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
