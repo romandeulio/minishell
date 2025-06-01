@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 15:34:14 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/31 03:46:03 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,41 +180,14 @@ void	parsing(t_global *g)
 	print_ast(g->ast); // temporaire
 }
 
-void	exec_cmd(t_global *g)
-{
-	printf("\n\033[1;45mEXEC_CMD :\033[0m \033[1;35m%s\033[0m\n",
-		g->rd.full_line);
-	return ;
-}
-
-/* int check_operator(t_ast *ast)
-{
-	if (ast->type == AND && )
-	{
-	}
-}
-
-int	exec_ast(t_ast *ast)
-{
-	if (!ast)
-		return ;
-	exec_ast(ast->left, ast);
-	if (ast->type == CMD)
-	{
-	}
-	else if (check_operator(ast))
-	{
-	}
-	exec_ast(ast->right, ast);
-} */
-
 void	minishell(t_global *g)
 {
 	while (1)
 	{
 		// Pas besoin car on a handle_sig_no_interactif()
 		// Car la prant doit attendre le retour du signal de tout les enfants et
-		// renvoyer le dernier sig, ce n'est pas le parent qui doit quitter direct
+		// renvoyer le dernier sig,
+		//	ce n'est pas le parent qui doit quitter direct
 		// Sans attendre les enfants
 		// if (g_signal)
 		// 	interpret_signal(g);
@@ -223,7 +196,7 @@ void	minishell(t_global *g)
 		{
 			free_and_reset_readline(g);
 			rl_clear_history();
-			ft_putendl_fd("Exit", 1);	
+			ft_putendl_fd("Exit", 1);
 			exit(0);
 		}
 		else

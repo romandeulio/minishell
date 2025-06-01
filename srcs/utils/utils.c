@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:49:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/21 18:24:04 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/31 12:12:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,14 @@ char	*ft_strndup(const char *s, int size)
 	}
 	new[i] = '\0';
 	return (new);
+}
+
+void	free_tabstr(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
 }

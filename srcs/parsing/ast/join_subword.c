@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_subword.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:39:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/29 16:14:17 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/05/31 03:52:23 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ char	*join_subword(t_global *g, t_subtok *subtok)
 	allword = malloc(sizeof(char) * (count_join_subword(subtok) + 1));
 	if (!allword)
 		ft_exit(g, "Malloc", -1, 1);
-	allword = NULL;
-	tmp = ft_strdup("");
+	allword = NULL; // NULL au lieu de ft_strdup(""),
+    // pour ne pas leak si on rentre pas dans while
+	tmp = NULL;
 	while (subtok)
 	{
 		allword = ft_strjoin(tmp, subtok->subword);

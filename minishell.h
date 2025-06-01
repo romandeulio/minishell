@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 15:57:03 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/05/31 12:17:06 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,21 @@ typedef struct s_global
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
 }								t_global;
+
+/*--------------------------------Exec-------------------------------*/
+
+// exec_cmd.c
+char							*get_path_line(t_global *g);
+int								get_cmd_path(t_global *g, t_cmd *top);
+int								count_arg(t_cmd *top);
+char							**get_cmds_in_tab(t_global *g, t_cmd *top);
+int								exec_cmdfile(t_global *g, t_cmds *cmds);
+int								exec_cmd(t_global *g, t_cmds *cmds);
+
+// exec_op.c
+
+
+// exec.c
 
 /*--------------------------------Lst--------------------------------*/
 
@@ -291,6 +306,7 @@ void							handle_signal(t_global *g);
 // utils.c
 void							ft_strcpy(char *dst, char *src);
 char							*ft_strndup(const char *s, int size);
+void							free_tabstr(char **str);
 
 /*------------------------------...------------------------------*/
 
