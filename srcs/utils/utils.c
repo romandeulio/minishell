@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:49:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/31 12:12:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 14:51:17 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strndup(const char *s, int size)
 	int		i;
 
     if (size < 0)
-        size = 0;
+		size = 0;
 	if (!s)
 		return (NULL);
     new = malloc(sizeof(char) * (size + 1));

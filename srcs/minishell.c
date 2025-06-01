@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/31 03:46:03 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 13:31:19 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,8 +204,8 @@ void	minishell(t_global *g)
 			g->rd.full_line = ft_strdup(g->rd.line);
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
-			if (!g->error_line)
-				exec_cmd(g);
+			//if (!g->error_line)
+				//exec_cmd(g);
 		}
 		reinit_new_line(g);
 	}
@@ -224,7 +224,7 @@ int	main(int ac, char **av, char **env)
 	ft_bzero(&g, sizeof(t_global));
 	g.env = env;
 	g.is_interactive = isatty(0);
-	if (!g.is_interactive)
+	if (!g.is_interactive) // a enlever
 		sleep(10);
 	handle_signal(&g);
 	minishell(&g);

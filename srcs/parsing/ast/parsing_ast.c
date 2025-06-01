@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/30 13:09:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/01 14:50:52 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_ast	*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end)
 	t_ast		*nd_ast;
 	t_tok_nd	*pivot;
 
-    if (!start || !end)
-        return (NULL);
+	if (!start || !end)
+		return (NULL);
 	pivot = find_lowest_prio_op(start, end);
 	if (!pivot)
     {

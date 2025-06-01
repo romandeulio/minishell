@@ -1,7 +1,7 @@
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werrir -g -I/opt/homebrew/opt/readline/include -fsanitize=address
+CFLAGS     = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include #-fsanitize=address
 LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory
@@ -28,6 +28,8 @@ SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
 # parsing/ast
 SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
 		srcs/parsing/ast/parsing_ast.c \
+
+SRCS += srcs/parsing/expand/expand.c \
 
 # parsing/syntax
 SRCS += srcs/parsing/syntax/check_paren_syntax.c srcs/parsing/syntax/check_syntax.c \
