@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/01 22:55:07 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:22:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void							lstdelete_subtok(t_subtok **top, t_subtok *dlt);
 t_tok_nd						*lstnew_nd_tok(t_global *g);
 void							lstfree_tok(t_tok_stk *p);
 void							lstinit_prev_node_tok(t_tok_nd *nd);
+void							lstdelete_tok_nd(t_tok_nd **top, t_tok_nd *dlt);
 
 // lst_tok2.c
 void							lstadd_back_tok(t_tok_stk *stk, t_tok_nd *nd);
@@ -204,6 +205,24 @@ t_cmds							*new_cmds(t_global *g, t_tok_nd *start,
 									t_tok_nd *end);
 t_ast							*parsing_ast(t_global *g, t_tok_nd *start,
 									t_tok_nd *end);
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~Expand~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+// handle_expand.c
+int								check_ch_after_dollar(char c);
+int								count_expand_key(char *subword);
+char							*get_expand_key(t_global *g, char *subword);
+int								cnt_expand_dollar(t_global *g, char *subword,
+									int *count);
+int								cnt_new_subw_expand(t_global *g, char *subword);
+int								expand_dollars(t_global *g, char *subw,
+									char *new_subw, int *idx_newsubw);
+void							new_subw_expand(t_global *g, t_subtok *subtok);
+int								handle_dlt_subtok(t_subtok **top,
+									t_subtok **subtok);
+int								handle_dlt_tok_nd(t_tok_nd **top,
+									t_tok_nd **tok_nd);
+void							handle_expand(t_global *g);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

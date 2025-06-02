@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_subtok.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 22:55:10 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:14:15 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void lstdelete_subtok(t_subtok **top, t_subtok *dlt)
 				*top = cur->next;
 			else
 				prev->next = cur->next;
-			lstfree_subtok(cur);
+			free(cur->subword);
+			free(cur);
 			break ;
 		}
 		prev = cur;

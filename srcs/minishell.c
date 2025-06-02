@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/01 16:08:57 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:44:58 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,8 @@ void	parsing(t_global *g)
 	parsing_tokens(g);
 	print_token(g); // temporaire
 	handle_expand(g);
+	print_token(g); // temporaire
+	return ;
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
