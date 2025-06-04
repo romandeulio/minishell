@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/03 21:39:40 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:21:37 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,21 +144,22 @@ void							ft_echo(char **cmd);
 // env.c
 void							ft_env(t_global *g);
 char							**env_cpy(t_global *g, char **env, int size);
-void							env_add(t_global *g, char *cmd);
-void							env_remove(t_global *g, char *cmd);
-char							*find_var(char *cmd);
 
 // exit.c
 void							ft_exit(t_global *g, char **cmd);
 
 // export.c
 void							ft_export(t_global *g, char **cmd);
+void							env_add(t_global *g, char *cmd);
+char							*find_var(char *cmd);
 
 // pwd.c
 void							ft_pwd(void);
 
 // unset.c
 void							ft_unset(t_global *g, char **cmd);
+void							env_remove(t_global *g, char *cmd);
+int								find_cmd_to_remove(char **env, char *cmd);
 
 /*--------------------------------Exec-------------------------------*/
 
