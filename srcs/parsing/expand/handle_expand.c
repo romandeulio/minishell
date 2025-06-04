@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/03 21:23:01 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:58:51 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 	new_subword[j] = '\0';
 	free(subtok->subword);
 	subtok->subword = new_subword;
-	printf("new_subword = %s\n", new_subword);
+	//printf("new_subword = %s\n", new_subword);
 }
 
 int	handle_dlt_subtok(t_subtok **top, t_subtok **subtok)

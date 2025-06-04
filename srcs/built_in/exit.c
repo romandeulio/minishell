@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:51:04 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 16:23:39 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/04 20:00:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_exit(t_global *g, char **cmd)
 			else
 			{
 				ft_printf("exit: %s: numeric argument required\n", cmd[1]);
-				exit_free(g, NULL, 2, 255);
+				exit_free(g, NULL, 2, 2);
 			}
 		}
 		else
