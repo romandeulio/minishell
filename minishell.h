@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 16:21:37 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/04 19:15:23 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,10 @@ typedef struct s_global
 /*--------------------------------built_in-------------------------------*/
 
 // cd.c
+void							ft_cd(t_global *g, char **cmd);
+int								change_path(char *cmd);
+void							change_env(t_global *g);
+int								find_path(char **env, char *to_find);
 
 // echo.c
 void							ft_echo(char **cmd);

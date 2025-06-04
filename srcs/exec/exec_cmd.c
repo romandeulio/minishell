@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:22:48 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:18:57 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	//pathname = get_cmd_path(g, cmds->topcmd);
 	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	
-	//if (!ft_strncmp("cd", ,2))
-	//	ft_cd()
+	if (!ft_strcmp("cd", cmd_arg[0]))
+		ft_cd(g, cmd_arg);
 	if (!ft_strcmp("echo", cmd_arg[0]))
 		ft_echo(cmd_arg);
 	else if (!ft_strcmp("env", cmd_arg[0]))
