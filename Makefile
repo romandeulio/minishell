@@ -1,7 +1,7 @@
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include #-fsanitize=address
+CFLAGS     = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include -fsanitize=address
 LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory
@@ -20,6 +20,13 @@ LIBFT_DIR  = libft_add
 # 📜 Source files
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
  		srcs/history.c srcs/minishell.c \
+
+# built_in
+SRCS +=	srcs/built_in/cd.c srcs/built_in/echo.c srcs/built_in/env.c srcs/built_in/exit.c \
+		srcs/built_in/export.c srcs/built_in/pwd.c srcs/built_in/unset.c \
+
+# exec
+SRCS += srcs/exec/exec_cmd.c
 
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \

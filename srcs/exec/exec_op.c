@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_op.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/02 11:44:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/03 21:22:45 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	exec_pipe(t_global *g, t_ast *ast_left, t_ast *ast_right)
 	int		status2;
 
 	if (pipe(pipe_fd) == -1)
-		ft_exit(g, "Pipe", -1, 1);
+		exit_free(g, "Pipe", -1, 1);
 	pid1 = fork();
 	handle_error_fork(g, pid1, pipe_fd);
 	if (pid1 == 0)

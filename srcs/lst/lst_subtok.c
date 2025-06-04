@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_subtok.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/02 12:14:15 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/03 21:17:57 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_subtok	*lstnew_nd_subtok(int size, t_global *g)
 
 	new = malloc(sizeof(t_subtok));
 	if (!new)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	new->subword = malloc(sizeof(char) * (size + 1));
 	if (!new->subword)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	new->subword[0] = '\0';
 	new->state = g->tok_stk.state;
 	new->varenv = 0;

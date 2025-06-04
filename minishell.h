@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/02 15:22:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/03 21:39:40 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,37 @@ typedef struct s_global
 	t_ast						*ast;
 }								t_global;
 
+/*--------------------------------built_in-------------------------------*/
+
+// cd.c
+
+// echo.c
+void							ft_echo(char **cmd);
+
+// env.c
+void							ft_env(t_global *g);
+char							**env_cpy(t_global *g, char **env, int size);
+void							env_add(t_global *g, char *cmd);
+void							env_remove(t_global *g, char *cmd);
+char							*find_var(char *cmd);
+
+// exit.c
+void							ft_exit(t_global *g, char **cmd);
+
+// export.c
+void							ft_export(t_global *g, char **cmd);
+
+// pwd.c
+void							ft_pwd(void);
+
+// unset.c
+void							ft_unset(t_global *g, char **cmd);
+
 /*--------------------------------Exec-------------------------------*/
 
 // exec_cmd.c
 char							*get_path_line(t_global *g, char *line);
-int								get_cmd_path(t_global *g, t_cmd *top);
+char							*get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
 int								exec_cmdfile(t_global *g, t_cmds *cmds);
@@ -323,16 +349,20 @@ void							handle_signal(t_global *g);
 
 /*-------------------------------Utils-------------------------------*/
 
+// utils_minishell.c
+
 // utils.c
+int								is_num_str(char *str);
 void							ft_strcpy(char *dst, char *src);
-char							*ft_strndup(const char *s, int size);
 void							free_tabstr(char **str);
+int								tab_size(char **array);
+int								ft_strcmp(const char *s1, const char *s2);
 
 /*------------------------------...------------------------------*/
 
 // exit.c
 void							free_readline(t_global *g);
-void							ft_exit(t_global *g, char *msg, int fd,
+void							exit_free(t_global *g, char *msg, int fd,
 									int n_exit);
 
 // ft_free.c

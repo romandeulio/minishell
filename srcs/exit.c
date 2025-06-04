@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 13:32:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/03 21:17:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void free_readline(t_global *g)
     free(g->rd.full_line);
 }
 
-void    ft_exit(t_global *g, char *msg, int fd, int n_exit)
+void    exit_free(t_global *g, char *msg, int fd, int n_exit)
 {
     if (msg && fd > 0)
         ft_putendl_fd(msg, fd);	

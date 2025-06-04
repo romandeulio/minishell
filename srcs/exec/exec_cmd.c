@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 16:02:24 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:22:48 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*get_path_line(t_global *g, char *line)
 {
 	int		i;
-	char	*path_line;
 
 	i = 0;
 	while (g->env[i])
@@ -27,7 +26,7 @@ char	*get_path_line(t_global *g, char *line)
 	return (NULL);
 }
 
-int	get_cmd_path(t_global *g, t_cmd *top)
+char 	*get_cmd_path(t_global *g, t_cmd *top)
 {
 	int		i;
 	char	*path_line;
@@ -37,7 +36,7 @@ int	get_cmd_path(t_global *g, t_cmd *top)
 
 	path_line = get_path_line(g, "PATH=");
 	all_path = ft_split(path_line, ':');      // verif l'echec NULL
-	slash_cmd = ft_strjoin("/", top->subtok); // verif l'echec NULL
+	slash_cmd = ft_strjoin("/", top->subtok->subword); // verif l'echec NULL
 	i = 0;
 	while (all_path[i])
 	{
@@ -76,18 +75,19 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 
 	cmd_arg = malloc(sizeof(char *) * (count_arg(top) + 1));
 	if (!cmd_arg)
-		ft_exit(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
+		exit_free(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
     i = 0;
+	cur = top;
 	while (cur)
 	{
-		cmd_arg[i++] = join_subword(g, cur);
+		cmd_arg[i++] = join_subword(g, cur->subtok);
         cur = cur->next;
 	}
     cmd_arg[i] = NULL;
 	return (cmd_arg);
 }
 
-int exec_cmd_fork()
+/* int exec_cmd_fork()
 {
     
 }
@@ -95,20 +95,35 @@ int exec_cmd_fork()
 int exec_cmdfile(t_global *g, t_cmds *cmds)
 {
     
-}
+} */
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
-	char	*pathname;
+	//char	*pathname;
 	char	**cmd_arg;
 
-	pathname = get_cmd_path(g, cmds->topcmd);
+	//pathname = get_cmd_path(g, cmds->topcmd);
 	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-
-    if (execve(pathname, cmd_arg, g->env) == -1)
+	
+	//if (!ft_strncmp("cd", ,2))
+	//	ft_cd()
+	if (!ft_strcmp("echo", cmd_arg[0]))
+		ft_echo(cmd_arg);
+	else if (!ft_strcmp("env", cmd_arg[0]))
+		ft_env(g);
+	else if (!ft_strcmp("exit", cmd_arg[0]))
+		ft_exit(g, cmd_arg);
+	else if (!ft_strcmp("export", cmd_arg[0]))
+		ft_export(g, cmd_arg);
+	else if (!ft_strcmp("pwd", cmd_arg[0]))
+		ft_pwd();
+	else if (!ft_strcmp("unset", cmd_arg[0]))
+		ft_unset(g, cmd_arg);
+	return (0);
+    /*if (execve(pathname, cmd_arg, g->env) == -1)
     {
         free(pathname);
         free_tabstr(cmd_arg);
-        ft_exit(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
-    }
+        exit_free(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
+    }*/
 }
