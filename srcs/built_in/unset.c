@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:39 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 16:23:54 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:11:45 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	find_cmd_to_remove(char **env, char *cmd)
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strcmp(env[i], cmd))
+		if (!ft_strncmp(env[i], cmd, ft_strlen(cmd)))
 			return (i);
 		i++;
 	}
