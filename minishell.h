@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 11:48:56 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 12:33:18 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct s_global
 	int							error_line;
 	int							exit_code;
 	int							is_interactive;
+	struct termios				original;
 	t_rdline					rd;
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
@@ -359,7 +360,9 @@ void							parsing_tokens(t_global *g);
 // ft_kill.c
 void							ft_kill(t_global *g, pid_t pid, int signal);
 
-// handle_echoctl.c
+// handle_termios.c
+void							save_termios_state(t_global *g);
+void							restore_termios_state(t_global *g);
 void							disable_echoctl(void);
 void							enable_echoctl(void);
 

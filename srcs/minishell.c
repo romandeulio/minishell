@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 11:48:30 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 14:38:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,10 @@ void	parsing(t_global *g)
 	t_tok_nd	*start;
 	t_tok_nd	*end;
 
-	//printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
+	printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
-	//print_token(g); // temporaire
 	handle_expand(g);
+	print_token(g); // temporaire
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
@@ -221,6 +221,9 @@ int	main(int ac, char **av, char **env)
 	env_cpy(&g, env, tab_size(env));
 	g.env = env_cpy(&g, env, tab_size(env));
 	g.is_interactive = isatty(0);
+	if (!g.is_interactive)
+		sleep(3);
+	// save_termios_state(&g);
 	handle_signal(&g);
 	minishell(&g);
 	return (0);

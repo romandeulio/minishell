@@ -6,11 +6,16 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 11:47:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 14:50:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
+
+int	is_expandable_dollar(char c)
+{
+	return (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '?');
+}
 
 int	check_ch_after_dollar(char c)
 {
@@ -101,10 +106,8 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, &subw[1]);
-	printf("expand_key = %s\n", expand_key);
 	expand_value = getenv(expand_key);
 	count = ft_strlen(expand_key) + 1;
-	printf("count = %d\n", count);
 	if (subw[1] == '?')
 	{
 		ft_strcpy(new_subw, ft_itoa(g->exit_code));
@@ -137,7 +140,7 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 	{
 		if (subword[i] == '$' && subword[i + 1])
 		{
-			if (check_ch_after_dollar(subword[i + 1]))
+			if (is_expandable_dollar(subword[i + 1]))
 				i += expand_dollars(g, &subword[i], &new_subword[j], &j);
 			else
 				new_subword[j++] = subword[i++];
