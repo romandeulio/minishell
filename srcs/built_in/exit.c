@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:51:04 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 20:00:20 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:25:07 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,18 @@ void	ft_exit(t_global *g, char **cmd)
 {
 	if (!cmd[1])
 		exit_free(g, "exit", 1, g->exit_code);
+	else if (is_num_str(cmd[1]) && tab_size(cmd) == 2)
+		exit_free(g, "exit", 1, ft_atoi(cmd[1]));
+	else if (tab_size(cmd) > 2 && is_num_str(cmd[1]))
+	{
+		g->exit_code = 1;
+		ft_putendl_fd("exit", 1);
+		ft_putendl_fd("exit: too many arguments", 2);
+		return ;
+	}
 	else
 	{
-		if (tab_size(cmd) == 2)
-		{
-			if (is_num_str(cmd[1]))
-				exit_free(g, "exit", 1, ft_atoi(cmd[1]));
-			else
-			{
-				ft_printf("exit: %s: numeric argument required\n", cmd[1]);
-				exit_free(g, NULL, 2, 2);
-			}
-		}
-		else
-		{
-			g->exit_code = 1;
-			ft_putendl_fd("exit", 1);
-			ft_putendl_fd("exit: too many arguments", 2);
-			return ;
-		}
+		ft_printf("exit: %s: numeric argument required\n", cmd[1]);
+		exit_free(g, NULL, 2, 2);
 	}
 }
