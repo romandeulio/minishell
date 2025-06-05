@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:33:26 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 18:54:40 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 12:02:40 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	count_words(const char *s, char c)
 	return (count);
 }
 
-static char	*ft_strndup(char *src, int len)
+char	*ft_strndup(char *src, int len)
 {
 	int		i;
 	char	*dest;

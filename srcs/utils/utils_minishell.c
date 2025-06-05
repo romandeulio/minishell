@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/04 12:43:21 by nicolasbrec      ###   ########.fr       */
-=======
-/*   Updated: 2025/06/03 16:16:17 by rodeulio         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/06/05 12:03:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

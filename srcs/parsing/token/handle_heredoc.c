@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 01:35:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 12:03:17 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	exec_heredoc(t_global *g, char *stop)
 	int		status;
 
 	if (pipe(fd) == -1)
-		ft_exit(g, "Pipe", -1, 1); // voir les autres variable a free
+		exit_free(g, "Pipe", -1, 1); // voir les autres variable a free
 	pid = handle_error_fork(g, fork(), fd);
 	if (pid == 0)
 	{
