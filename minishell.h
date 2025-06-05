@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 02:03:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:56 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,37 @@ typedef struct s_global
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
 }								t_global;
+
+/*--------------------------------built_in-------------------------------*/
+
+// cd.c
+void							ft_cd(t_global *g, char **cmd);
+int								change_path(char *cmd);
+void							change_env(t_global *g);
+int								find_path(char **env, char *to_find);
+
+// echo.c
+void							ft_echo(char **cmd);
+
+// env.c
+void							ft_env(t_global *g);
+char							**env_cpy(t_global *g, char **env, int size);
+
+// exit.c
+void							ft_exit(t_global *g, char **cmd);
+
+// export.c
+void							ft_export(t_global *g, char **cmd);
+void							env_add(t_global *g, char *cmd);
+char							*find_var(char *cmd);
+
+// pwd.c
+void							ft_pwd(void);
+
+// unset.c
+void							ft_unset(t_global *g, char **cmd);
+void							env_remove(t_global *g, char *cmd);
+int								find_cmd_to_remove(char **env, char *cmd);
 
 /*--------------------------------Exec-------------------------------*/
 
@@ -348,17 +379,20 @@ void							handle_signal(t_global *g);
 
 /*-------------------------------Utils-------------------------------*/
 
+// utils_minishell.c
+
 // utils.c
+int								is_num_str(char *str);
 void							ft_strcpy(char *dst, char *src);
-char							*ft_strndup(const char *s, int size);
 void							free_tabstr(char **str);
+int								tab_size(char **array);
 int								ft_strcmp(const char *s1, const char *s2);
 
 /*------------------------------...------------------------------*/
 
 // exit.c
 void							free_readline(t_global *g);
-void							ft_exit(t_global *g, char *msg, int fd,
+void							exit_free(t_global *g, char *msg, int fd,
 									int n_exit);
 
 // ft_free.c

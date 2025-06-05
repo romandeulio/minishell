@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:45:28 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 18:52:55 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:46:25 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ pid_t   handle_error_fork(t_global *g, pid_t pid, int pipe_fd[2])
             close(pipe_fd[0]);
             close(pipe_fd[1]);
         }
-		ft_exit(g, "Fork", -1, 1);
+		exit_free(g, "Fork", -1, 1);
 	}
     return (pid);
 }

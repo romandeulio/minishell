@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/03 02:02:30 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:47:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_expand_key(t_global *g, char *subword)
 
 	expand_key = malloc(sizeof(char) * (count_expand_key(subword) + 1));
 	if (!expand_key)
-		ft_exit(g, "Malloc", -1, 1); // verif les autres trucs a free
+		exit_free(g, "Malloc", -1, 1); // verif les autres trucs a free
 	i = 0;
 	while (check_ch_after_dollar(subword[i]))
 	{

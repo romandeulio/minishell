@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 14:11:15 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:46:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 
 	cmds = malloc(sizeof(t_cmds));
 	if (!cmds)
-		ft_exit(g, "Malloc", -1, 1); // verif si il faut liberer des trucs en plus
+		exit_free(g, "Malloc", -1, 1); // verif si il faut liberer des trucs en plus
 	cur = start;
 	ft_bzero(cmds, sizeof(t_cmds));
     cmds->heredoc_fd = -1;

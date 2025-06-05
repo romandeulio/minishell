@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 00:13:03 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:47:53 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void free_readline(t_global *g)
     free(g->rd.full_line);
 }
 
-void    ft_exit(t_global *g, char *msg, int fd, int n_exit)
+void    exit_free(t_global *g, char *msg, int fd, int n_exit)
 {
     if (msg && fd > 0)
         ft_putendl_fd(msg, fd);	

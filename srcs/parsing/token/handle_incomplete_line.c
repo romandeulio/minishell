@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:33:07 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 02:04:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:47:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_incomplete_bs(t_global *g)
 	g->rd.full_line = ft_strndup(tmp, ft_strlen(tmp) - 1);
 	free(tmp);
 	if (!g->rd.full_line)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	free(g->rd.line);
 	if (!g->rd.line)
 	{
@@ -36,7 +36,7 @@ void	handle_incomplete_bs(t_global *g)
 	g->rd.full_line = ft_strjoin(tmp, g->rd.line);
 	free(tmp);
 	if (!g->rd.full_line)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	if (!g->rd.line[0])
 		g->tok_stk.backslash = 0;
 	parsing_tokens(g);
@@ -57,7 +57,7 @@ void	handle_incomplete_op(t_global *g)
 	g->rd.full_line = ft_strjoin(tmp, g->rd.line);
 	free(tmp);
 	if (!g->rd.full_line)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	parsing_tokens(g);
 }
 
@@ -74,12 +74,12 @@ void	handle_incomplete_quote(t_global *g)
 	}
 	line_separator = ft_strjoin(g->rd.full_line, "\n");
 	if (!line_separator)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	free(g->rd.full_line);
 	g->rd.full_line = ft_strjoin(line_separator, g->rd.line);
 	free(line_separator);
 	if (!g->rd.full_line)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	add_nl_last_nd(g);
 	parsing_tokens(g);
 }
@@ -98,12 +98,12 @@ void	handle_incomplete_paren2(t_global *g)
 	else
 		line_separator = ft_strdup(g->rd.full_line);
 	if (!line_separator)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 	free(g->rd.full_line);
 	g->rd.full_line = ft_strjoin(line_separator, g->rd.line);
 	free(line_separator);
 	if (!g->rd.full_line)
-		ft_exit(g, "Malloc", -1, 1);
+		exit_free(g, "Malloc", -1, 1);
 }
 
 

@@ -21,6 +21,10 @@ LIBFT_DIR  = libft_add
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
  		srcs/history.c srcs/minishell.c \
 
+# built_in
+SRCS +=	srcs/built_in/cd.c srcs/built_in/echo.c srcs/built_in/env.c srcs/built_in/exit.c \
+		srcs/built_in/export.c srcs/built_in/pwd.c srcs/built_in/unset.c \
+
 # exec
 SRCS += srcs/exec/exec_cmd.c srcs/exec/exec_op.c srcs/exec/exec.c \
 

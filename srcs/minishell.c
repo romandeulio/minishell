@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 02:04:17 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:30 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,9 +169,9 @@ void	parsing(t_global *g)
 	t_tok_nd	*start;
 	t_tok_nd	*end;
 
-	printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
+	//printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
-	print_token(g); // temporaire
+	//print_token(g); // temporaire
 	handle_expand(g);
 	if (g->error_line || check_syntax(g, 1))
 		return ;
@@ -179,8 +179,8 @@ void	parsing(t_global *g)
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
-	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	print_ast(g->ast); // temporaire
+	//printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
+	//print_ast(g->ast); // temporaire
 }
 
 void	minishell(t_global *g)
@@ -200,8 +200,8 @@ void	minishell(t_global *g)
 			g->rd.full_line = ft_strdup(g->rd.line);
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
-			// if (!g->error_line)
-			// exec_ast(g);
+			if (!g->error_line)
+				exec_cmd(g, g->ast->cmds);
 		}
 		reinit_new_line(g);
 	}
@@ -218,10 +218,9 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	ft_bzero(&g, sizeof(t_global));
-	g.env = env;
+	env_cpy(&g, env, tab_size(env));
+	g.env = env_cpy(&g, env, tab_size(env));
 	g.is_interactive = isatty(0);
-	if (!g.is_interactive) // a enlever
-		sleep(3);
 	handle_signal(&g);
 	minishell(&g);
 	return (0);

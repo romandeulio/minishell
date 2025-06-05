@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_minishell.c                                  :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/04 12:43:21 by nicolasbrec      ###   ########.fr       */
-=======
-/*   Updated: 2025/06/03 16:16:17 by rodeulio         ###   ########.fr       */
->>>>>>> main
+/*   Created: 2025/06/03 14:35:18 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/06/04 16:23:48 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_pwd(void)
+{
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		perror("pwd");
+		return ;
+	}
+	ft_putendl_fd(path, 1);
+	free(path);
+}

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 18:37:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:46:06 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	exec_pipe(t_global *g, t_ast *ast_left, t_ast *ast_right)
 	int		status2;
 
 	if (pipe(pipe_fd) == -1)
-		ft_exit(g, "Pipe", -1, 1);
+        exit_free(g, "Pipe", -1, 1);
 	pid1 = handle_error_fork(g, fork(), pipe_fd);
 	if (pid1 == 0)
 		exec_pipe_fork(g, ast_left, pipe_fd, 1);

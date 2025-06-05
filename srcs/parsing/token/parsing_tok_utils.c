@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 12:25:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:49:04 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void realloc_subword(char *line,  t_global *g, t_subtok *last)
 	total_len = size + count_size_subword(line, stk);
 	new_subword = malloc(sizeof(char) * (total_len + 1));
 	if (!new_subword)
-		ft_exit(g, "Malloc", -1, 1); // Voir si il faut free de nouveaux trucs
+		exit_free(g, "Malloc", -1, 1); // Voir si il faut free de nouveaux trucs
 	ft_strcpy(new_subword, last->subword);
 	new_subword[size] = '\0';
 	free(last->subword);

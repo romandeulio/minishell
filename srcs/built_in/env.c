@@ -1,17 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_minishell.c                                  :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/04 12:43:21 by nicolasbrec      ###   ########.fr       */
-=======
-/*   Updated: 2025/06/03 16:16:17 by rodeulio         ###   ########.fr       */
->>>>>>> main
+/*   Created: 2025/06/03 14:50:55 by rodeulio          #+#    #+#             */
+/*   Updated: 2025/06/04 16:20:28 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	ft_env(t_global *g)
+{
+	int	i;
+
+	i = 0;
+	while (g->env[i])
+		ft_putendl_fd(g->env[i++], 1);
+}
+
+char	**env_cpy(t_global *g, char **env, int size)
+{
+	int		i;
+	char	**new_env;
+
+	i = 0;
+	new_env = malloc(sizeof(char *) * (size + 1));
+	if (!new_env)
+		exit_free(g, "Malloc", -1, 1);
+	while (env[i])
+	{
+		new_env[i] = ft_strdup(env[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	return (new_env);
+}

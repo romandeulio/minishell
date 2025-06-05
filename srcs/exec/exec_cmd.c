@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 18:52:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:45:27 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 
 	cmd_arg = malloc(sizeof(char *) * (count_arg(top) + 1));
 	if (!cmd_arg)
-		ft_exit(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
+		exit_free(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
 	i = 0;
 	while (top)
 	{
@@ -144,16 +144,31 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
-	char	*pathname;
+	//char	*pathname;
 	char	**cmd_arg;
 
-	pathname = get_cmd_path(g, cmds->topcmd);
+	//pathname = get_cmd_path(g, cmds->topcmd);
 	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	if (execve(pathname, cmd_arg, g->env) == -1)
-	{
-		free(pathname);
-		free_tabstr(cmd_arg);
-		ft_exit(g, "Execve", -1, 1); // Rajoutez ce qu'il y a à free.
-	}
-    return (0);
+	
+	if (!ft_strcmp("cd", cmd_arg[0]))
+		ft_cd(g, cmd_arg);
+	if (!ft_strcmp("echo", cmd_arg[0]))
+		ft_echo(cmd_arg);
+	else if (!ft_strcmp("env", cmd_arg[0]))
+		ft_env(g);
+	else if (!ft_strcmp("exit", cmd_arg[0]))
+		ft_exit(g, cmd_arg);
+	else if (!ft_strcmp("export", cmd_arg[0]))
+		ft_export(g, cmd_arg);
+	else if (!ft_strcmp("pwd", cmd_arg[0]))
+		ft_pwd();
+	else if (!ft_strcmp("unset", cmd_arg[0]))
+		ft_unset(g, cmd_arg);
+	return (0);
+    /*if (execve(pathname, cmd_arg, g->env) == -1)
+    {
+        free(pathname);
+        free_tabstr(cmd_arg);
+        exit_free(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
+    }*/
 }
