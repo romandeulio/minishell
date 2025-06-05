@@ -51,7 +51,7 @@ SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c 
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
 
 # signal
-SRCS += srcs/signal/ft_kill.c srcs/signal/handle_echoctl.c srcs/signal/handler.c \
+SRCS += srcs/signal/ft_kill.c srcs/signal/handle_termios.c srcs/signal/handler.c \
 		srcs/signal/reinit_signal.c srcs/signal/signal.c \
 	
 # utils
