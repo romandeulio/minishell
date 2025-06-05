@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/02 13:01:58 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:13 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_tok_nd	*lstnew_nd_tok(t_global *g)
 		ft_exit(g, "Malloc", -1, 1);
 	new->top = NULL;
 	new->type = CMD;
+	new->heredoc_fd = -1;
+	new->paren_lvl = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

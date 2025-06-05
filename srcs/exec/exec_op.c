@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/02 11:44:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/04 18:37:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	exec_pipe_fork(t_global *g, t_ast *ast, int p_fd[2], int n_cmd)
 		dup2(p_fd[1], STDOUT_FILENO);
 		close(p_fd[1]);
 		close(p_fd[0]);
-		exit(exec_ast(g, ast));
+		exit(exec_ast(g, ast->left));
 	}
 	else if (n_cmd == 2)
 	{
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
 		close(p_fd[1]);
-		exit(exec_ast(g, ast));
+		exit(exec_ast(g, ast->right));
 	}
 }
 
@@ -40,18 +40,16 @@ int	exec_pipe(t_global *g, t_ast *ast_left, t_ast *ast_right)
 
 	if (pipe(pipe_fd) == -1)
 		ft_exit(g, "Pipe", -1, 1);
-	pid1 = fork();
-	handle_error_fork(g, pid1, pipe_fd);
+	pid1 = handle_error_fork(g, fork(), pipe_fd);
 	if (pid1 == 0)
 		exec_pipe_fork(g, ast_left, pipe_fd, 1);
-	pid2 = fork();
-	handle_error_fork(g, pid2, pipe_fd);
+	pid2 = handle_error_fork(g, fork(), pipe_fd);
 	if (pid2 == 0)
 		exec_pipe_fork(g, ast_right, pipe_fd, 2);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, &status1, 0);
-	waitpid(pid2, status2, 0);
+	waitpid(pid2, &status2, 0);
 	return (WEXITSTATUS(status2));
 }
 

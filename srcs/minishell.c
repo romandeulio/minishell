@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/02 12:44:58 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 02:04:17 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void	print_ast(t_ast *ast)
 		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
 		print_cmd(ast->cmds->topcmd);
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file", ast->cmds->file);
+		printf("\033[1;34m%-16s\033[0m : %d\n", "heredoc_fd",
+			ast->cmds->heredoc_fd);
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
 			type_name[ast->cmds->redir]);
 	}
@@ -171,8 +173,6 @@ void	parsing(t_global *g)
 	parsing_tokens(g);
 	print_token(g); // temporaire
 	handle_expand(g);
-	print_token(g); // temporaire
-	return ;
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
@@ -187,13 +187,6 @@ void	minishell(t_global *g)
 {
 	while (1)
 	{
-		// Pas besoin car on a handle_sig_no_interactif()
-		// Car la prant doit attendre le retour du signal de tout les enfants et
-		// renvoyer le dernier sig,
-		//	ce n'est pas le parent qui doit quitter direct
-		// Sans attendre les enfants
-		// if (g_signal)
-		// 	interpret_signal(g);
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
 		{
@@ -207,8 +200,8 @@ void	minishell(t_global *g)
 			g->rd.full_line = ft_strdup(g->rd.line);
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
-			//if (!g->error_line)
-				//exec_cmd(g);
+			// if (!g->error_line)
+			// exec_ast(g);
 		}
 		reinit_new_line(g);
 	}
@@ -228,7 +221,7 @@ int	main(int ac, char **av, char **env)
 	g.env = env;
 	g.is_interactive = isatty(0);
 	if (!g.is_interactive) // a enlever
-		sleep(10);
+		sleep(3);
 	handle_signal(&g);
 	minishell(&g);
 	return (0);

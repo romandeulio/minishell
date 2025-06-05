@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 16:02:24 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:52:10 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*get_path_line(t_global *g, char *line)
 {
 	int		i;
-	char	*path_line;
 
 	i = 0;
 	while (g->env[i])
@@ -27,7 +26,7 @@ char	*get_path_line(t_global *g, char *line)
 	return (NULL);
 }
 
-int	get_cmd_path(t_global *g, t_cmd *top)
+char *get_cmd_path(t_global *g, t_cmd *top)
 {
 	int		i;
 	char	*path_line;
@@ -37,7 +36,7 @@ int	get_cmd_path(t_global *g, t_cmd *top)
 
 	path_line = get_path_line(g, "PATH=");
 	all_path = ft_split(path_line, ':');      // verif l'echec NULL
-	slash_cmd = ft_strjoin("/", top->subtok); // verif l'echec NULL
+	slash_cmd = ft_strjoin("/", join_subword(g, top->subtok)); // verif l'echec NULL
 	i = 0;
 	while (all_path[i])
 	{
@@ -72,30 +71,76 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 {
 	int		i;
 	char	**cmd_arg;
-	t_cmd	*cur;
 
 	cmd_arg = malloc(sizeof(char *) * (count_arg(top) + 1));
 	if (!cmd_arg)
 		ft_exit(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
-    i = 0;
-	while (cur)
+	i = 0;
+	while (top)
 	{
-		cmd_arg[i++] = join_subword(g, cur);
-        cur = cur->next;
+		cmd_arg[i++] = join_subword(g, top->subtok);
+		top = top->next;
 	}
-    cmd_arg[i] = NULL;
+	cmd_arg[i] = NULL;
 	return (cmd_arg);
 }
 
-int exec_cmd_fork()
-{
-    
-}
+// int	exec_cmd_fork(t_global *g, t_cmds *cmds)
+// {
+// 	pid_t	pid;
 
-int exec_cmdfile(t_global *g, t_cmds *cmds)
-{
-    
-}
+// 	pid = handle_error_fork(g, fork(), NULL);
+// }
+
+// void	handle_in_redir(t_global *g, char *file)
+// {
+// 	int	fd;
+
+// 	fd = open(file, O_RDONLY);
+// 	if (fd == -1)
+// 		ft_exit(g, "Open", -1, 1);
+// 	dup2(fd, STDIN_FILENO);
+// 	close(fd);
+// }
+
+// void	handle_out_redir(t_global *g, char *file)
+// {
+// 	int	fd;
+
+// 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd == -1)
+// 		ft_exit(g, "Open", -1, 1);
+// 	dup2(fd, STDIN_FILENO);
+// 	close(fd);
+// }
+
+// void	handle_append_redir(t_global *g, char *file)
+// {
+// 	int	fd;
+
+// 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd == -1)
+// 		ft_exit(g, "Open", -1, 1); // voir les autres variable a free
+// 	dup2(fd, STDOUT_FILENO);
+// 	close(fd);
+// }
+
+// int	exec_cmdfile(t_global *g, t_cmds *cmds)
+// {
+// 	int	fd;
+
+// 	if (cmds->file)
+// 	{
+// 		if (cmds->redir == IN_REDIR)
+// 			handle_in_redir(g, cmds->file);
+// 		else if (cmds->redir == OUT_REDIR)
+// 			handle_out_redir(g, cmds->file);
+// 		else if (cmds->redir == HERE_DOC)
+// 			handle_heredoc_redir(g, cmds->file);
+// 		else if (cmds->redir == APPEND)
+// 			handle_append_redir(g, cmds->file);
+// 	}
+// }
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
@@ -104,11 +149,11 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 
 	pathname = get_cmd_path(g, cmds->topcmd);
 	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-
-    if (execve(pathname, cmd_arg, g->env) == -1)
-    {
-        free(pathname);
-        free_tabstr(cmd_arg);
-        ft_exit(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
-    }
+	if (execve(pathname, cmd_arg, g->env) == -1)
+	{
+		free(pathname);
+		free_tabstr(cmd_arg);
+		ft_exit(g, "Execve", -1, 1); // Rajoutez ce qu'il y a à free.
+	}
+    return (0);
 }

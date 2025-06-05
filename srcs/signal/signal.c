@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/30 03:20:52 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/04 20:36:31 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	interpret_signal(t_global *g)
 		ft_kill(g, 0, SIGQUIT);
 	g_signal = 0;
 }
-// Fonction a mettre apres tout nos fork
+// Fonction a mettre apres tout nos fork, en mode non interactif
 void	handle_sig_no_interactif(void)
 {
 	pid_t	pid;
@@ -30,9 +30,11 @@ void	handle_sig_no_interactif(void)
 	int		last_code;
 
 	last_sig = 0;
-	while (1)
+	last_code = 0;
+	pid = 1;
+	while (pid > 0)
 	{
-		pid = waitpid(-1, &status, 0);
+		pid = waitpid(-1, &status, 0); // exit si waitpid echoue
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
@@ -41,23 +43,11 @@ void	handle_sig_no_interactif(void)
 		}
 		else if (WIFEXITED(status))
 			last_code = WEXITSTATUS(status);
-		if (pid <= 0)
-			break ;
 	}
 	if (last_sig)
-		kill(0, last_sig); // faire une fonction qui kill et libere la memoire du parent
+		kill(0, last_sig); // faire une fonction qui kill
+							// et libere la memoire du parent
 	exit(last_code);
-}
-
-void	reinit_sigaction(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	handle_signal(t_global *g)
@@ -69,7 +59,7 @@ void	handle_signal(t_global *g)
 	{
 		sig_int.sa_flags = SA_RESTART;
 		sigemptyset(&sig_int.sa_mask);
-		sig_int.sa_handler = handler;
+		sig_int.sa_handler = sigint_handler;
 		sig_quit.sa_flags = SA_RESTART;
 		sigemptyset(&sig_quit.sa_mask);
 		sig_quit.sa_handler = SIG_IGN;

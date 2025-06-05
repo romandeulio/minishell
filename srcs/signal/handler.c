@@ -6,13 +6,13 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 02:54:43 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/30 02:55:44 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/04 17:02:20 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	handler(int signum)
+void	sigint_handler(int signum)
 {
 	if (signum == SIGINT)
 	{

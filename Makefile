@@ -21,6 +21,9 @@ LIBFT_DIR  = libft_add
 SRCS  = srcs/exit.c srcs/ft_free.c srcs/handle_error.c srcs/handle_path.c \
  		srcs/history.c srcs/minishell.c \
 
+# exec
+SRCS += srcs/exec/exec_cmd.c srcs/exec/exec_op.c srcs/exec/exec.c \
+
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
 		srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
@@ -38,12 +41,14 @@ SRCS += srcs/parsing/syntax/check_paren_syntax.c srcs/parsing/syntax/check_synta
 
 # parsing/token
 SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c \
-		srcs/parsing/token/handle_incomplete_line.c srcs/parsing/token/handle_multi_line_utils.c \
+		srcs/parsing/token/handle_heredoc.c srcs/parsing/token/handle_incomplete_line.c \
+		srcs/parsing/token/handle_multi_line_utils.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
 
 # signal
-SRCS += srcs/signal/ft_kill.c srcs/signal/handler.c srcs/signal/signal.c \
+SRCS += srcs/signal/ft_kill.c srcs/signal/handle_echoctl.c srcs/signal/handler.c \
+		srcs/signal/reinit_signal.c srcs/signal/signal.c \
 	
 # utils
 SRCS += srcs/utils/utils.c srcs/utils/utils_minishell.c \
