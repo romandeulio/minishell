@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 11:47:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/05 14:30:49 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, &subw[1]);
-	printf("expand_key = %s\n", expand_key);
+	//printf("expand_key = %s\n", expand_key);
 	expand_value = getenv(expand_key);
 	count = ft_strlen(expand_key) + 1;
-	printf("count = %d\n", count);
+	//printf("count = %d\n", count);
 	if (subw[1] == '?')
 	{
 		ft_strcpy(new_subw, ft_itoa(g->exit_code));
