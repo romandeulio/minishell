@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:18:02 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:49:04 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_tok_nd	*lstnew_nd_tok(t_global *g)
 		exit_free(g, "Malloc", -1, 1);
 	new->top = NULL;
 	new->type = CMD;
+	new->heredoc_fd = -1;
+	new->paren_lvl = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

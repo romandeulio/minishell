@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 19:58:51 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:47:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,16 @@ int	cnt_expand_dollar(t_global *g, char *subword, int *count)
 
 	expand_key = get_expand_key(g, (subword + 1));
 	expand_value = getenv(expand_key);
-	i = 0;
+	i = ft_strlen(expand_key) + 1;
 	if (subword[i + 1] == '?')
 	{
 		*count += ft_strlen(ft_itoa(g->exit_code));
-		i += 2;
+		i = 2;
 	}
-	else if (expand_value && !ft_isdigit((int)subword[i + 1]))
-	{
+	else if (ft_isdigit((int)subword[i + 1]))
+		i = 2;
+	else if (expand_value)
 		*count += ft_strlen(expand_value);
-		i += ft_strlen(expand_key) + 1;
-	}
-	else if (!expand_value && !ft_isdigit((int)subword[i + 1]))
-	{
-		*count += 1;
-		i += ft_strlen(expand_key) + 1;
-	}
 	free(expand_key);
 	return (i);
 }
@@ -107,23 +101,22 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, &subw[1]);
+	printf("expand_key = %s\n", expand_key);
 	expand_value = getenv(expand_key);
 	count = ft_strlen(expand_key) + 1;
+	printf("count = %d\n", count);
 	if (subw[1] == '?')
 	{
 		ft_strcpy(new_subw, ft_itoa(g->exit_code));
 		*idx_newsubw += ft_strlen(ft_itoa(g->exit_code));
 		count = 2;
 	}
-	else if (expand_value && !ft_isdigit((int)subw[1]))
+	else if (ft_isdigit((int)subw[1]))
+		count = 2;
+	else if (expand_value)
 	{
 		ft_strcpy(new_subw, expand_value);
 		*idx_newsubw += ft_strlen(expand_value);
-	}
-	else if (!expand_value && !ft_isdigit((int)subw[1]))
-	{
-		ft_strcpy(new_subw, "$");
-		(*idx_newsubw)++;
 	}
 	free(expand_key);
 	return (count);
@@ -143,14 +136,18 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 	while (subword[i])
 	{
 		if (subword[i] == '$' && subword[i + 1])
-			i += expand_dollars(g, &subword[i], &new_subword[j], &j);
+		{
+			if (check_ch_after_dollar(subword[i + 1]))
+				i += expand_dollars(g, &subword[i], &new_subword[j], &j);
+			else
+				new_subword[j++] = subword[i++];
+		}
 		else
 			new_subword[j++] = subword[i++];
 	}
 	new_subword[j] = '\0';
 	free(subtok->subword);
 	subtok->subword = new_subword;
-	//printf("new_subword = %s\n", new_subword);
 }
 
 int	handle_dlt_subtok(t_subtok **top, t_subtok **subtok)

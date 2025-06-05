@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:18:12 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:46:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
 {
     cmds->file = join_subword(g, nd->next->top);
+    cmds->heredoc_fd = nd->next->heredoc_fd;
     cmds->redir = nd->type;
 }
 
@@ -28,6 +29,7 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 		exit_free(g, "Malloc", -1, 1); // verif si il faut liberer des trucs en plus
 	cur = start;
 	ft_bzero(cmds, sizeof(t_cmds));
+    cmds->heredoc_fd = -1;
 	while (1)
 	{
 		if (is_redir(cur->type))

@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   handle_echoctl.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/30 02:54:43 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 17:02:20 by nicolasbrec      ###   ########.fr       */
+/*   Created: 2025/06/04 21:21:11 by nicolasbrec       #+#    #+#             */
+/*   Updated: 2025/06/04 21:23:07 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	sigint_handler(int signum)
+void	disable_echoctl(void)
 {
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	g_signal = signum;
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag &= ~ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
-void	handler_no_interactif(int signum)
+void	enable_echoctl(void)
 {
-	g_signal = signum;
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+    term.c_lflag |= ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

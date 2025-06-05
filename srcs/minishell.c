@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/03 22:13:44 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:30 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,8 @@ void	print_ast(t_ast *ast)
 		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
 		print_cmd(ast->cmds->topcmd);
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file", ast->cmds->file);
+		printf("\033[1;34m%-16s\033[0m : %d\n", "heredoc_fd",
+			ast->cmds->heredoc_fd);
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
 			type_name[ast->cmds->redir]);
 	}
@@ -185,13 +187,6 @@ void	minishell(t_global *g)
 {
 	while (1)
 	{
-		// Pas besoin car on a handle_sig_no_interactif()
-		// Car la prant doit attendre le retour du signal de tout les enfants et
-		// renvoyer le dernier sig,
-		//	ce n'est pas le parent qui doit quitter direct
-		// Sans attendre les enfants
-		// if (g_signal)
-		// 	interpret_signal(g);
 		g->rd.line = readline(get_cur_dir(g));
 		if (!g->rd.line)
 		{

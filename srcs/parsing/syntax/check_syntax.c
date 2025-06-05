@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 16:08:11 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:28:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-int	check_start_error(t_tok_nd *first, t_global *g)
+int	check_start_err(t_tok_nd *first, t_global *g)
 {
 	if (is_operator(first->type))
 	{
@@ -22,26 +22,35 @@ int	check_start_error(t_tok_nd *first, t_global *g)
 	return (0);
 }
 
-int	check_middle_error(t_tok_nd *first, t_tok_nd *next, t_global *g)
+int	check_middle_err(t_tok_nd *first, t_tok_nd *next, t_global *g)
 {
 	if (is_operator(first->type) && next && is_operator(next->type))
 		write_syntax_error(g, next->top);
 	else if (is_redir(first->type) && next && !is_cmd(next->type))
 		write_syntax_error(g, first->next->top);
-	else if (is_cmd(first->type) && next && next->type == PAREN_OPEN)
-		write_syntax_error(g, next->next->top);
+	else if (!is_operator(first->type) && !is_parenthesis(first->type) && next)
+    {
+        if (is_cmd(next->type) && next->next && next->next->type == PAREN_OPEN)
+            write_syntax_error(g, next->next->top);
+        else if (next->type == PAREN_OPEN && next->next)
+            write_syntax_error(g, next->next->top);
+        else if (next->type == PAREN_OPEN && !next->next)
+            write_syntax_error_newline(g);
+        else
+            return (0);
+    }
 	else if (first->type == PAREN_CLOSE && next && is_cmd(next->type))
 		write_syntax_error(g, first->top);
-    else if (first->type == PAREN_OPEN && next && next->type == PAREN_CLOSE)
+	else if (first->type == PAREN_OPEN && next && next->type == PAREN_CLOSE)
 		write_syntax_error(g, first->top);
-    else if (first->type == PAREN_CLOSE && next && next->type == PAREN_OPEN)
+	else if (first->type == PAREN_CLOSE && next && next->type == PAREN_OPEN)
 		write_syntax_error(g, first->top);
-    else
-        return (0);
-    return (1);
+	else
+		return (0);
+	return (1);
 }
 
-int	check_end_error(t_tok_nd *first, t_global *g)
+int	check_end_err(t_tok_nd *first, t_global *g)
 {
 	if (is_operator(first->type) && !is_weak_op(first->type))
 	{
@@ -50,11 +59,7 @@ int	check_end_error(t_tok_nd *first, t_global *g)
 	}
 	else if (is_redir(first->type))
 	{
-		g->error_line = 1;
-		g->exit_code = 2;
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putstr_fd("newline", 2);
-		ft_putstr_fd("'\n", 2);
+		write_syntax_error_newline(g);
 		return (1);
 	}
 	return (0);
@@ -75,12 +80,11 @@ int	check_syntax(t_global *g, int check)
 	while (first)
 	{
 		next = first->next;
-		if (i == 1 && check_start_error(first, g))
+		if (i == 1 && check_start_err(first, g))
 			return (1);
-		else if (check_middle_error(first, next, g))
+		else if (check_middle_err(first, next, g))
 			return (1);
-		else if (check && i == lstcount_nd_tok(stk) && check_end_error(first,
-				g))
+		else if (check && i == lstcount_nd_tok(stk) && check_end_err(first, g))
 			return (1);
 		i++;
 		first = next;

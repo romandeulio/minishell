@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 19:15:23 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:48:56 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_tok_nd
 {
 	struct s_subtok				*top;
 	t_type						type;
+	int							heredoc_fd;
 	int							paren_lvl;
 	struct s_tok_nd				*next;
 	struct s_tok_nd				*prev;
@@ -102,6 +103,7 @@ typedef struct s_cmds
 {
 	t_cmd						*topcmd;
 	char						*file;
+	int							heredoc_fd;
 	t_type						redir;
 }								t_cmds;
 
@@ -176,8 +178,17 @@ int								exec_cmdfile(t_global *g, t_cmds *cmds);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_op.c
+void							exec_pipe_fork(t_global *g, t_ast *ast,
+									int p_fd[2], int n_cmd);
+int								exec_pipe(t_global *g, t_ast *ast_left,
+									t_ast *ast_right);
+int								check_operator(t_global *g, t_ast *ast,
+									int last_exit);
 
 // exec.c
+pid_t							handle_error_fork(t_global *g, pid_t pid,
+									int pipe_fd[2]);
+int								exec_ast(t_global *g, t_ast *ast);
 
 /*--------------------------------Lst--------------------------------*/
 
@@ -265,10 +276,10 @@ int								check_paren_close(t_global *g, t_tok_nd *first);
 int								check_paren_err(t_global *g, t_tok_nd *first);
 
 // check_syntax.c
-int								check_start_error(t_tok_nd *first, t_global *g);
-int								check_middle_error(t_tok_nd *first,
+int								check_start_err(t_tok_nd *first, t_global *g);
+int								check_middle_err(t_tok_nd *first,
 									t_tok_nd *next, t_global *g);
-int								check_end_error(t_tok_nd *first, t_global *g);
+int								check_end_err(t_tok_nd *first, t_global *g);
 int								check_syntax(t_global *g, int check);
 
 // check_type.c
@@ -293,11 +304,17 @@ int								count_size_subword(char *line,
 void							defined_type(char *line, t_tok_nd *nd);
 // void				defined_state(t_tok_stk *stk, t_tok_nd *nd);
 
+// handle_heredoc.c
+void							handle_heredoc_redir(int fd[2], char *stop);
+int								exec_heredoc(t_global *g, char *stop);
+void							check_heredoc(t_global *g, t_tok_nd *first);
+
 // handle_inclomplete_line.c
 void							handle_incomplete_bs(t_global *g);
 void							handle_incomplete_op(t_global *g);
 void							handle_incomplete_quote(t_global *g);
-void							handle_incomplete_parenthesis(t_global *g);
+void							handle_incomplete_paren2(t_global *g);
+void							handle_incomplete_paren(t_global *g);
 
 // handle_multi_line_utils.c
 int								is_operator_endline(t_tok_stk *stk);
@@ -342,9 +359,17 @@ void							parsing_tokens(t_global *g);
 // ft_kill.c
 void							ft_kill(t_global *g, pid_t pid, int signal);
 
+// handle_echoctl.c
+void							disable_echoctl(void);
+void							enable_echoctl(void);
+
 // handler.c
-void							handler(int signum);
+void							sigint_handler(int signum);
 void							handler_no_interactif(int signum);
+
+// reinit_signal.c
+void							reinit_sig_heredoc(void);
+void							reinit_sigaction(void);
 
 // signal.c
 void							interpret_signal(t_global *g);
@@ -376,8 +401,10 @@ void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);
 
 // handle_error.c
+void							write_endline_error(t_global *g);
 void							write_syntax_error(t_global *g,
 									t_subtok *subtok);
+void							write_syntax_error_newline(t_global *g);
 
 // handle_path.c
 char							*get_cur_dir(t_global *g);

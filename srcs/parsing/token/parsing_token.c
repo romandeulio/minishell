@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 16:08:18 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:01:47 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	check_end_line(t_global *g)
 		else if (g->tok_stk.backslash == 1)
 			handle_incomplete_bs(g);
 		else
-			handle_incomplete_parenthesis(g);
+			handle_incomplete_paren(g);
 	}
 }
 
@@ -91,18 +91,23 @@ void	parsing_tokens(t_global *g)
 	int			i;
 	t_tok_stk	*stk;
 	t_tok_nd	*nd;
+	t_tok_nd	*last;
 
+	if (!g->rd.line)
+		return ;
 	stk = &g->tok_stk;
 	nd = stk->top;
+	last = lstget_last_nd_tok(nd);
 	i = 0;
 	while (g->rd.line[i])
 	{
-		while (handle_space_sep(&g->rd.line[i], stk)) // voir les autres ch a sauter en plus du space
+		while (handle_space_sep(&g->rd.line[i], stk))
 			i++;
 		if (!g->rd.line[i])
 			break ;
 		nd = get_and_addback_nd(g);
 		i += parse_word(&g->rd.line[i], g, nd);
 	}
+	check_heredoc(g, last);
 	check_end_line(g);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_ast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:17:41 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:46:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void free_ast(t_ast *ast)
     free_ast(ast->right);
 	if (ast->cmds)
 	{
+        if (ast->cmds->heredoc_fd != -1)
+            close(ast->cmds->heredoc_fd);
 		free_cmd(ast->cmds->topcmd);
 		free(ast->cmds->file);
 	}
