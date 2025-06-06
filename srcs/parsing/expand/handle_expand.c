@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 15:45:07 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 12:17:08 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 	char	*new_subword;
 	char	*subword;
 
-	subword = subtok->subword;
+	subword = join_subword(g, subtok);
 	new_subword = malloc(sizeof(char) * (cnt_new_subw_expand(g, subword) + 1));
 	i = 0;
 	j = 0;
