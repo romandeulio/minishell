@@ -1,7 +1,7 @@
 OBJDIR     = objs
 # 🛠️ Compiler and options
 CC         = cc
-CFLAGS     = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include #-fsanitize=address
+CFLAGS     = -Wall -Wextra -Werror -g -I/opt/homebrew/opt/readline/include -fsanitize=address
 LDFLAGS    = -L/opt/homebrew/opt/readline/lib
 RM         = rm -f
 MAKE       = make --no-print-directory

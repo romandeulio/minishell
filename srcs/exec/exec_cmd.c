@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 14:50:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:09:35 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	}
 	free_tabstr(all_path);
 	free(slash_cmd);
-	return (NULL);
+	return (join_subword(g, top->subtok));
 }
 
 int	count_arg(t_cmd *top)
@@ -99,13 +99,24 @@ void print_cmd_arg(char **cmd_arg)
     }
 }
 
+void check_pathname(t_global *g, char *pathname)
+{
+    if (access(pathname, X_OK) == -1)
+    {
+        ft_putstr_fd(pathname, 2);
+        ft_putendl_fd(": command not found", 2);
+        free(pathname);
+        exit_free(g, NULL, 2, 127);
+    }
+}
+
 void	exec_cmd_fork(t_global *g, char *pathname, char **cmd_arg)
 {
+    check_pathname(g, pathname);
 	if (execve(pathname, cmd_arg, g->env) == -1)
 	{
 		free(pathname);
-		free_tabstr(cmd_arg);
-		exit_free(g, "Execve", -1, 1); // Rajoutez ce qu'il y a à free.
+		exit_free(g, "Execve", -1, 1);
 	}
 }
 

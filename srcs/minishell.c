@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 14:54:20 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:09:24 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,8 @@ void	parsing(t_global *g)
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
-	//printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	//print_ast(g->ast); // temporaire
+	// printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
+	// print_ast(g->ast);
 }
 
 void	minishell(t_global *g)
@@ -201,7 +201,7 @@ void	minishell(t_global *g)
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
 			if (!g->error_line)
-				exec_cmd(g, g->ast->cmds);
+				exec_ast(g, g->ast);
 		}
 		reinit_new_line(g);
 	}
