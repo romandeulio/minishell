@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 13:59:07 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:52:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,11 @@ typedef struct s_parse_ast
 	t_ast						*previous;
 }								t_parse_ast;
 
+typedef struct s_tmp
+{
+	char						**cmd_arg;
+}								t_tmp;
+
 typedef struct s_global
 {
 	char						**env;
@@ -132,6 +137,7 @@ typedef struct s_global
 	int							exit_code;
 	int							is_interactive;
 	struct termios				original;
+	t_tmp						tmp;
 	t_rdline					rd;
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
@@ -157,6 +163,7 @@ void							ft_exit(t_global *g, char **cmd);
 
 // export.c
 void							ft_export(t_global *g, char **cmd);
+int								cmd_is_valid(char *cmd);
 void							env_add(t_global *g, char *cmd);
 char							*find_var(char *cmd);
 
@@ -419,6 +426,7 @@ void							exit_free(t_global *g, char *msg, int fd,
 void							free_and_reset_readline(t_global *g);
 void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);
+void							free_tmp(t_global *g);
 
 // handle_error.c
 void							write_endline_error(t_global *g);

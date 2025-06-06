@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 14:23:19 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:50:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,10 @@ int	check_builtin(t_global *g, char **cmd_arg)
 		ft_export(g, cmd_arg);
 	else if (!ft_strcmp("pwd", cmd_arg[0]))
 		ft_pwd();
-	else if (!ft_strcmp("unset", cmd_arg[0]))
-		ft_unset(g, cmd_arg);
-	else
-		return (0);
+    else if (!ft_strcmp("unset", cmd_arg[0]))
+        ft_unset(g, cmd_arg);
+    else
+        return (0);
 	return (1);
 }
 
@@ -135,18 +135,17 @@ int exec_cmd(t_global *g, t_cmds *cmds)
 	pid_t	pid;
 	int		status;
 	char	*pathname;
-	char	**cmd_arg;
 
 	exec_cmdfile(g, cmds);
 	pathname = get_cmd_path(g, cmds->topcmd);
-	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	if (check_builtin(g, cmd_arg))
+	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
+	if (check_builtin(g, g->tmp.cmd_arg))
 		return (0);
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
-		exec_cmd_fork(g, pathname, cmd_arg);
+		exec_cmd_fork(g, pathname, g->tmp.cmd_arg);
 	free(pathname);
-	free_tabstr(cmd_arg);
+	free_tabstr(g->tmp.cmd_arg);
 	waitpid(pid, &status, 0);
     return (WEXITSTATUS(status));
 }

@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:17 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/04 16:23:44 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:10:55 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,29 @@
 
 void	ft_export(t_global *g, char **cmd)
 {
+	if (!cmd_is_valid(cmd[1]))
+	{
+		ft_putendl_fd("export: not a valid identifier", 2);
+		g->exit_code = 1;
+		return ;
+	}
 	env_add(g, cmd[1]);
+}
+
+int	cmd_is_valid(char *cmd)
+{
+	int i;
+
+	if (!cmd || (!ft_isalpha(cmd[0]) && cmd[0] != '_'))
+		return (0);
+	i = 1;
+	while (cmd[i] && cmd[i] != '=')
+	{
+		if (!ft_isalnum(cmd[i]) && cmd[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 void	env_add(t_global *g, char *cmd)

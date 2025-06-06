@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 13:18:36 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:54:20 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,10 @@ void	parsing(t_global *g)
 	t_tok_nd	*start;
 	t_tok_nd	*end;
 
-	printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
+	//printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
 	handle_expand(g);
-	print_token(g); // temporaire
+	//print_token(g); // temporaire
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);

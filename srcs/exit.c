@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 14:56:58 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:54:27 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ void    exit_free(t_global *g, char *msg, int fd, int n_exit)
     free_ast(g->ast);
     free_readline(g);
     rl_clear_history();
+    free_tmp(g);
+    // restore_termios_state(g);
     exit(n_exit);
 }
