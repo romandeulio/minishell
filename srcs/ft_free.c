@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 14:38:00 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:59:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
