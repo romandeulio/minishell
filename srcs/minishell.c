@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 17:09:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:37:42 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,8 @@ int	main(int ac, char **av, char **env)
 	env_cpy(&g, env, tab_size(env));
 	g.env = env_cpy(&g, env, tab_size(env));
 	g.is_interactive = isatty(0);
-	if (!g.is_interactive)
-		sleep(3);
+	// if (!g.is_interactive)
+	// 	sleep(3);
 	// save_termios_state(&g);
 	handle_signal(&g);
 	minishell(&g);
