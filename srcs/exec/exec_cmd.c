@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 11:45:27 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:50:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_path_line(t_global *g, char *line)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (g->env[i])
@@ -26,7 +26,7 @@ char	*get_path_line(t_global *g, char *line)
 	return (NULL);
 }
 
-char *get_cmd_path(t_global *g, t_cmd *top)
+char	*get_cmd_path(t_global *g, t_cmd *top)
 {
 	int		i;
 	char	*path_line;
@@ -34,14 +34,16 @@ char *get_cmd_path(t_global *g, t_cmd *top)
 	char	*real_path;
 	char	**all_path;
 
-	path_line = get_path_line(g, "PATH=");
-	all_path = ft_split(path_line, ':');      // verif l'echec NULL
-	slash_cmd = ft_strjoin("/", join_subword(g, top->subtok)); // verif l'echec NULL
+    if (access(join_subword(g, top->subtok), X_OK) == 0)
+        return (join_subword(g, top->subtok));
+    path_line = getenv("PATH");
+	all_path = ft_split(path_line, ':');
+	slash_cmd = ft_strjoin("/", join_subword(g, top->subtok));
 	i = 0;
 	while (all_path[i])
 	{
-		real_path = ft_strjoin(all_path[i++], slash_cmd); // verif l'echec NULL
-		if (access(real_path, X_OK))
+		real_path = ft_strjoin(all_path[i++], slash_cmd);
+		if (access(real_path, X_OK) == 0)
 		{
 			free_tabstr(all_path);
 			free(slash_cmd);
@@ -85,71 +87,30 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	return (cmd_arg);
 }
 
-// int	exec_cmd_fork(t_global *g, t_cmds *cmds)
-// {
-// 	pid_t	pid;
-
-// 	pid = handle_error_fork(g, fork(), NULL);
-// }
-
-// void	handle_in_redir(t_global *g, char *file)
-// {
-// 	int	fd;
-
-// 	fd = open(file, O_RDONLY);
-// 	if (fd == -1)
-// 		ft_exit(g, "Open", -1, 1);
-// 	dup2(fd, STDIN_FILENO);
-// 	close(fd);
-// }
-
-// void	handle_out_redir(t_global *g, char *file)
-// {
-// 	int	fd;
-
-// 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	if (fd == -1)
-// 		ft_exit(g, "Open", -1, 1);
-// 	dup2(fd, STDIN_FILENO);
-// 	close(fd);
-// }
-
-// void	handle_append_redir(t_global *g, char *file)
-// {
-// 	int	fd;
-
-// 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 	if (fd == -1)
-// 		ft_exit(g, "Open", -1, 1); // voir les autres variable a free
-// 	dup2(fd, STDOUT_FILENO);
-// 	close(fd);
-// }
-
-// int	exec_cmdfile(t_global *g, t_cmds *cmds)
-// {
-// 	int	fd;
-
-// 	if (cmds->file)
-// 	{
-// 		if (cmds->redir == IN_REDIR)
-// 			handle_in_redir(g, cmds->file);
-// 		else if (cmds->redir == OUT_REDIR)
-// 			handle_out_redir(g, cmds->file);
-// 		else if (cmds->redir == HERE_DOC)
-// 			handle_heredoc_redir(g, cmds->file);
-// 		else if (cmds->redir == APPEND)
-// 			handle_append_redir(g, cmds->file);
-// 	}
-// }
-
-int	exec_cmd(t_global *g, t_cmds *cmds)
+void print_cmd_arg(char **cmd_arg)
 {
-	//char	*pathname;
-	char	**cmd_arg;
+    int i;
 
-	//pathname = get_cmd_path(g, cmds->topcmd);
-	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	
+    i = 0;
+    while (cmd_arg[i])
+    {
+        printf("cmd_arg[%d] = %s\n", i, cmd_arg[i]);
+        i++;
+    }
+}
+
+void	exec_cmd_fork(t_global *g, char *pathname, char **cmd_arg)
+{
+	if (execve(pathname, cmd_arg, g->env) == -1)
+	{
+		free(pathname);
+		free_tabstr(cmd_arg);
+		exit_free(g, "Execve", -1, 1); // Rajoutez ce qu'il y a à free.
+	}
+}
+
+int	check_builtin(t_global *g, char **cmd_arg)
+{
 	if (!ft_strcmp("cd", cmd_arg[0]))
 		ft_cd(g, cmd_arg);
 	if (!ft_strcmp("echo", cmd_arg[0]))
@@ -162,13 +123,29 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 		ft_export(g, cmd_arg);
 	else if (!ft_strcmp("pwd", cmd_arg[0]))
 		ft_pwd();
-	else if (!ft_strcmp("unset", cmd_arg[0]))
-		ft_unset(g, cmd_arg);
-	return (0);
-    /*if (execve(pathname, cmd_arg, g->env) == -1)
-    {
-        free(pathname);
-        free_tabstr(cmd_arg);
-        exit_free(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
-    }*/
+    else if (!ft_strcmp("unset", cmd_arg[0]))
+        ft_unset(g, cmd_arg);
+    else
+        return (0);
+	return (1);
+}
+
+int exec_cmd(t_global *g, t_cmds *cmds)
+{
+	pid_t	pid;
+	int		status;
+	char	*pathname;
+
+	exec_cmdfile(g, cmds);
+	pathname = get_cmd_path(g, cmds->topcmd);
+	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
+	if (check_builtin(g, g->tmp.cmd_arg))
+		return (0);
+	pid = handle_error_fork(g, fork(), NULL);
+	if (pid == 0)
+		exec_cmd_fork(g, pathname, g->tmp.cmd_arg);
+	free(pathname);
+	free_tabstr(g->tmp.cmd_arg);
+	waitpid(pid, &status, 0);
+    return (WEXITSTATUS(status));
 }

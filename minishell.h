@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 12:33:18 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:52:12 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,11 @@ typedef struct s_parse_ast
 	t_ast						*previous;
 }								t_parse_ast;
 
+typedef struct s_tmp
+{
+	char						**cmd_arg;
+}								t_tmp;
+
 typedef struct s_global
 {
 	char						**env;
@@ -132,6 +137,7 @@ typedef struct s_global
 	int							exit_code;
 	int							is_interactive;
 	struct termios				original;
+	t_tmp						tmp;
 	t_rdline					rd;
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
@@ -157,6 +163,7 @@ void							ft_exit(t_global *g, char **cmd);
 
 // export.c
 void							ft_export(t_global *g, char **cmd);
+int								cmd_is_valid(char *cmd);
 void							env_add(t_global *g, char *cmd);
 char							*find_var(char *cmd);
 
@@ -175,8 +182,17 @@ char							*get_path_line(t_global *g, char *line);
 char							*get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
-int								exec_cmdfile(t_global *g, t_cmds *cmds);
+void							exec_cmd_fork(t_global *g, char *pathname,
+									char **cmd_arg);
+int								check_builtin(t_global *g, char **cmd_arg);
 int								exec_cmd(t_global *g, t_cmds *cmds);
+
+// exec_cmdfile.c
+void							handle_in_redir(t_global *g, char *file);
+void							handle_out_redir(t_global *g, char *file);
+void							handle_heredoc_redir(t_cmds *cmds);
+void							handle_append_redir(t_global *g, char *file);
+void							exec_cmdfile(t_global *g, t_cmds *cmds);
 
 // exec_op.c
 void							exec_pipe_fork(t_global *g, t_ast *ast,
@@ -251,20 +267,28 @@ t_ast							*parsing_ast(t_global *g, t_tok_nd *start,
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Expand~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// handle_expand.c
+// expand_check.c
+int								is_expandable_dollar(char c);
 int								check_ch_after_dollar(char c);
+int								check_dollar_alone(t_subtok *subtok);
+
+// expand_count.c
 int								count_expand_key(char *subword);
-char							*get_expand_key(t_global *g, char *subword);
 int								cnt_expand_dollar(t_global *g, char *subword,
 									int *count);
 int								cnt_new_subw_expand(t_global *g, char *subword);
-int								expand_dollars(t_global *g, char *subw,
-									char *new_subw, int *idx_newsubw);
-void							new_subw_expand(t_global *g, t_subtok *subtok);
+
+// handle_expand_node.c
 int								handle_dlt_subtok(t_subtok **top,
 									t_subtok **subtok);
 int								handle_dlt_tok_nd(t_tok_nd **top,
 									t_tok_nd **tok_nd);
+
+// handle_expand.c
+char							*get_expand_key(t_global *g, char *subword);
+int								expand_dollars(t_global *g, char *subw,
+									char *new_subw, int *idx_newsubw);
+void							new_subw_expand(t_global *g, t_subtok *subtok);
 void							handle_expand(t_global *g);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -306,7 +330,7 @@ void							defined_type(char *line, t_tok_nd *nd);
 // void				defined_state(t_tok_stk *stk, t_tok_nd *nd);
 
 // handle_heredoc.c
-void							handle_heredoc_redir(int fd[2], char *stop);
+void							read_heredoc_redir(int fd[2], char *stop);
 int								exec_heredoc(t_global *g, char *stop);
 void							check_heredoc(t_global *g, t_tok_nd *first);
 
@@ -402,6 +426,7 @@ void							exit_free(t_global *g, char *msg, int fd,
 void							free_and_reset_readline(t_global *g);
 void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);
+void							free_tmp(t_global *g);
 
 // handle_error.c
 void							write_endline_error(t_global *g);

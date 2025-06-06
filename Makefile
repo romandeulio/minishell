@@ -26,7 +26,7 @@ SRCS +=	srcs/built_in/cd.c srcs/built_in/echo.c srcs/built_in/env.c srcs/built_i
 		srcs/built_in/export.c srcs/built_in/pwd.c srcs/built_in/unset.c \
 
 # exec
-SRCS += srcs/exec/exec_cmd.c srcs/exec/exec_op.c srcs/exec/exec.c \
+SRCS += srcs/exec/exec_cmd.c srcs/exec/exec_cmdfile.c srcs/exec/exec_op.c srcs/exec/exec.c \
 
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
@@ -37,7 +37,8 @@ SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
 		srcs/parsing/ast/parsing_ast.c \
 
 # parsing/expand
-SRCS += srcs/parsing/expand/handle_expand.c \
+SRCS += srcs/parsing/expand/expand_check.c srcs/parsing/expand/expand_count.c \
+		srcs/parsing/expand/handle_expand_node.c srcs/parsing/expand/handle_expand.c
 
 # parsing/syntax
 SRCS += srcs/parsing/syntax/check_paren_syntax.c srcs/parsing/syntax/check_syntax.c \
