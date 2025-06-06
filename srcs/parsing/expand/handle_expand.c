@@ -6,38 +6,11 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 12:17:08 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 13:16:35 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
-int	is_expandable_dollar(char c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '?');
-}
-
-int	check_ch_after_dollar(char c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c) || c == '_');
-}
-
-int	count_expand_key(char *subword)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (subword[i])
-	{
-		if (!check_ch_after_dollar(subword[i]))
-			break ;
-		i++;
-		count++;
-	}
-	return (count);
-}
 
 char	*get_expand_key(t_global *g, char *subword)
 {
@@ -55,48 +28,6 @@ char	*get_expand_key(t_global *g, char *subword)
 	}
 	expand_key[i] = '\0';
 	return (expand_key);
-}
-
-int	cnt_expand_dollar(t_global *g, char *subword, int *count)
-{
-	int		i;
-	char	*expand_key;
-	char	*expand_value;
-
-	expand_key = get_expand_key(g, (subword + 1));
-	expand_value = getenv(expand_key);
-	i = ft_strlen(expand_key) + 1;
-	if (subword[i + 1] == '?')
-	{
-		*count += ft_strlen(ft_itoa(g->exit_code));
-		i = 2;
-	}
-	else if (ft_isdigit((int)subword[i + 1]))
-		i = 2;
-	else if (expand_value)
-		*count += ft_strlen(expand_value);
-	free(expand_key);
-	return (i);
-}
-
-int	cnt_new_subw_expand(t_global *g, char *subword)
-{
-	int		i;
-	int		count;
-
-	count = 0;
-	i = 0;
-	while (subword[i])
-	{
-		if (subword[i] == '$' && subword[i + 1])
-			i += cnt_expand_dollar(g, &subword[i], &count);
-		else
-		{
-			i++;
-			count++;
-		}
-	}
-	return (count);
 }
 
 int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
@@ -129,56 +60,28 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 {
 	int		i;
 	int		j;
-	char	*new_subword;
-	char	*subword;
+	char	*new_subw;
+	char	*subw;
 
-	subword = join_subword(g, subtok);
-	new_subword = malloc(sizeof(char) * (cnt_new_subw_expand(g, subword) + 1));
+	subw = subtok->subword;
+	new_subw = malloc(sizeof(char) * (cnt_new_subw_expand(g, subw) + 1));
 	i = 0;
 	j = 0;
-	while (subword[i])
+	while (subw[i])
 	{
-		if (subword[i] == '$' && subword[i + 1])
+		if (subw[i] == '$' && subw[i + 1])
 		{
-			if (is_expandable_dollar(subword[i + 1]))
-				i += expand_dollars(g, &subword[i], &new_subword[j], &j);
+			if (is_expandable_dollar(subw[i + 1]))
+				i += expand_dollars(g, &subw[i], &new_subw[j], &j);
 			else
-				new_subword[j++] = subword[i++];
+				new_subw[j++] = subw[i++];
 		}
 		else
-			new_subword[j++] = subword[i++];
+			new_subw[j++] = subw[i++];
 	}
-	new_subword[j] = '\0';
+	new_subw[j] = '\0';
 	free(subtok->subword);
-	subtok->subword = new_subword;
-}
-
-int	handle_dlt_subtok(t_subtok **top, t_subtok **subtok)
-{
-	t_subtok	*tmp;
-
-	if (!(*subtok)->subword[0])
-	{
-		tmp = *subtok;
-		*subtok = (*subtok)->next;
-		lstdelete_subtok(top, tmp);
-		return (1);
-	}
-	return (0);
-}
-
-int	handle_dlt_tok_nd(t_tok_nd **top, t_tok_nd **tok_nd)
-{
-	t_tok_nd	*tmp;
-
-	if (!(*tok_nd)->top)
-	{
-		tmp = *tok_nd;
-		*tok_nd = (*tok_nd)->next;
-		lstdelete_tok_nd(top, tmp);
-		return (1);
-	}
-	return (0);
+	subtok->subword = new_subw;
 }
 
 void	handle_expand(t_global *g)
@@ -196,7 +99,8 @@ void	handle_expand(t_global *g)
 		{
 			if (subtok->varenv)
 			{
-				new_subw_expand(g, subtok);
+				if (!check_dollar_alone(subtok))
+					new_subw_expand(g, subtok);
 				if (handle_dlt_subtok(&tok_nd->top, &subtok))
 					continue ;
 			}

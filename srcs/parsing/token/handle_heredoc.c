@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 12:03:17 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 13:26:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@
 // 	close(fd[1]);
 // }
 
-void	handle_heredoc_redir(int fd[2], char *stop)
+void	read_heredoc_redir(int fd[2], char *stop)
 {
 	char	*line;
 
@@ -95,7 +95,7 @@ int	exec_heredoc(t_global *g, char *stop)
 	{
 		reinit_sig_heredoc();
         disable_echoctl();
-		handle_heredoc_redir(fd, stop);
+		read_heredoc_redir(fd, stop);
         enable_echoctl();
 		exit(0);
 	}
