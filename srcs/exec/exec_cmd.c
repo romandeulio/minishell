@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 11:45:27 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/06 14:36:37 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_path_line(t_global *g, char *line)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (g->env[i])
@@ -26,7 +26,7 @@ char	*get_path_line(t_global *g, char *line)
 	return (NULL);
 }
 
-char *get_cmd_path(t_global *g, t_cmd *top)
+char	*get_cmd_path(t_global *g, t_cmd *top)
 {
 	int		i;
 	char	*path_line;
@@ -35,8 +35,10 @@ char *get_cmd_path(t_global *g, t_cmd *top)
 	char	**all_path;
 
 	path_line = get_path_line(g, "PATH=");
-	all_path = ft_split(path_line, ':');      // verif l'echec NULL
-	slash_cmd = ft_strjoin("/", join_subword(g, top->subtok)); // verif l'echec NULL
+	all_path = ft_split(path_line, ':');
+	// verif l'echec NULL
+	slash_cmd = ft_strjoin("/", join_subword(g, top->subtok));
+	// verif l'echec NULL
 	i = 0;
 	while (all_path[i])
 	{
@@ -144,31 +146,28 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
-	//char	*pathname;
-	char	**cmd_arg;
-
-	//pathname = get_cmd_path(g, cmds->topcmd);
-	cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	
-	if (!ft_strcmp("cd", cmd_arg[0]))
-		ft_cd(g, cmd_arg);
-	if (!ft_strcmp("echo", cmd_arg[0]))
-		ft_echo(cmd_arg);
-	else if (!ft_strcmp("env", cmd_arg[0]))
+	// char	*pathname;
+	// pathname = get_cmd_path(g, cmds->topcmd);
+	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
+	if (!ft_strcmp("cd", g->tmp.cmd_arg[0]))
+		ft_cd(g, g->tmp.cmd_arg);
+	if (!ft_strcmp("echo", g->tmp.cmd_arg[0]))
+		ft_echo(g->tmp.cmd_arg);
+	else if (!ft_strcmp("env", g->tmp.cmd_arg[0]))
 		ft_env(g);
-	else if (!ft_strcmp("exit", cmd_arg[0]))
-		ft_exit(g, cmd_arg);
-	else if (!ft_strcmp("export", cmd_arg[0]))
-		ft_export(g, cmd_arg);
-	else if (!ft_strcmp("pwd", cmd_arg[0]))
+	else if (!ft_strcmp("exit", g->tmp.cmd_arg[0]))
+		ft_exit(g, g->tmp.cmd_arg);
+	else if (!ft_strcmp("export", g->tmp.cmd_arg[0]))
+		ft_export(g, g->tmp.cmd_arg);
+	else if (!ft_strcmp("pwd", g->tmp.cmd_arg[0]))
 		ft_pwd();
-	else if (!ft_strcmp("unset", cmd_arg[0]))
-		ft_unset(g, cmd_arg);
+	else if (!ft_strcmp("unset", g->tmp.cmd_arg[0]))
+		ft_unset(g, g->tmp.cmd_arg);
 	return (0);
-    /*if (execve(pathname, cmd_arg, g->env) == -1)
-    {
-        free(pathname);
-        free_tabstr(cmd_arg);
-        exit_free(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
-    }*/
+	/*if (execve(pathname,g->tmp.cmd_arg, g->env) == -1)
+	{
+		free(pathname);
+		free_tabstr(cmd_arg);
+		exit_free(g, "Execve", -1 , 1); // Rajoutez ce qu'il y a à free.
+	}*/
 }

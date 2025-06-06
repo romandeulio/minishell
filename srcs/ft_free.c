@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/01 16:06:42 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:38:00 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,9 @@ void reinit_new_line(t_global *g)
 	free_and_reset_readline(g);
 	free_and_reset_parsing(g);
 	g->error_line = 0;
+}
+
+void    free_tmp(t_global *g)
+{
+    free_tabstr(g->tmp.cmd_arg);
 }
