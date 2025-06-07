@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 17:26:24 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 02:07:07 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	read_heredoc_redir(int fd[2], char *stop)
 		if (!line || !ft_strcmp(line, stop))
 			break ;
 		write(fd[1], line, ft_strlen(line));
+        write(fd[1], "\n", 1);
 		free(line);
 	}
-    write(fd[1], "\n", 1);
 	free(line);
 	close(fd[1]);
     close(fd[0]);

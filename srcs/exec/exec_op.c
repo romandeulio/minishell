@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 16:38:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 12:02:26 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,6 @@ int	check_operator(t_global *g, t_ast *ast, int last_exit)
 		return (last_exit);
 	}
 	else if (ast->type == SEMICOLON)
-	{
-		exec_ast(g, ast->left);
 		return (exec_ast(g, ast->right));
-	}
 	return (0);
 }

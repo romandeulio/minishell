@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 17:37:42 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 02:03:17 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void	parsing(t_global *g)
 
 	//printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
-	handle_expand(g);
+	// handle_expand(g);
 	//print_token(g); // temporaire
 	if (g->error_line || check_syntax(g, 1))
 		return ;
@@ -201,7 +201,7 @@ void	minishell(t_global *g)
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
 			if (!g->error_line)
-				exec_ast(g, g->ast);
+				g->exit_code = exec_ast(g, g->ast);
 		}
 		reinit_new_line(g);
 	}

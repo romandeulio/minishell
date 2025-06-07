@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 14:52:12 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 12:58:20 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,8 @@ char							*get_path_line(t_global *g, char *line);
 char							*get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
-void							exec_cmd_fork(t_global *g, char *pathname,
-									char **cmd_arg);
+void							exec_cmd_fork(t_global *g, t_cmds *cmds,
+									char *path, char **args);
 int								check_builtin(t_global *g, char **cmd_arg);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
@@ -220,6 +220,7 @@ t_cmd							*lstnew_nd_cmd(t_global *g, t_subtok *nd);
 void							free_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
 									t_subtok *nd);
+void							lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt);
 
 // lst_subtok.c
 t_subtok						*lstnew_nd_subtok(int size, t_global *g);
@@ -281,15 +282,14 @@ int								cnt_new_subw_expand(t_global *g, char *subword);
 // handle_expand_node.c
 int								handle_dlt_subtok(t_subtok **top,
 									t_subtok **subtok);
-int								handle_dlt_tok_nd(t_tok_nd **top,
-									t_tok_nd **tok_nd);
+int								handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur);
 
 // handle_expand.c
 char							*get_expand_key(t_global *g, char *subword);
 int								expand_dollars(t_global *g, char *subw,
 									char *new_subw, int *idx_newsubw);
 void							new_subw_expand(t_global *g, t_subtok *subtok);
-void							handle_expand(t_global *g);
+int								handle_expand(t_global *g, t_cmds *cmds);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -423,6 +423,7 @@ void							exit_free(t_global *g, char *msg, int fd,
 									int n_exit);
 
 // ft_free.c
+void							free_before_execve(t_global *g);
 void							free_and_reset_readline(t_global *g);
 void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);

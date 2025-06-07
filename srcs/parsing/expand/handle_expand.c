@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 14:59:22 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 02:03:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,30 +84,57 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 	subtok->subword = new_subw;
 }
 
-void	handle_expand(t_global *g)
+int	handle_expand(t_global *g, t_cmds *cmds)
 {
-	t_tok_stk	*stk;
-	t_tok_nd	*tok_nd;
+	t_cmd		*cmd;
 	t_subtok	*subtok;
 
-	stk = &g->tok_stk;
-	tok_nd = stk->top;
-	while (tok_nd)
+	cmd = cmds->topcmd;
+	while (cmd)
 	{
-		subtok = tok_nd->top;
+		subtok = cmd->subtok;
 		while (subtok)
 		{
 			if (subtok->varenv)
 			{
 				if (!check_dollar_alone(subtok))
 					new_subw_expand(g, subtok);
-				if (handle_dlt_subtok(&tok_nd->top, &subtok))
+				if (handle_dlt_subtok(&cmds->topcmd->subtok, &subtok))
 					continue ;
 			}
 			subtok = subtok->next;
 		}
-		if (handle_dlt_tok_nd(&stk->top, &tok_nd))
+		if (handle_dlt_cmd_nd(&cmds->topcmd, &cmd))
 			continue ;
-		tok_nd = tok_nd->next;
+		cmd = cmd->next;
 	}
+	return (1);
 }
+
+// void	handle_expand(t_global *g)
+// {
+// 	t_tok_stk	*stk;
+// 	t_tok_nd	*tok_nd;
+// 	t_subtok	*subtok;
+
+// 	stk = &g->tok_stk;
+// 	tok_nd = stk->top;
+// 	while (tok_nd)
+// 	{
+// 		subtok = tok_nd->top;
+// 		while (subtok)
+// 		{
+// 			if (subtok->varenv)
+// 			{
+// 				if (!check_dollar_alone(subtok))
+// 					new_subw_expand(g, subtok);
+// 				if (handle_dlt_subtok(&tok_nd->top, &subtok))
+// 					continue ;
+// 			}
+// 			subtok = subtok->next;
+// 		}
+// 		if (handle_dlt_tok_nd(&stk->top, &tok_nd))
+// 			continue ;
+// 		tok_nd = tok_nd->next;
+// 	}
+// }

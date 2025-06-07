@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_kill.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 03:14:15 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:23:11 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/07 11:48:50 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

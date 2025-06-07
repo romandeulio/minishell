@@ -6,11 +6,19 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 17:25:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 13:01:15 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void free_before_execve(t_global *g)
+{
+    lstfree_tok(&g->tok_stk);
+    free_ast(g->ast);
+    free_readline(g);
+    rl_clear_history();
+}
 
 void free_and_reset_readline(t_global *g)
 {

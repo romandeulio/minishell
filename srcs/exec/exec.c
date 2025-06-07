@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:45:28 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 17:09:08 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 11:43:44 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,12 @@ pid_t   handle_error_fork(t_global *g, pid_t pid, int pipe_fd[2])
 
 int	exec_ast(t_global *g, t_ast *ast)
 {
-	int	last_exit;
-
-	last_exit = 0;
 	if (!ast)
-		return (last_exit);
+		return (g->exit_code);
 	if (ast->type == PIPE)
 		return (exec_pipe(g, ast->left, ast->right));
 	if (ast->type == CMD)
 		return (exec_cmd(g, ast->cmds));
-	last_exit = exec_ast(g, ast->left);
-	return (check_operator(g, ast, last_exit));
+	g->exit_code = exec_ast(g, ast->left);
+	return (check_operator(g, ast, g->exit_code));
 }
