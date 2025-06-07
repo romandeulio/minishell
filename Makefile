@@ -26,7 +26,8 @@ SRCS +=	srcs/built_in/cd.c srcs/built_in/echo.c srcs/built_in/env.c srcs/built_i
 		srcs/built_in/export.c srcs/built_in/pwd.c srcs/built_in/unset.c \
 
 # exec
-SRCS += srcs/exec/exec_cmd.c srcs/exec/exec_cmdfile.c srcs/exec/exec_op.c srcs/exec/exec.c \
+SRCS += srcs/exec/exec_cmd_utils.c srcs/exec/exec_cmd.c srcs/exec/exec_cmdfile.c \
+		srcs/exec/exec_op.c srcs/exec/exec.c \
 
 # lst
 SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
