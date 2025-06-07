@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:56:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 12:02:34 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 14:50:37 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_append_redir(t_global *g, char *file)
 {
 	int	fd;
 
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		exit_free(g, "Open", -1, 1); // voir les autres variable a free
 	dup2(fd, STDOUT_FILENO);

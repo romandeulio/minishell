@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 02:03:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 20:02:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, &subw[1]);
+	printf("expand_key = %s\n", expand_key);
 	expand_value = getenv(expand_key);
+	printf("expand_value = %s\n", expand_value);
 	count = ft_strlen(expand_key) + 1;
 	if (subw[1] == '?')
 	{
@@ -108,6 +110,8 @@ int	handle_expand(t_global *g, t_cmds *cmds)
 			continue ;
 		cmd = cmd->next;
 	}
+	if (!cmds->topcmd)
+		return (0);
 	return (1);
 }
 

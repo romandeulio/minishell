@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 02:09:42 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:00:29 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*lstnew_nd_cmd(t_global *g, t_subtok *nd)
 	return (new);
 }
 
-void	free_cmd(t_cmd *top)
+void	lstfree_cmd(t_cmd *top)
 {
 	t_cmd	*cur;
 	t_cmd	*tmp;

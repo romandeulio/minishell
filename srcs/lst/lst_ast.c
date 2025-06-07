@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 02:19:13 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 17:39:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void free_ast(t_ast *ast)
 	{
         if (ast->cmds->heredoc_fd != -1)
             close(ast->cmds->heredoc_fd);
-		free_cmd(ast->cmds->topcmd);
+        lstfree_cmd(ast->cmds->topcmd);
 		free(ast->cmds->file);
 	}
     free(ast->cmds);

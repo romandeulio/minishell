@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 13:12:45 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:43:58 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ typedef struct s_parse_ast
 typedef struct s_tmp
 {
 	char						**cmd_arg;
+	int							save_stdin;
+	int							save_stdout;
 }								t_tmp;
 
 typedef struct s_global
@@ -177,6 +179,13 @@ int								find_cmd_to_remove(char **env, char *cmd);
 
 /*--------------------------------Exec-------------------------------*/
 
+// exec_builtin.c
+int								is_builtin(char **cmd_arg);
+void							save_std(t_global *g);
+void							restore_std(t_global *g);
+int								check_builtin(t_global *g, t_cmds *cmds,
+									char **cmd_arg);
+
 // exec_cmd_utils.c
 char							*get_path_line(t_global *g, char *line);
 char							*get_cmd_path(t_global *g, t_cmd *top);
@@ -187,7 +196,8 @@ void							check_pathname(t_global *g, char *pathname);
 // exec_cmd.c
 void							exec_cmd_fork(t_global *g, t_cmds *cmds,
 									char *path, char **args);
-int								check_builtin(t_global *g, char **cmd_arg);
+int								check_builtin(t_global *g, t_cmds *cmds,
+									char **cmd_arg);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_cmdfile.c
@@ -220,7 +230,7 @@ void							free_ast(t_ast *ast);
 
 // lst_cmd.c
 t_cmd							*lstnew_nd_cmd(t_global *g, t_subtok *nd);
-void							free_cmd(t_cmd *top);
+void							lstfree_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
 									t_subtok *nd);
 void							lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt);

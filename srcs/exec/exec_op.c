@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 12:02:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 15:12:56 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	exec_pipe_fork(t_global *g, t_ast *ast, int p_fd[2], int n_cmd)
 		dup2(p_fd[1], STDOUT_FILENO);
 		close(p_fd[1]);
 		close(p_fd[0]);
-		exit(exec_ast(g, ast->left));
+		exit(exec_ast(g, ast));
 	}
 	else if (n_cmd == 2)
 	{
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
 		close(p_fd[1]);
-		exit(exec_ast(g, ast->right));
+		exit(exec_ast(g, ast));
 	}
 }
 

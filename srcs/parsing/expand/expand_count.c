@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:13:52 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/06 21:50:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 15:15:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	cnt_expand_dollar(t_global *g, char *subword, int *count)
 		*count += ft_strlen(ft_itoa(g->exit_code));
 		i = 2;
 	}
-	else if (ft_isdigit((int)subword[i + 1]))
+	else if (ft_isdigit((int)subword[1]))
 		i = 2;
 	else if (expand_value)
 		*count += ft_strlen(expand_value);

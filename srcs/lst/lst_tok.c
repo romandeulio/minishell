@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 11:49:04 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 18:00:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	lstfree_tok(t_tok_stk *stk)
 	while (cur)
 	{
 		cur = cur->next;
+		printf("tmp->top = %p\n", tmp->top);
 		lstfree_subtok(&tmp->top);
 		free(tmp);
 		tmp = cur;
