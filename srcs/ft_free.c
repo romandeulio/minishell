@@ -6,13 +6,13 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 20:13:07 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:01:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void free_before_execve(t_global *g)
+void free_in_fork(t_global *g)
 {
     lstfree_tok(&g->tok_stk);
     free_ast(g->ast);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 18:11:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 21:57:55 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur)
 {
 	t_cmd   *tmp;
 
-	if (!(*cur)->subtok)
+	if (!*((*cur)->subtok))
 	{
 		tmp = *cur;
 		*cur = (*cur)->next;

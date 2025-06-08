@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 17:39:32 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 00:33:58 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_ast	*create_ast_cmd(t_global *g, t_tok_nd *start, t_tok_nd *end)
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
 	new->type = CMD;
-	new->subshell_lvl = start->paren_lvl;
 	new->cmds = new_cmds(g, start, end);
 	new->left = NULL;
 	new->right = NULL;
@@ -35,7 +34,6 @@ t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
 	new->type = pivot->type;
-	new->subshell_lvl = pivot->paren_lvl;
 	new->cmds = NULL;
 	new->left = NULL;
 	new->right = NULL;

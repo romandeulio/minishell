@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 18:43:58 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:26:37 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_tok_stk
 
 typedef struct s_cmd
 {
-	t_subtok					*subtok;
+	t_subtok					**subtok;
 	struct s_cmd				*next;
 }								t_cmd;
 
@@ -110,7 +110,6 @@ typedef struct s_cmds
 typedef struct s_ast
 {
 	t_type						type;
-	int							subshell_lvl;
 	t_cmds						*cmds;
 	struct s_ast				*left;
 	struct s_ast				*right;
@@ -208,6 +207,7 @@ void							handle_append_redir(t_global *g, char *file);
 void							exec_cmdfile(t_global *g, t_cmds *cmds);
 
 // exec_op.c
+int								exec_subshell(t_global *g, t_ast *ast_right);
 void							exec_pipe_fork(t_global *g, t_ast *ast,
 									int p_fd[2], int n_cmd);
 int								exec_pipe(t_global *g, t_ast *ast_left,
@@ -229,10 +229,10 @@ t_ast							*create_ast_op(t_global *g, t_tok_nd *pivot);
 void							free_ast(t_ast *ast);
 
 // lst_cmd.c
-t_cmd							*lstnew_nd_cmd(t_global *g, t_subtok *nd);
+t_cmd							*lstnew_nd_cmd(t_global *g, t_tok_nd *nd);
 void							lstfree_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
-									t_subtok *nd);
+									t_tok_nd *nd);
 void							lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt);
 
 // lst_subtok.c
@@ -299,6 +299,7 @@ int								handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur);
 
 // handle_expand.c
 char							*get_expand_key(t_global *g, char *subword);
+char							*get_var_value(t_global *g, char *key);
 int								expand_dollars(t_global *g, char *subw,
 									char *new_subw, int *idx_newsubw);
 void							new_subw_expand(t_global *g, t_subtok *subtok);
@@ -436,7 +437,7 @@ void							exit_free(t_global *g, char *msg, int fd,
 									int n_exit);
 
 // ft_free.c
-void							free_before_execve(t_global *g);
+void							free_in_fork(t_global *g);
 void							free_and_reset_readline(t_global *g);
 void							free_and_reset_parsing(t_global *g);
 void							reinit_new_line(t_global *g);

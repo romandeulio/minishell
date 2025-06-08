@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 20:02:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 22:19:11 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@ char	*get_expand_key(t_global *g, char *subword)
 	return (expand_key);
 }
 
+char	*get_var_value(t_global *g, char *key)
+{
+	int		i;
+	char	**env;
+	size_t	key_len;
+
+	i = 0;
+	env = g->env;
+	key_len = ft_strlen(key);
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
+			return (env[i] + key_len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
 int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 {
 	int		count;
@@ -37,9 +55,7 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, &subw[1]);
-	printf("expand_key = %s\n", expand_key);
-	expand_value = getenv(expand_key);
-	printf("expand_value = %s\n", expand_value);
+	expand_value = get_var_value(g, expand_key);
 	count = ft_strlen(expand_key) + 1;
 	if (subw[1] == '?')
 	{
@@ -94,14 +110,14 @@ int	handle_expand(t_global *g, t_cmds *cmds)
 	cmd = cmds->topcmd;
 	while (cmd)
 	{
-		subtok = cmd->subtok;
+		subtok = *(cmd->subtok);
 		while (subtok)
 		{
 			if (subtok->varenv)
 			{
 				if (!check_dollar_alone(subtok))
 					new_subw_expand(g, subtok);
-				if (handle_dlt_subtok(&cmds->topcmd->subtok, &subtok))
+				if (handle_dlt_subtok(cmds->topcmd->subtok, &subtok))
 					continue ;
 			}
 			subtok = subtok->next;

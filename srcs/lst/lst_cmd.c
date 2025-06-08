@@ -6,20 +6,20 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 18:00:29 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 21:31:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_cmd	*lstnew_nd_cmd(t_global *g, t_subtok *nd)
+t_cmd	*lstnew_nd_cmd(t_global *g, t_tok_nd *nd)
 {
 	t_cmd	*new;
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
-	new->subtok = nd;
+	new->subtok = &nd->top;
 	new->next = NULL;
 	return (new);
 }
@@ -38,7 +38,7 @@ void	lstfree_cmd(t_cmd *top)
 	}
 }
 
-void	lstadd_back_cmd(t_global *g, t_cmd **top, t_subtok *nd)
+void	lstadd_back_cmd(t_global *g, t_cmd **top, t_tok_nd *nd)
 {
 	t_cmd	*tmp;
 

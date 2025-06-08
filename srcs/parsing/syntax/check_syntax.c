@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 00:28:39 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:53:49 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	check_middle_err(t_tok_nd *first, t_tok_nd *next, t_global *g)
             return (0);
     }
 	else if (first->type == PAREN_CLOSE && next && is_cmd(next->type))
-		write_syntax_error(g, first->top);
+		write_syntax_error(g, next->top);
 	else if (first->type == PAREN_OPEN && next && next->type == PAREN_CLOSE)
-		write_syntax_error(g, first->top);
+		write_syntax_error(g, next->top);
 	else if (first->type == PAREN_CLOSE && next && next->type == PAREN_OPEN)
-		write_syntax_error(g, first->top);
+		write_syntax_error(g, next->top);
 	else
 		return (0);
 	return (1);

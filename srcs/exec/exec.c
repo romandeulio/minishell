@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 03:45:28 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 20:16:17 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:26:15 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	exec_ast(t_global *g, t_ast *ast)
 		return (g->exit_code);
 	if (ast->type == PIPE)
 		return (exec_pipe(g, ast->left, ast->right));
+    if (ast->type == PAREN_OPEN)
+		return (exec_subshell(g, ast->right));
 	if (ast->type == CMD)
 		return (exec_cmd(g, ast->cmds));
 	g->exit_code = exec_ast(g, ast->left);

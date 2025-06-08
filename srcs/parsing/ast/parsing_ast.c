@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 11:44:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:48:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 			cur = cur->next;
 		}
 		else if (!is_parenthesis(cur->type))
-            lstadd_back_cmd(g, &cmds->topcmd, cur->top);
+            lstadd_back_cmd(g, &cmds->topcmd, cur);
 		if (cur == end)
 			break ;
 		cur = cur->next;
@@ -62,7 +62,8 @@ t_ast	*parsing_ast(t_global *g, t_tok_nd *start, t_tok_nd *end)
 		return (create_ast_cmd(g, pivot, end));
     }
 	nd_ast = create_ast_op(g, pivot);
-	nd_ast->left = parsing_ast(g, start, pivot->prev);
+    if (pivot->type != PAREN_OPEN)
+	    nd_ast->left = parsing_ast(g, start, pivot->prev);
 	nd_ast->right = parsing_ast(g, pivot->next, end);
 	return (nd_ast);
 }

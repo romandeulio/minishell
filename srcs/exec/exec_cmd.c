@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 20:13:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:08:45 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 {
     exec_cmdfile(g, cmds);
     check_pathname(g, path);
-    // free_before_execve(g);
 	if (execve(path, args, g->env) == -1)
 	{
 		free(path);
@@ -44,8 +43,6 @@ int exec_cmd(t_global *g, t_cmds *cmds)
 
     if (!handle_expand(g, cmds))
         return (0);
-    printf("cmds = %p\n", cmds);
-    printf("cmd = %p\n", cmds->topcmd);
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (check_builtin(g, cmds, g->tmp.cmd_arg))

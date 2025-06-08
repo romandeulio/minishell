@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 20:13:37 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/08 01:48:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	print_token(t_global *g)
 		j = 1;
 		subtok = nd->top;
 		printf("Word %d/%d :\n", i++, size);
+		printf("nd->paren_lvl = %d\n", nd->paren_lvl);
 		while (subtok)
 		{
 			if (j > 1)
@@ -134,12 +135,12 @@ void	print_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("  \033[1;4;34m[CMD #%d]\033[0m\n", i++);
-		print_subtok(cmd->subtok);
+		print_subtok(*(cmd->subtok));
 		cmd = cmd->next;
 	}
 }
 
-void	print_ast(t_ast *ast)
+void	print_ast(t_ast *ast, const char *branch_label)
 {
 	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
 			"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR",
@@ -147,9 +148,8 @@ void	print_ast(t_ast *ast)
 
 	if (!ast)
 		return ;
-	printf("\n\033[1;4;44m=== AST NODE ===\033[0m\n");
+	printf("\n\033[1;4;44m=== AST NODE (%s) ===\033[0m\n", branch_label);
 	printf("\033[1;32m%-16s\033[0m : %s\n", "type", type_name[ast->type]);
-	printf("\033[1;32m%-16s\033[0m : %d\n", "subshell_lvl", ast->subshell_lvl);
 	if (ast->cmds)
 	{
 		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
@@ -160,8 +160,8 @@ void	print_ast(t_ast *ast)
 		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
 			type_name[ast->cmds->redir]);
 	}
-	print_ast(ast->left);
-	print_ast(ast->right);
+	print_ast(ast->left, "left");
+	print_ast(ast->right, "right");
 }
 
 void	parsing(t_global *g)
@@ -171,8 +171,7 @@ void	parsing(t_global *g)
 
 	//printf("\033[1;32mNOUVELLE COMMANDE :\033[0m\n");
 	parsing_tokens(g);
-	// handle_expand(g);
-	//print_token(g); // temporaire
+	// print_token(g); // temporaire
 	if (g->error_line || check_syntax(g, 1))
 		return ;
 	lstinit_prev_node_tok(g->tok_stk.top);
@@ -180,7 +179,7 @@ void	parsing(t_global *g)
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
 	// printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	// print_ast(g->ast);
+	// print_ast(g->ast, "root");
 }
 
 void	minishell(t_global *g)

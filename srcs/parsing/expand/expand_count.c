@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:13:52 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 15:15:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/07 22:17:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	cnt_expand_dollar(t_global *g, char *subword, int *count)
 	char	*expand_value;
 
 	expand_key = get_expand_key(g, (subword + 1));
-	expand_value = getenv(expand_key);
+	expand_value = get_var_value(g, expand_key);
 	i = ft_strlen(expand_key) + 1;
 	if (subword[1] == '?')
 	{
