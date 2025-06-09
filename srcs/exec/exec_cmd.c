@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/08 01:08:45 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/09 15:45:26 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,14 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 	if (execve(path, args, g->env) == -1)
 	{
 		free(path);
-		exit_free(g, "Execve", -1, 1);
+		if (errno == EISDIR)
+			exit_free(g, "Execve", -1, 126);
+		else if (errno == ENOENT)
+			exit_free(g, "Execve", -1, 127);
+		else if (errno == EACCES)
+			exit_free(g, "Execve", -1, 126);
+		else
+			exit_free(g, "Execve", -1, 1);
 	}
 }
 
@@ -45,8 +52,8 @@ int exec_cmd(t_global *g, t_cmds *cmds)
         return (0);
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	if (check_builtin(g, cmds, g->tmp.cmd_arg))
-		return (0);
+	if (is_builtin(g->tmp.cmd_arg))
+		return (check_builtin(g, cmds, g->tmp.cmd_arg));
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
 		exec_cmd_fork(g, cmds, pathname, g->tmp.cmd_arg);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:27:35 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 14:31:30 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/09 15:14:41 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ void restore_std(t_global *g)
 }
 
 int	check_builtin(t_global *g, t_cmds *cmds, char **cmd_arg)
-{
-    if (!is_builtin(cmd_arg))
-        return (0);
-    
+{    
     save_std(g);
     exec_cmdfile(g, cmds);
 	if (!ft_strcmp("cd", cmd_arg[0]))
@@ -68,5 +65,5 @@ int	check_builtin(t_global *g, t_cmds *cmds, char **cmd_arg)
     else if (!ft_strcmp("unset", cmd_arg[0]))
         ft_unset(g, cmd_arg);
     restore_std(g);
-	return (1);
+	return (g->exit_code);
 }
