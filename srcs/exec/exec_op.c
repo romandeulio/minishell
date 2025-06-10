@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/09 15:17:27 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:17:46 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	exec_subshell(t_global *g, t_ast *ast_right)
 	if (pid == 0)
 	{
 		code = exec_ast(g, ast_right);
-        free_in_fork(g);
-        exit(code);
+		free_in_fork(g);
+		exit(code);
 	}
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
@@ -31,16 +31,16 @@ int	exec_subshell(t_global *g, t_ast *ast_right)
 
 void	exec_pipe_fork(t_global *g, t_ast *ast, int p_fd[2], int n_cmd)
 {
-    int code;
-    
+	int	code;
+
 	if (n_cmd == 1)
 	{
 		dup2(p_fd[1], STDOUT_FILENO);
 		close(p_fd[1]);
 		close(p_fd[0]);
 		code = exec_ast(g, ast);
-        free_in_fork(g);
-        exit(code);
+		free_in_fork(g);
+		exit(code);
 	}
 	else if (n_cmd == 2)
 	{
@@ -48,8 +48,8 @@ void	exec_pipe_fork(t_global *g, t_ast *ast, int p_fd[2], int n_cmd)
 		close(p_fd[0]);
 		close(p_fd[1]);
 		code = exec_ast(g, ast);
-        free_in_fork(g);
-        exit(code);
+		free_in_fork(g);
+		exit(code);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 22:01:06 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:14:10 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ void	ft_cd(t_global *g, char **cmd)
 {
 	int	code;
 
+	if (tab_size(cmd) > 2)
+	{
+		ft_putendl_fd("exit", 1);
+		ft_putendl_fd("exit: too many arguments", 2);
+		g->exit_code = 1;
+		return ;
+	}
 	code = change_path(cmd[1]);
 	g->exit_code = code;
 	if (!code)

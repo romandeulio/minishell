@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_tok.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:51:30 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:06:05 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:18:10 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	lstinit_prev_node_tok(t_tok_nd *nd)
 	}
 }
 
-void lstdelete_tok_nd(t_tok_nd **top, t_tok_nd *dlt)
+void	lstdelete_tok_nd(t_tok_nd **top, t_tok_nd *dlt)
 {
-	t_tok_nd *cur;
-	t_tok_nd *prev;
+	t_tok_nd	*cur;
+	t_tok_nd	*prev;
 
 	if (!top || !*top || !dlt)
 		return ;

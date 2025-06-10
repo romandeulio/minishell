@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:31:48 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:18:00 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	lstadd_back_cmd(t_global *g, t_cmd **top, t_tok_nd *nd)
 	tmp->next = lstnew_nd_cmd(g, nd);
 }
 
-void lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
+void	lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
 {
-	t_cmd *cur;
-	t_cmd *prev;
+	t_cmd	*cur;
+	t_cmd	*prev;
 
 	if (!top || !*top || !dlt)
 		return ;

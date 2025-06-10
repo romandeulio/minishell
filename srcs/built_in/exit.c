@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:51:04 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 22:00:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:09:01 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	ft_exit(t_global *g, char **cmd)
 	}
 	else
 	{
-		ft_printf("exit: %s: numeric argument required\n", cmd[1]);
+		ft_putendl_fd("exit", 1);
+		ft_putstr_fd("exit:", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putendl_fd(": numeric argument required", 2);
 		exit_free(g, NULL, 2, 2);
 	}
 }

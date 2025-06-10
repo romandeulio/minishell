@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:17 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/06 13:10:55 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:15:15 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_export(t_global *g, char **cmd)
 
 int	cmd_is_valid(char *cmd)
 {
-	int i;
+	int	i;
 
 	if (!cmd || (!ft_isalpha(cmd[0]) && cmd[0] != '_'))
 		return (0);

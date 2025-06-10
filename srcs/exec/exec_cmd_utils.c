@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:35:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:15:33 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	char	*real_path;
 	char	**all_path;
 
-    if (access(join_subword(g, *(top->subtok)), X_OK) == 0)
-        return (join_subword(g, *(top->subtok)));
-    path_line = getenv("PATH");
+	if (access(join_subword(g, *(top->subtok)), X_OK) == 0)
+		return (join_subword(g, *(top->subtok)));
+	path_line = getenv("PATH");
 	all_path = ft_split(path_line, ':');
 	slash_cmd = ft_strjoin("/", join_subword(g, *(top->subtok)));
 	i = 0;
@@ -87,13 +87,13 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	return (cmd_arg);
 }
 
-void check_pathname(t_global *g, char *pathname)
+void	check_pathname(t_global *g, char *pathname)
 {
-    if (access(pathname, X_OK) == -1)
-    {
-        ft_putstr_fd(pathname, 2);
-        ft_putendl_fd(": command not found", 2);
-        free(pathname);
-        exit_free(g, NULL, 2, 127);
-    }
+	if (access(pathname, X_OK) == -1)
+	{
+		ft_putstr_fd(pathname, 2);
+		ft_putendl_fd(": command not found", 2);
+		free(pathname);
+		exit_free(g, NULL, 2, 127);
+	}
 }

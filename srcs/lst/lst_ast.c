@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_ast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:42:48 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/08 00:33:58 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:17:56 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_ast	*create_ast_cmd(t_global *g, t_tok_nd *start, t_tok_nd *end)
 {
-	t_ast		*new;
-    
+	t_ast	*new;
+
 	new = malloc(sizeof(t_ast));
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
@@ -40,19 +40,19 @@ t_ast	*create_ast_op(t_global *g, t_tok_nd *pivot)
 	return (new);
 }
 
-void free_ast(t_ast *ast)
+void	free_ast(t_ast *ast)
 {
-    if (!ast)
-        return ;
-    free_ast(ast->left);
-    free_ast(ast->right);
+	if (!ast)
+		return ;
+	free_ast(ast->left);
+	free_ast(ast->right);
 	if (ast->cmds)
 	{
-        if (ast->cmds->heredoc_fd != -1)
-            close(ast->cmds->heredoc_fd);
-        lstfree_cmd(ast->cmds->topcmd);
+		if (ast->cmds->heredoc_fd != -1)
+			close(ast->cmds->heredoc_fd);
+		lstfree_cmd(ast->cmds->topcmd);
 		free(ast->cmds->file);
 	}
-    free(ast->cmds);
-    free(ast);
+	free(ast->cmds);
+	free(ast);
 }
