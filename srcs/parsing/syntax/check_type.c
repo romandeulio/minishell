@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/28 17:45:52 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:50:54 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_operator(t_type t)
 	return (0);
 }
 
-int is_weak_op(t_type t)
+int	is_weak_op(t_type t)
 {
 	if (t == SEMICOLON)
 		return (1);

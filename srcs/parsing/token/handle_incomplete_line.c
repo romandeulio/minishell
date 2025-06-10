@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_incomplete_line.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:33:07 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 11:47:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:48:52 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
 
 void	handle_incomplete_bs(t_global *g)
 {
@@ -88,7 +87,7 @@ void	handle_incomplete_paren2(t_global *g)
 {
 	char	*line_separator;
 	char	*line_skip_sp;
-	
+
 	line_skip_sp = skip_spaces(g->rd.line);
 	if (line_skip_sp[0] && !(line_skip_sp[0] == '(' || line_skip_sp[0] == ')'))
 	{
@@ -105,7 +104,6 @@ void	handle_incomplete_paren2(t_global *g)
 	if (!g->rd.full_line)
 		exit_free(g, "Malloc", -1, 1);
 }
-
 
 void	handle_incomplete_paren(t_global *g)
 {

@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/03 21:18:52 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:49:21 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	is_operator_endline(t_tok_stk *stk)
 
 int	is_end_line(t_tok_stk *stk)
 {
-	if (stk->paren_lvl <= 0 && stk->state == NORMAL
-		&& stk->backslash == 0 && !is_operator_endline(stk))
+	if (stk->paren_lvl <= 0 && stk->state == NORMAL && stk->backslash == 0
+		&& !is_operator_endline(stk))
 		return (1);
 	return (0);
 }
@@ -56,11 +56,11 @@ void	add_semicolon(t_global *g)
 	lstadd_back_tok(&g->tok_stk, nd);
 }
 
-void add_nl_last_nd(t_global *g)
+void	add_nl_last_nd(t_global *g)
 {
-	t_tok_nd *last_nd;
-	t_subtok *last_subtok;
-	char *new;
+	t_tok_nd	*last_nd;
+	t_subtok	*last_subtok;
+	char		*new;
 
 	last_nd = lstget_last_nd_tok(g->tok_stk.top);
 	if (!last_nd)

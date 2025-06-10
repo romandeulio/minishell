@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_paren_syntax.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:19:25 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/01 15:55:02 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:50:43 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	check_paren_expr(t_tok_nd *cur)
 	return (0);
 }
 
-int check_paren_close(t_global *g, t_tok_nd *first)
+int	check_paren_close(t_global *g, t_tok_nd *first)
 {
-    t_tok_nd	*cur;
+	t_tok_nd	*cur;
 	int			lvl;
 
 	cur = first;
@@ -88,16 +88,16 @@ int	check_paren_err(t_global *g, t_tok_nd *first)
 {
 	if (check_paren_close(g, first))
 		return (1);
-    // J'enleve car je ne gere pas quand il y a plus de 2 parenthese d'affiler,
-    // (Je ne sais pas encore comment gerer ca)
-    // et je ne gere pas les espaces entre les doubles parenthese 
-    // (facile a gerer, je peux rajouter un ou "((" ou "))")
-    // else if (check_paren_expr(first))
-    // {
-    //     ft_putstr_fd("minishell: syntax error: ", 2);
-    //     ft_putstr_fd("arithmetic commands ((...)) are not supported\n", 2);
-    //     g->error_line = 1;
-    //     return (1);
-    // }
-    return (0);
+	// J'enleve car je ne gere pas quand il y a plus de 2 parenthese d'affiler,
+	// (Je ne sais pas encore comment gerer ca)
+	// et je ne gere pas les espaces entre les doubles parenthese
+	// (facile a gerer, je peux rajouter un ou "((" ou "))")
+	// else if (check_paren_expr(first))
+	// {
+	//     ft_putstr_fd("minishell: syntax error: ", 2);
+	//     ft_putstr_fd("arithmetic commands ((...)) are not supported\n", 2);
+	//     g->error_line = 1;
+	//     return (1);
+	// }
+	return (0);
 }

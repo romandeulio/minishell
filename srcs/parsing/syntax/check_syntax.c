@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:02:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/08 01:53:49 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:50:51 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ int	check_middle_err(t_tok_nd *first, t_tok_nd *next, t_global *g)
 	else if (is_redir(first->type) && next && !is_cmd(next->type))
 		write_syntax_error(g, first->next->top);
 	else if (!is_operator(first->type) && !is_parenthesis(first->type) && next)
-    {
-        if (is_cmd(next->type) && next->next && next->next->type == PAREN_OPEN)
-            write_syntax_error(g, next->next->top);
-        else if (next->type == PAREN_OPEN && next->next)
-            write_syntax_error(g, next->next->top);
-        else if (next->type == PAREN_OPEN && !next->next)
-            write_syntax_error_newline(g);
-        else
-            return (0);
-    }
+	{
+		if (is_cmd(next->type) && next->next && next->next->type == PAREN_OPEN)
+			write_syntax_error(g, next->next->top);
+		else if (next->type == PAREN_OPEN && next->next)
+			write_syntax_error(g, next->next->top);
+		else if (next->type == PAREN_OPEN && !next->next)
+			write_syntax_error_newline(g);
+		else
+			return (0);
+	}
 	else if (first->type == PAREN_CLOSE && next && is_cmd(next->type))
 		write_syntax_error(g, next->top);
 	else if (first->type == PAREN_OPEN && next && next->type == PAREN_CLOSE)
