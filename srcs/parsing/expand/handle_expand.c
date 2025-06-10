@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 22:19:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	count = ft_strlen(expand_key) + 1;
 	if (subw[1] == '?')
 	{
-		ft_strcpy(new_subw, ft_itoa(g->exit_code));
-		*idx_newsubw += ft_strlen(ft_itoa(g->exit_code));
+		ft_strcpy(new_subw, ft_itoa(g_exit_code));
+		*idx_newsubw += ft_strlen(ft_itoa(g_exit_code));
 		count = 2;
 	}
 	else if (ft_isdigit((int)subw[1]))

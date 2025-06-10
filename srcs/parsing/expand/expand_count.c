@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_count.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:13:52 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 22:17:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	cnt_expand_dollar(t_global *g, char *subword, int *count)
 	i = ft_strlen(expand_key) + 1;
 	if (subword[1] == '?')
 	{
-		*count += ft_strlen(ft_itoa(g->exit_code));
+		*count += ft_strlen(ft_itoa(g_exit_code));
 		i = 2;
 	}
 	else if (ft_isdigit((int)subword[1]))

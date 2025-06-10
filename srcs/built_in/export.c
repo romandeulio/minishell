@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:17 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 11:15:15 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_export(t_global *g, char **cmd)
 	if (!cmd_is_valid(cmd[1]))
 	{
 		ft_putendl_fd("export: not a valid identifier", 2);
-		g->exit_code = 1;
+		g_exit_code = 1;
 		return ;
 	}
 	env_add(g, cmd[1]);

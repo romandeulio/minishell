@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 10:57:24 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	exec_heredoc(t_global *g, char *stop)
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		close(fd[0]);
-		g_signal = SIGINT;
+		g_exit_code = SIGINT;
 		return (-1);
 	}
 	return (fd[0]);

@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:27:35 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 11:15:27 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ int	check_builtin(t_global *g, t_cmds *cmds, char **cmd_arg)
 	else if (!ft_strcmp("unset", cmd_arg[0]))
 		ft_unset(g, cmd_arg);
 	restore_std(g);
-	return (g->exit_code);
+	return (g_exit_code);
 }

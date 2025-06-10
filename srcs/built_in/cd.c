@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 11:14:10 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	ft_cd(t_global *g, char **cmd)
 	{
 		ft_putendl_fd("exit", 1);
 		ft_putendl_fd("exit: too many arguments", 2);
-		g->exit_code = 1;
+		g_exit_code = 1;
 		return ;
 	}
 	code = change_path(cmd[1]);
-	g->exit_code = code;
+	g_exit_code = code;
 	if (!code)
 		change_env(g);
 }
