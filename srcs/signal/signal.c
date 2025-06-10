@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:05:16 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	handle_sig_no_interactif(void)
 	if (last_sig)
 		kill(0, last_sig); // faire une fonction qui kill
 							// et libere la memoire du parent
-	exit(last_code);
+	exit(last_code + 128);
 }
 
 void	handle_signal(t_global *g)
