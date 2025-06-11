@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_op.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:01 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/09 15:17:27 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:56:14 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

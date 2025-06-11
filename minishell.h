@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 13:43:40 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 15:56:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,7 @@ int								find_cmd_to_remove(char **env, char *cmd);
 int								is_builtin(char **cmd_arg);
 void							save_std(t_global *g);
 void							restore_std(t_global *g);
-int								check_builtin(t_global *g, t_cmds *cmds,
-									char **cmd_arg);
+int								check_builtin(t_global *g, char **cmd_arg);
 
 // exec_cmd_utils.c
 char							*get_path_line(t_global *g, char *line);
@@ -207,8 +206,6 @@ void							check_pathname(t_global *g, char *pathname);
 // exec_cmd.c
 void							exec_cmd_fork(t_global *g, t_cmds *cmds,
 									char *path, char **args);
-int								check_builtin(t_global *g, t_cmds *cmds,
-									char **cmd_arg);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_cmdfile.c

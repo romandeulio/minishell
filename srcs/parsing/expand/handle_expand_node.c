@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 17:32:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 15:45:46 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur)
 {
 	t_cmd   *tmp;
 
-	if (!((*cur)->subcmd))
+	if (!(*cur)->subcmd)
 	{
 		tmp = *cur;
 		*cur = (*cur)->next;
