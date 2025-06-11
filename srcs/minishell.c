@@ -6,13 +6,13 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 15:47:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:25:18 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
+volatile sig_atomic_t	g_exit_code = 0;
 
 void	print_token(t_global *g)
 {
@@ -199,7 +199,7 @@ void	minishell(t_global *g)
 			parsing(g);
 			check_and_add_history(g->rd.full_line);
 			if (!g->error_line)
-				g->exit_code = exec_ast(g, g->ast);
+				g_exit_code = exec_ast(g, g->ast);
 		}
 		reinit_new_line(g);
 	}

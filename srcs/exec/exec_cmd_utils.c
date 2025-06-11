@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 15:54:56 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:23:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	return (cmd_arg);
 }
 
-void check_pathname(t_global *g, char *pathname)
+void	check_pathname(t_global *g, char *pathname)
 {
-    if (access(pathname, X_OK) == -1)
-    {
-        ft_putstr_fd(pathname, 2);
-        ft_putendl_fd(": command not found", 2);
-        free(pathname);
-        exit_free(g, NULL, 2, 127);
-    }
+	if (access(pathname, X_OK) == -1)
+	{
+		ft_putstr_fd(pathname, 2);
+		ft_putendl_fd(": command not found", 2);
+		free(pathname);
+		exit_free(g, NULL, 2, 127);
+	}
 }

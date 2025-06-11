@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:45:55 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 17:34:00 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:23:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	lstadd_back_subtok(t_subtok **top, t_subtok *nd)
 	tmp->next = nd;
 }
 
-void lstdelete_subtok(t_subtok **top, t_subtok *dlt)
+void	lstdelete_subtok(t_subtok **top, t_subtok *dlt)
 {
-	t_subtok *cur;
-	t_subtok *prev;
+	t_subtok	*cur;
+	t_subtok	*prev;
 
 	if (!top || !*top || !dlt)
 		return ;

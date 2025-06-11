@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 15:46:04 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:24:35 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	count = ft_strlen(expand_key) + 1;
 	if (subw[1] == '?')
 	{
-		ft_strcpy(new_subw, ft_itoa(g->exit_code));
-		*idx_newsubw += ft_strlen(ft_itoa(g->exit_code));
+		ft_strcpy(new_subw, ft_itoa(g_exit_code));
+		*idx_newsubw += ft_strlen(ft_itoa(g_exit_code));
 		count = 2;
 	}
 	else if (ft_isdigit((int)subw[1]))

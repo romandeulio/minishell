@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_len_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:18:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/05/26 12:47:59 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:48:38 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	count_sep(char *line, int *i, int *count, t_tok_stk *stk)
 	if (sep)
 	{
 		if (*i == 0)
-        {
+		{
 			*i += sep;
-            *count += sep;
-        }
+			*count += sep;
+		}
 		return (1);
 	}
 	return (0);

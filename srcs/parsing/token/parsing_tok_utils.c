@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tok_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 11:49:04 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:48:32 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int	save_sep(char *line, t_tok_nd *nd)
 	return (i);
 }
 
-void realloc_subword(char *line,  t_global *g, t_subtok *last)
+void	realloc_subword(char *line, t_global *g, t_subtok *last)
 {
-	int size;
-	int total_len;
-	char *new_subword;
-	t_tok_stk *stk;
-	
+	int			size;
+	int			total_len;
+	char		*new_subword;
+	t_tok_stk	*stk;
+
 	stk = &g->tok_stk;
 	size = ft_strlen(last->subword);
 	total_len = size + count_size_subword(line, stk);
@@ -70,12 +70,12 @@ void realloc_subword(char *line,  t_global *g, t_subtok *last)
 	last->subword = new_subword;
 }
 
-t_subtok *get_and_addback_subtok(char *line, t_global *g, t_tok_nd *nd)
+t_subtok	*get_and_addback_subtok(char *line, t_global *g, t_tok_nd *nd)
 {
-	int size;
-	t_subtok *last;
-	t_tok_stk *stk;
-	
+	int			size;
+	t_subtok	*last;
+	t_tok_stk	*stk;
+
 	size = count_size_subword(line, &g->tok_stk);
 	stk = &g->tok_stk;
 	last = lstget_last_nd_subtok(nd->top);
@@ -92,7 +92,7 @@ t_subtok *get_and_addback_subtok(char *line, t_global *g, t_tok_nd *nd)
 	return (last);
 }
 
-t_tok_nd *get_and_addback_nd(t_global *g)
+t_tok_nd	*get_and_addback_nd(t_global *g)
 {
 	t_tok_stk	*stk;
 	t_tok_nd	*new;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:49:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 22:17:19 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:18:47 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 int	is_num_str(char *str)
 {
 	if (!str || *str == '\0')
-        return (0);
-    if (*str == '-' || *str == '+')
-        str++;
-    while (*str)
-    {
-        if (!ft_isdigit(*str))
-            return (0);
-        str++;
-    }
-    return (1);
+		return (0);
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 void	ft_strcpy(char *dst, char *src)
@@ -50,16 +50,16 @@ void	free_tabstr(char **str)
 	free(str);
 }
 
-int tab_size (char **array)
+int	tab_size(char **array)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!array)
-        return (0);
-    while (array[i])
-        i++;
-    return (i);
+	i = 0;
+	if (!array)
+		return (0);
+	while (array[i])
+		i++;
+	return (i);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reinit_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 20:35:46 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/04 20:40:17 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:19:16 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	reinit_sig_heredoc(void)
 	sa.sa_flags = 0;
 	sa.sa_handler = SIG_DFL;
 	sigaction(SIGINT, &sa, NULL);
-    sa.sa_handler = SIG_IGN;
+	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
 

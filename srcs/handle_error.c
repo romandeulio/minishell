@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:20:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 01:58:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	write_endline_error(t_global *g)
 	t_state	state;
 
 	g->error_line = 1;
-	g->exit_code = 2;
+	g_exit_code = 2;
 	state = g->tok_stk.state;
 	if (state != NORMAL)
 	{
@@ -33,7 +33,7 @@ void	write_endline_error(t_global *g)
 void	write_syntax_error(t_global *g, t_subtok *subtok)
 {
 	g->error_line = 1;
-	g->exit_code = 2;
+	g_exit_code = 2;
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	while (subtok)
 	{
@@ -46,7 +46,7 @@ void	write_syntax_error(t_global *g, t_subtok *subtok)
 void	write_syntax_error_newline(t_global *g)
 {
 	g->error_line = 1;
-	g->exit_code = 2;
+	g_exit_code = 2;
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd("newline", 2);
 	ft_putstr_fd("'\n", 2);

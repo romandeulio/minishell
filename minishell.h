@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:25:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # include <unistd.h>
 
 // global
-extern volatile sig_atomic_t	g_signal;
+extern volatile sig_atomic_t	g_exit_code;
 
 // struct
 typedef struct s_rdline
@@ -145,7 +145,6 @@ typedef struct s_global
 {
 	char						**env;
 	int							error_line;
-	int							exit_code;
 	int							is_interactive;
 	struct termios				original;
 	t_tmp						tmp;
@@ -204,6 +203,7 @@ char							**get_cmds_in_tab(t_global *g, t_cmd *top);
 void							check_pathname(t_global *g, char *pathname);
 
 // exec_cmd.c
+void	check_perm(t_global *g, struct stat file_info, int staterr, char *cmd);
 void							exec_cmd_fork(t_global *g, t_cmds *cmds,
 									char *path, char **args);
 int								exec_cmd(t_global *g, t_cmds *cmds);
@@ -479,6 +479,7 @@ void							handle_signal(t_global *g);
 /*-------------------------------Utils-------------------------------*/
 
 // utils_minishell.c
+void							print_error(t_global *g);
 
 // utils.c
 int								is_num_str(char *str);

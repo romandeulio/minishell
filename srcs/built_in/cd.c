@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 17:19:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:22:50 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@ void	ft_cd(t_global *g, char **cmd)
 {
 	int	code;
 
+	if (tab_size(cmd) > 2)
+	{
+		ft_putendl_fd("exit", 1);
+		ft_putendl_fd("exit: too many arguments", 2);
+		g_exit_code = 1;
+		return ;
+	}
 	code = change_path(cmd[1]);
-	g->exit_code = code;
+	g_exit_code = code;
 	if (!code)
 		change_env(g);
 }

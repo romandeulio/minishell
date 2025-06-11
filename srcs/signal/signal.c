@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 14:36:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 22:05:16 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	interpret_signal(t_global *g)
 {
-	if (g_signal == SIGINT && !g->is_interactive)
+	if (g_exit_code == SIGINT && !g->is_interactive)
 		ft_kill(g, 0, SIGINT);
-	else if (g_signal == SIGQUIT && !g->is_interactive)
+	else if (g_exit_code == SIGQUIT && !g->is_interactive)
 		ft_kill(g, 0, SIGQUIT);
-	g_signal = 0;
+	g_exit_code = 0;
 }
 // Fonction a mettre apres tout nos fork, en mode non interactif
 void	handle_sig_no_interactif(void)
@@ -47,7 +47,7 @@ void	handle_sig_no_interactif(void)
 	if (last_sig)
 		kill(0, last_sig); // faire une fonction qui kill
 							// et libere la memoire du parent
-	exit(last_code);
+	exit(last_code + 128);
 }
 
 void	handle_signal(t_global *g)

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 15:46:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:24:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ void	read_heredoc_redir(int fd[2], char *stop)
 		if (!line || !ft_strcmp(line, stop))
 			break ;
 		write(fd[1], line, ft_strlen(line));
-        write(fd[1], "\n", 1);
+		write(fd[1], "\n", 1);
 		free(line);
 	}
 	free(line);
 	close(fd[1]);
-    close(fd[0]);
+	close(fd[0]);
 }
 
 int	exec_heredoc(t_global *g, char *stop)
@@ -95,9 +95,9 @@ int	exec_heredoc(t_global *g, char *stop)
 	if (pid == 0)
 	{
 		reinit_sig_heredoc();
-        disable_echoctl();
+		disable_echoctl();
 		read_heredoc_redir(fd, stop);
-        enable_echoctl();
+		enable_echoctl();
 		exit(0);
 	}
 	close(fd[1]);
@@ -105,7 +105,7 @@ int	exec_heredoc(t_global *g, char *stop)
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		close(fd[0]);
-		g_signal = SIGINT;
+		g_exit_code = SIGINT;
 		return (-1);
 	}
 	return (fd[0]);
@@ -116,10 +116,10 @@ void	check_heredoc(t_global *g, t_tok_nd *first)
 	t_tok_nd	*cur;
 	t_tok_nd	*next;
 
-    if (first)
-	    cur = first;
-    else
-        cur = g->tok_stk.top;
+	if (first)
+		cur = first;
+	else
+		cur = g->tok_stk.top;
 	while (cur)
 	{
 		next = cur->next;
