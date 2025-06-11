@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:35:51 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 02:00:05 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	char	*real_path;
 	char	**all_path;
 
-    if (access(join_subword(g, *(top->subtok)), X_OK) == 0)
-        return (join_subword(g, *(top->subtok)));
+    if (access(join_subw_subcmd(g, top->subcmd), X_OK) == 0)
+        return (join_subw_subcmd(g, top->subcmd));
     path_line = getenv("PATH");
 	all_path = ft_split(path_line, ':');
-	slash_cmd = ft_strjoin("/", join_subword(g, *(top->subtok)));
+	slash_cmd = ft_strjoin("/", join_subw_subcmd(g, top->subcmd));
 	i = 0;
 	while (all_path[i])
 	{
@@ -53,7 +53,7 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	}
 	free_tabstr(all_path);
 	free(slash_cmd);
-	return (join_subword(g, *(top->subtok)));
+	return (join_subw_subcmd(g, top->subcmd));
 }
 
 int	count_arg(t_cmd *top)
@@ -80,7 +80,7 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	i = 0;
 	while (top)
 	{
-		cmd_arg[i++] = join_subword(g, *(top->subtok));
+		cmd_arg[i++] = join_subw_subcmd(g, top->subcmd);
 		top = top->next;
 	}
 	cmd_arg[i] = NULL;

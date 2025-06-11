@@ -6,21 +6,21 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:57:55 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/10 17:32:23 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-int	handle_dlt_subtok(t_subtok **top, t_subtok **subtok)
+int	handle_dlt_subcmd(t_subcmd **top, t_subcmd **subcmd)
 {
-	t_subtok	*tmp;
+	t_subcmd	*tmp;
 
-	if (!(*subtok)->subword[0])
+	if (!(*subcmd)->subword[0])
 	{
-		tmp = *subtok;
-		*subtok = (*subtok)->next;
-		lstdelete_subtok(top, tmp);
+		tmp = *subcmd;
+		*subcmd = (*subcmd)->next;
+		lstdelete_subcmd(top, tmp);
 		return (1);
 	}
 	return (0);
@@ -30,7 +30,7 @@ int	handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur)
 {
 	t_cmd   *tmp;
 
-	if (!*((*cur)->subtok))
+	if (!((*cur)->subcmd))
 	{
 		tmp = *cur;
 		*cur = (*cur)->next;

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 22:21:34 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 02:03:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	check_heredoc(t_global *g, t_tok_nd *first)
 	{
 		next = cur->next;
 		if (cur->type == HERE_DOC && next && next->type == CMD)
-			next->heredoc_fd = exec_heredoc(g, join_subword(g, next->top));
+			next->heredoc_fd = exec_heredoc(g, join_subw_subtok(g, next->top));
         cur = next;
 	}
 }

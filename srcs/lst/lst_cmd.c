@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/07 21:31:48 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 13:47:40 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ t_cmd	*lstnew_nd_cmd(t_global *g, t_tok_nd *nd)
 	new = malloc(sizeof(t_cmd));
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
-	new->subtok = &nd->top;
+	if (nd)
+		new->subcmd = lstcpy_all_subtok(g, nd->top);
+	else
+		new->subcmd = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -33,6 +36,7 @@ void	lstfree_cmd(t_cmd *top)
 	while (cur)
 	{
 		tmp = cur->next;
+		lstfree_subcmd(&cur->subcmd);
 		free(cur);
 		cur = tmp;
 	}
@@ -53,10 +57,10 @@ void	lstadd_back_cmd(t_global *g, t_cmd **top, t_tok_nd *nd)
 	tmp->next = lstnew_nd_cmd(g, nd);
 }
 
-void lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
+void	lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
 {
-	t_cmd *cur;
-	t_cmd *prev;
+	t_cmd	*cur;
+	t_cmd	*prev;
 
 	if (!top || !*top || !dlt)
 		return ;
@@ -76,4 +80,44 @@ void lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
 		prev = cur;
 		cur = cur->next;
 	}
+}
+
+void	lstreplace_nd_cmd(t_cmd **top, t_cmd *old, t_cmd *new)
+{
+	t_cmd	*cur;
+	t_cmd	*prev;
+
+	if (!top || !*top || !old || !new)
+		return ;
+	cur = *top;
+	prev = NULL;
+	while (cur)
+	{
+		if (cur == old)
+		{
+			if (!prev)
+				*top = new;
+			else
+				prev->next = new;
+			while (new && new->next)
+				new = new->next;
+			new->next = cur->next;
+			free(cur);
+			break ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+}
+
+t_cmd	*lstget_last_nd_cmd(t_cmd *top)
+{
+	t_cmd	*tmp;
+
+	if (!top)
+		return (NULL);
+	tmp = top;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	return (tmp);
 }

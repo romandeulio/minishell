@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/09 15:45:26 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:34:56 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 
 void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 {
-    exec_cmdfile(g, cmds);
-    check_pathname(g, path);
+	exec_cmdfile(g, cmds);
+	check_pathname(g, path);
 	if (execve(path, args, g->env) == -1)
 	{
 		free(path);
+		free(args);
+		free_in_fork(g);
 		if (errno == EISDIR)
 			exit_free(g, "Execve", -1, 126);
 		else if (errno == ENOENT)
@@ -42,14 +44,15 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 	}
 }
 
-int exec_cmd(t_global *g, t_cmds *cmds)
+int	exec_cmd(t_global *g, t_cmds *cmds)
 {
 	pid_t	pid;
 	int		status;
 	char	*pathname;
 
-    if (!handle_expand(g, cmds))
-        return (0);
+	if (!handle_expand(g, cmds))
+		return (0);
+	handle_wildcard(g, cmds);
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
@@ -60,5 +63,5 @@ int exec_cmd(t_global *g, t_cmds *cmds)
 	free(pathname);
 	free_tabstr(g->tmp.cmd_arg);
 	waitpid(pid, &status, 0);
-    return (WEXITSTATUS(status));
+	return (WEXITSTATUS(status));
 }

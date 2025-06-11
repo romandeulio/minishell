@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/08 01:48:39 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 01:58:55 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
 {
-    cmds->file = join_subword(g, nd->next->top);
+    cmds->file = join_subw_subtok(g, nd->next->top);
     cmds->heredoc_fd = nd->next->heredoc_fd;
     cmds->redir = nd->type;
 }

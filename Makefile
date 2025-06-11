@@ -30,8 +30,8 @@ SRCS += srcs/exec/exec_builtin.c srcs/exec/exec_cmd_utils.c srcs/exec/exec_cmd.c
 		srcs/exec/exec_cmdfile.c srcs/exec/exec_op.c srcs/exec/exec.c \
 
 # lst
-SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subtok.c \
-		srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
+SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_subcmd.c \
+		srcs/lst/lst_subtok.c srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
 
 # parsing/ast
 SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
@@ -51,6 +51,10 @@ SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c 
 		srcs/parsing/token/handle_multi_line_utils.c \
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
+
+# parsing/wildcard
+SRCS += srcs/parsing/wildcard/check_pattern.c srcs/parsing/wildcard/wildcard_count.c \
+		srcs/parsing/wildcard/wildcard.c \
 
 # signal
 SRCS += srcs/signal/ft_kill.c srcs/signal/handle_termios.c srcs/signal/handler.c \

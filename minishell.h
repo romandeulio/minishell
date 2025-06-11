@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/09 15:32:47 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:43:40 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,18 @@ typedef struct s_tok_stk
 	int							backslash;
 }								t_tok_stk;
 
+typedef struct s_subcmd
+{
+	char						*subword;
+	t_state						state;
+	int							varenv;
+	int							wildcard;
+	struct s_subcmd				*next;
+}								t_subcmd;
+
 typedef struct s_cmd
 {
-	t_subtok					**subtok;
+	t_subcmd					*subcmd;
 	struct s_cmd				*next;
 }								t_cmd;
 
@@ -144,6 +153,8 @@ typedef struct s_global
 	t_tok_stk					tok_stk;
 	t_ast						*ast;
 }								t_global;
+
+void							print_ast(t_ast *ast, const char *branch_label);
 
 /*--------------------------------built_in-------------------------------*/
 
@@ -235,6 +246,19 @@ void							lstfree_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
 									t_tok_nd *nd);
 void							lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt);
+void							lstreplace_nd_cmd(t_cmd **top, t_cmd *old,
+									t_cmd *new);
+t_cmd							*lstget_last_nd_cmd(t_cmd *top);
+
+// lst_subcmd.c
+t_subcmd						*lstcpy_all_subtok(t_global *g,
+									t_subtok *subtok);
+t_subcmd						*lstnew_nd_subcmd(t_global *g, int size);
+void							lstfree_subcmd(t_subcmd **subcmd);
+void							lstadd_back_subcmd(t_subcmd **top,
+									t_subcmd *nd);
+void							lstdelete_subcmd(t_subcmd **top, t_subcmd *dlt);
+t_subcmd						*lstget_last_nd_subcmd(t_subcmd *top);
 
 // lst_subtok.c
 t_subtok						*lstnew_nd_subtok(int size, t_global *g);
@@ -269,8 +293,12 @@ t_tok_nd						*find_lowest_prio_op(t_tok_nd *start,
 									t_tok_nd *end);
 
 // join_subword.c
-int								count_join_subword(t_subtok *subtok);
-char							*join_subword(t_global *g, t_subtok *subtok);
+int								count_join_subw_subtok(t_subtok *subtok);
+char							*join_subw_subtok(t_global *g,
+									t_subtok *subtok);
+int								count_join_subw_subcmd(t_subcmd *subcmd);
+char							*join_subw_subcmd(t_global *g,
+									t_subcmd *subcmd);
 
 // parsing_ast.c
 void							init_cmdfile(t_global *g, t_cmds *cmds,
@@ -285,7 +313,7 @@ t_ast							*parsing_ast(t_global *g, t_tok_nd *start,
 // expand_check.c
 int								is_expandable_dollar(char c);
 int								check_ch_after_dollar(char c);
-int								check_dollar_alone(t_subtok *subtok);
+int								check_dollar_alone(t_subcmd *subcmd);
 
 // expand_count.c
 int								count_expand_key(char *subword);
@@ -294,8 +322,8 @@ int								cnt_expand_dollar(t_global *g, char *subword,
 int								cnt_new_subw_expand(t_global *g, char *subword);
 
 // handle_expand_node.c
-int								handle_dlt_subtok(t_subtok **top,
-									t_subtok **subtok);
+int								handle_dlt_subcmd(t_subcmd **top,
+									t_subcmd **subcmd);
 int								handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur);
 
 // handle_expand.c
@@ -303,7 +331,7 @@ char							*get_expand_key(t_global *g, char *subword);
 char							*get_var_value(t_global *g, char *key);
 int								expand_dollars(t_global *g, char *subw,
 									char *new_subw, int *idx_newsubw);
-void							new_subw_expand(t_global *g, t_subtok *subtok);
+void							new_subw_expand(t_global *g, t_subcmd *subcmd);
 int								handle_expand(t_global *g, t_cmds *cmds);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -393,6 +421,38 @@ int								parse_word(char *line, t_global *g,
 									t_tok_nd *nd);
 void							check_end_line(t_global *g);
 void							parsing_tokens(t_global *g);
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~Wildcard~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+// check_pattern.c
+int								is_directory(char *path);
+void							join_cmd_matchs(t_global *g, t_cmd **new,
+									char *path, char *name);
+DIR								*handle_opendir(char *path);
+t_cmd							*check_match_wildcards(t_global *g,
+									char *pattern, char *path);
+int								match_pattern(char *pattern, char *filename);
+
+// wildcard_count.c
+int								lenpath_wildcard(t_subcmd *subcmd);
+int								len_wildcard(t_subcmd *subcmd, int start);
+
+// wildcard.c
+void							lstjoin_subcmd(t_subcmd **lst1, t_subcmd *lst2);
+char							*file_full_path(t_global *g, t_subcmd **subcmd,
+									int *idx, int pathlen);
+void							increment_to_first_slash(t_subcmd **subcmd,
+									int *start);
+int								subword_len(t_subcmd *subcmd, int start);
+t_subcmd						*get_rest_in_subcmd(t_global *g,
+									t_subcmd *subcmd, int start);
+char							*get_wildcard_word(t_global *g,
+									t_subcmd *subcmd, int start, char *path);
+void							join_subcmd_in_allcmd(t_cmd *cmd,
+									t_subcmd *rest);
+t_cmd							*browse_paths_wildcard(t_global *g,
+									t_subcmd *subcmd, char *path);
+void							handle_wildcard(t_global *g, t_cmds *cmds);
 
 /*------------------------------Signal------------------------------*/
 

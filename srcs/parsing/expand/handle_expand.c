@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/07 22:19:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 02:02:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ int	expand_dollars(t_global *g, char *subw, char *new_subw, int *idx_newsubw)
 	return (count);
 }
 
-void	new_subw_expand(t_global *g, t_subtok *subtok)
+void	new_subw_expand(t_global *g, t_subcmd *subcmd)
 {
 	int		i;
 	int		j;
 	char	*new_subw;
 	char	*subw;
 
-	subw = subtok->subword;
+	subw = subcmd->subword;
 	new_subw = malloc(sizeof(char) * (cnt_new_subw_expand(g, subw) + 1));
 	i = 0;
 	j = 0;
@@ -98,29 +98,29 @@ void	new_subw_expand(t_global *g, t_subtok *subtok)
 			new_subw[j++] = subw[i++];
 	}
 	new_subw[j] = '\0';
-	free(subtok->subword);
-	subtok->subword = new_subw;
+	free(subcmd->subword);
+	subcmd->subword = new_subw;
 }
 
 int	handle_expand(t_global *g, t_cmds *cmds)
 {
 	t_cmd		*cmd;
-	t_subtok	*subtok;
+	t_subcmd	*subcmd;
 
 	cmd = cmds->topcmd;
 	while (cmd)
 	{
-		subtok = *(cmd->subtok);
-		while (subtok)
+		subcmd = cmd->subcmd;
+		while (subcmd)
 		{
-			if (subtok->varenv)
+			if (subcmd->varenv)
 			{
-				if (!check_dollar_alone(subtok))
-					new_subw_expand(g, subtok);
-				if (handle_dlt_subtok(cmds->topcmd->subtok, &subtok))
+				if (!check_dollar_alone(subcmd))
+					new_subw_expand(g, subcmd);
+				if (handle_dlt_subcmd(&cmds->topcmd->subcmd, &subcmd))
 					continue ;
 			}
-			subtok = subtok->next;
+			subcmd = subcmd->next;
 		}
 		if (handle_dlt_cmd_nd(&cmds->topcmd, &cmd))
 			continue ;

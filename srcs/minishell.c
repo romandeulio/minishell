@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/09 15:49:29 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:34:25 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,24 +105,24 @@ void	print_token(t_global *g)
 // 	}
 // }
 
-void	print_subtok(t_subtok *subtok)
+void	print_subcmd(t_subcmd *subcmd)
 {
 	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
 	int			i;
 
 	i = 1;
-	while (subtok)
+	while (subcmd)
 	{
 		if (i > 1)
 			printf("    \033[1;34m| \033[0m");
 		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword",
-			subtok->subword);
+			subcmd->subword);
 		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state",
-			state_name[subtok->state]);
-		printf("\033[1;33m%-6s\033[0m = %-1d   ", "varenv", subtok->varenv);
-		printf("\033[1;35m%-2s\033[0m = %d", "wildcard", subtok->wildcard);
+			state_name[subcmd->state]);
+		printf("\033[1;33m%-6s\033[0m = %-1d   ", "varenv", subcmd->varenv);
+		printf("\033[1;35m%-2s\033[0m = %d", "wildcard", subcmd->wildcard);
 		printf("\n");
-		subtok = subtok->next;
+		subcmd = subcmd->next;
 		i++;
 	}
 }
@@ -135,7 +135,7 @@ void	print_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("  \033[1;4;34m[CMD #%d]\033[0m\n", i++);
-		print_subtok(*(cmd->subtok));
+		print_subcmd(cmd->subcmd);
 		cmd = cmd->next;
 	}
 }
@@ -145,7 +145,6 @@ void	print_ast(t_ast *ast, const char *branch_label)
 	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
 			"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR",
 			"SEMICOLON"};
-
 	if (!ast)
 		return ;
 	printf("\n\033[1;4;44m=== AST NODE (%s) ===\033[0m\n", branch_label);
