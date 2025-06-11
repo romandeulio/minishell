@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:08 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 16:01:59 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
-		return (check_builtin(g, cmds, g->tmp.cmd_arg));
+		return (check_builtin(g, g->tmp.cmd_arg));
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
 		exec_cmd_fork(g, cmds, pathname, g->tmp.cmd_arg);
