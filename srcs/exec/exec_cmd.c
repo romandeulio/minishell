@@ -6,11 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/11 16:01:59 by nicolasbrec      ###   ########.fr       */
-=======
-/*   Updated: 2025/06/10 18:30:54 by rodeulio         ###   ########.fr       */
->>>>>>> ca01fb469938892a3c683b69601f4d5498ad9b5c
+/*   Updated: 2025/06/11 16:27:43 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
