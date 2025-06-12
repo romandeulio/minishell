@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:51 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 19:12:23 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 00:48:05 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	handle_expand_cmd(t_global *g, t_cmds *cmds)
 			expand_subcmd_cmd(g, cmd, &subcmd);
 		if (handle_dlt_cmd_nd(&cmds->topcmd, &cmd))
 			continue ;
-        join_subcmd_cmd(g, cmd);
 		cmd = cmd->next;
 	}
 	if (!cmds->topcmd)

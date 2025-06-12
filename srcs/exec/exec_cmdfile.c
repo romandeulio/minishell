@@ -6,18 +6,29 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:56:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 23:11:37 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 00:47:22 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int is_ambiguous_redir(t_subcmd *top)
+{
+	while (top && top->next)
+	{
+		if (top->state == NORMAL && top->next->state == NORMAL)
+			return (1);
+		top = top->next;
+	}
+	return (0);
+}
+
 int	make_expand_file(t_global *g, t_cmds *cmds, t_file *file, char *name)
 {
 	if (file && file->redir != HERE_DOC)
 	{
-		handle_wildcard_file(g, cmds);
-		if (file->subcmd->next)
+		handle_expand_file(g, cmds);
+		if (is_ambiguous_redir(file->subcmd))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(name, 2);
@@ -25,8 +36,8 @@ int	make_expand_file(t_global *g, t_cmds *cmds, t_file *file, char *name)
 			free(name);
 			return (0);
 		}
-		handle_expand_file(g, cmds);
-		if (file->subcmd->next)
+		handle_wildcard_file(g, cmds);
+		if (is_ambiguous_redir(file->subcmd))
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(name, 2);

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:16 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 18:28:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 00:47:32 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	handle_expand_file(t_global *g, t_cmds *cmds)
 			expand_subcmd_file(g, file, &subcmd);
 		if (handle_dlt_file_nd(&cmds->file, &file))
 			continue ;
-        join_subcmd_file(g, file);
 		file = file->next;
 	}
     

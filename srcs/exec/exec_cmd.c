@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 21:32:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 00:48:14 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	if (!handle_expand_cmd(g, cmds))
 		return (0);
 	handle_wildcard_cmd(g, cmds);
-	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	print_ast(g->ast, "root");
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
