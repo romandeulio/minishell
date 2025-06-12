@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 19:17:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 01:55:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 03:10:58 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ t_file	*lstnew_nd_file(t_global *g, t_tok_nd *nd)
 		new->redir = nd->type;
 	}
 	else
+	{
 		new->subcmd = NULL;
+		new->heredoc_fd = -1;
+		// new->redir = nd->type;
+	}
 	new->next = NULL;
 	return (new);
 }
@@ -92,6 +96,34 @@ void	lstdelete_file_nd(t_file **top, t_file *dlt)
 				*top = cur->next;
 			else
 				prev->next = cur->next;
+			free(cur);
+			break ;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+}
+
+void	lstreplace_nd_file(t_file **top, t_file *old, t_file *new)
+{
+	t_file	*cur;
+	t_file	*prev;
+
+	if (!top || !*top || !old || !new)
+		return ;
+	cur = *top;
+	prev = NULL;
+	while (cur)
+	{
+		if (cur == old)
+		{
+			if (!prev)
+				*top = new;
+			else
+				prev->next = new;
+			while (new && new->next)
+				new = new->next;
+			new->next = cur->next;
 			free(cur);
 			break ;
 		}

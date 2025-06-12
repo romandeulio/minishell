@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:27:35 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 16:31:26 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 17:51:54 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	restore_std(t_global *g)
 int	check_builtin(t_global *g, t_cmds *cmds, char **cmd_arg)
 {
 	save_std(g);
-	exec_cmdfile(g, cmds);
+	if (!exec_cmdfile(g, cmds))
+		return (1);
 	if (!ft_strcmp("cd", cmd_arg[0]))
 		ft_cd(g, cmd_arg);
 	if (!ft_strcmp("echo", cmd_arg[0]))

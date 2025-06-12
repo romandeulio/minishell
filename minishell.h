@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/12 02:13:05 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 23:10:27 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,6 @@ typedef struct s_subcmd
 	struct s_subcmd				*next;
 }								t_subcmd;
 
-typedef struct s_cmd
-{
-	t_subcmd					*subcmd;
-	struct s_cmd				*next;
-}								t_cmd;
-
 typedef struct s_file
 {
 	t_subcmd					*subcmd;
@@ -116,6 +110,12 @@ typedef struct s_file
 	t_type						redir;
 	struct s_file				*next;
 }								t_file;
+
+typedef struct s_cmd
+{
+	t_subcmd					*subcmd;
+	struct s_cmd				*next;
+}								t_cmd;
 
 typedef struct s_cmds
 {
@@ -159,6 +159,7 @@ typedef struct s_global
 	t_ast						*ast;
 }								t_global;
 
+void							print_subcmd(t_subcmd *subcmd);
 void							print_ast(t_ast *ast, const char *branch_label);
 
 /*--------------------------------built_in-------------------------------*/
@@ -217,11 +218,14 @@ void							exec_cmd_fork(t_global *g, t_cmds *cmds,
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_cmdfile.c
-void							handle_in_redir(t_global *g, char *file);
-void							handle_out_redir(t_global *g, char *file);
-void							handle_heredoc_redir(t_file *limiter);
-void							handle_append_redir(t_global *g, char *file);
-void							exec_cmdfile(t_global *g, t_cmds *cmds);
+int								make_expand_file(t_global *g, t_cmds *cmds,
+									t_file *file, char *name);
+void							handle_redir_in(t_global *g, t_file *cur,
+									int *last_in);
+void							handle_redir_out(t_global *g, t_file *cur,
+									int *last_out);
+void							dup_last_file(int last_in, int last_out);
+int								exec_cmdfile(t_global *g, t_cmds *cmds);
 
 // exec_op.c
 int								exec_subshell(t_global *g, t_ast *ast_right);
@@ -262,8 +266,11 @@ void							lstadd_back_file(t_global *g, t_file **top,
 									t_tok_nd *nd);
 t_file							*lstget_last_nd_file(t_file *top);
 void							lstdelete_file_nd(t_file **top, t_file *dlt);
+void							lstreplace_nd_file(t_file **top, t_file *old,
+									t_file *new);
 
 // lst_subcmd.c
+t_subcmd						*lstcpy_subcmd(t_global *g, t_subcmd *subcmd);
 t_subcmd						*lstcpy_subtoks_subcmd(t_global *g,
 									t_subtok *subtok);
 t_subcmd						*lstnew_nd_subcmd(t_global *g, int size);
@@ -272,6 +279,8 @@ void							lstadd_back_subcmd(t_subcmd **top,
 									t_subcmd *nd);
 void							lstdelete_subcmd(t_subcmd **top, t_subcmd *dlt);
 t_subcmd						*lstget_last_nd_subcmd(t_subcmd *top);
+void							lstreplace_nd_subcmd(t_subcmd **top,
+									t_subcmd *old, t_subcmd *new);
 
 // lst_subfile.c
 // t_subfile						*lstcpy_subtoks_subfile(t_global *g,
@@ -345,6 +354,18 @@ int								cnt_expand_dollar(t_global *g, char *subword,
 									int *count);
 int								cnt_new_subw_expand(t_global *g, char *subword);
 
+// handle_expand_cmd.c
+void							join_subcmd_cmd(t_global *g, t_cmd *cmd);
+void							expand_subcmd_cmd(t_global *g, t_cmd *cur_cmd,
+									t_subcmd **subcmd);
+int								handle_expand_cmd(t_global *g, t_cmds *cmds);
+
+// handle_expand_file.c
+void							join_subcmd_file(t_global *g, t_file *file);
+void							expand_subcmd_file(t_global *g,
+									t_file *cur_file, t_subcmd **subcmd);
+int								handle_expand_file(t_global *g, t_cmds *cmds);
+
 // handle_expand_node.c
 int								handle_dlt_file_nd(t_file **top, t_file **cur);
 int								handle_dlt_subcmd(t_subcmd **top,
@@ -357,8 +378,10 @@ char							*get_var_value(t_global *g, char *key);
 int								expand_dollars(t_global *g, char *subw,
 									char *new_subw, int *idx_newsubw);
 void							new_subw_expand(t_global *g, t_subcmd *subcmd);
-int								handle_expand_cmd(t_global *g, t_cmds *cmds);
-int								handle_expand_file(t_global *g, t_cmds *cmds);
+
+// separate_expand.c
+int								lenword_after_expand(char *subword);
+t_subcmd						*separate_subcmd(t_global *g, t_subcmd *subcmd);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
@@ -450,13 +473,46 @@ void							parsing_tokens(t_global *g);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Wildcard~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-// check_pattern.c
-int								is_directory(char *path);
+/*~~~~~~~~~~~~~~~~~~~~~Wildcard_cmd~~~~~~~~~~~~~~~~~~~~~*/
+
+// check_pattern_cmd.c
 void							join_cmd_matchs(t_global *g, t_cmd **new,
 									char *path, char *name);
-DIR								*handle_opendir(char *path);
-t_cmd							*check_match_wildcards(t_global *g,
+t_cmd							*check_match_wildcards_cmd(t_global *g,
 									char *pattern, char *path);
+
+// wildcard_cmd.c
+void							join_subcmd_in_allcmd(t_global *g, t_cmd *cmd,
+									t_subcmd *subcmd, int i);
+void							lstswap_cmd(t_cmd **top, t_cmd *n1, t_cmd *n2);
+void							lstsort_cmd(t_cmd **top);
+t_cmd							*browse_paths_wildcard_cmd(t_global *g,
+									t_subcmd *subcmd);
+void							handle_wildcard_cmd(t_global *g, t_cmds *cmds);
+
+/*~~~~~~~~~~~~~~~~~~~~~Wildcard_file~~~~~~~~~~~~~~~~~~~~~*/
+
+// check_pattern_file.c
+void							join_subcmd_matchs(t_global *g, t_subcmd **new,
+									char *path, char *name);
+t_subcmd						*check_match_wildcards_file(t_global *g,
+									char *pattern, char *path);
+
+// wildcard_file.c
+void							join_all_subcmd(t_global *g, t_subcmd *subcmd,
+									t_subcmd *rest, int i);
+void							lstswap_subcmd(t_subcmd **top, t_subcmd *n1,
+									t_subcmd *n2);
+void							lstsort_subcmd(t_subcmd **top);
+t_subcmd						*browse_paths_wildcard_file(t_global *g,
+									t_subcmd *subcmd);
+void							handle_wildcard_file(t_global *g, t_cmds *cmds);
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~Wildcard~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+// check_pattern.c
+int								is_directory(char *path);
+DIR								*handle_opendir(char *path);
 int								match_pattern(char *pattern, char *filename);
 
 // wildcard_count.c
@@ -464,21 +520,16 @@ int								lenpath_wildcard(t_subcmd *subcmd);
 int								len_wildcard(t_subcmd *subcmd, int start);
 
 // wildcard.c
-void							lstjoin_subcmd(t_subcmd **lst1, t_subcmd *lst2);
 char							*file_full_path(t_global *g, t_subcmd **subcmd,
 									int *idx, int pathlen);
 void							increment_to_first_slash(t_subcmd **subcmd,
 									int *start);
 int								subword_len(t_subcmd *subcmd, int start);
+int								check_is_wildcard(t_subcmd *subcmd);
 t_subcmd						*get_rest_in_subcmd(t_global *g,
 									t_subcmd *subcmd, int start);
 char							*get_wildcard_word(t_global *g,
 									t_subcmd *subcmd, int start, char *path);
-void							join_subcmd_in_allcmd(t_cmd *cmd,
-									t_subcmd *rest);
-t_cmd							*browse_paths_wildcard(t_global *g,
-									t_subcmd *subcmd, char *path);
-void							handle_wildcard(t_global *g, t_cmds *cmds);
 
 /*------------------------------Signal------------------------------*/
 
@@ -516,6 +567,10 @@ void							ft_strcpy(char *dst, char *src);
 void							free_tabstr(char **str);
 int								tab_size(char **array);
 int								ft_strcmp(const char *s1, const char *s2);
+
+// utils2.c
+char							*ft_strncpy(char *dest, const char *src,
+									size_t n);
 
 /*------------------------------...------------------------------*/
 

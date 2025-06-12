@@ -40,7 +40,9 @@ SRCS += srcs/parsing/ast/handle_priority.c srcs/parsing/ast/join_subword.c \
 
 # parsing/expand
 SRCS += srcs/parsing/expand/expand_check.c srcs/parsing/expand/expand_count.c \
-		srcs/parsing/expand/handle_expand_node.c srcs/parsing/expand/handle_expand.c
+		srcs/parsing/expand/handle_expand_cmd.c srcs/parsing/expand/handle_expand_file.c \
+		srcs/parsing/expand/handle_expand_node.c \
+		srcs/parsing/expand/handle_expand.c srcs/parsing/expand/separate_expand.c
 
 # parsing/syntax
 SRCS += srcs/parsing/syntax/check_paren_syntax.c srcs/parsing/syntax/check_syntax.c \
@@ -53,7 +55,13 @@ SRCS +=	srcs/parsing/token/count_len_token.c srcs/parsing/token/defined_token.c 
 		srcs/parsing/token/handle_parsing.c srcs/parsing/token/parsing_tok_utils.c \
 		srcs/parsing/token/parsing_tok_utils2.c srcs/parsing/token/parsing_token.c \
 
-# parsing/wildcard
+# parsing/wildcard/wildcard_cmd.c
+SRCS += srcs/parsing/wildcard/wildcard_cmd/check_pattern_cmd.c srcs/parsing/wildcard/wildcard_cmd/wildcard_cmd.c \
+
+# parsing/wildcard/wildcard_file.c
+SRCS += srcs/parsing/wildcard/wildcard_file/check_pattern_file.c srcs/parsing/wildcard/wildcard_file/wildcard_file.c \
+
+# parsing/wildcard.c
 SRCS += srcs/parsing/wildcard/check_pattern.c srcs/parsing/wildcard/wildcard_count.c \
 		srcs/parsing/wildcard/wildcard.c \
 
@@ -62,7 +70,7 @@ SRCS += srcs/signal/ft_kill.c srcs/signal/handle_termios.c srcs/signal/handler.c
 		srcs/signal/reinit_signal.c srcs/signal/signal.c \
 	
 # utils
-SRCS += srcs/utils/utils.c srcs/utils/utils_minishell.c \
+SRCS += srcs/utils/utils.c srcs/utils/utils2.c srcs/utils/utils_minishell.c \
 
 # 🔨 Generate object files
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.c=.o))

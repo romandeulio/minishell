@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/12 00:26:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 14:31:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,89 +101,3 @@ void	new_subw_expand(t_global *g, t_subcmd *subcmd)
 	free(subcmd->subword);
 	subcmd->subword = new_subw;
 }
-
-int	handle_expand_cmd(t_global *g, t_cmds *cmds)
-{
-	t_cmd		*cmd;
-	t_subcmd	*subcmd;
-
-	cmd = cmds->topcmd;
-	while (cmd)
-	{
-		subcmd = cmd->subcmd;
-		while (subcmd)
-		{
-			if (subcmd->varenv)
-			{
-				if (!check_dollar_alone(subcmd))
-					new_subw_expand(g, subcmd);
-				if (handle_dlt_subcmd(&cmds->topcmd->subcmd, &subcmd))
-					continue ;
-			}
-			subcmd = subcmd->next;
-		}
-		if (handle_dlt_cmd_nd(&cmds->topcmd, &cmd))
-			continue ;
-		cmd = cmd->next;
-	}
-	if (!cmds->topcmd)
-		return (0);
-	return (1);
-}
-
-int	handle_expand_file(t_global *g, t_cmds *cmds)
-{
-	t_file		*file;
-	t_subcmd	*subcmd;
-
-	file = cmds->file;
-	while (file)
-	{
-		subcmd = file->subcmd;
-		while (subcmd)
-		{
-			if (subcmd->varenv)
-			{
-				if (!check_dollar_alone(subcmd))
-					new_subw_expand(g, subcmd);
-				if (handle_dlt_subcmd(&cmds->file->subcmd, &subcmd))
-					continue ;
-			}
-			subcmd = subcmd->next;
-		}
-		if (handle_dlt_file_nd(&cmds->file, &file))
-			continue ;
-		file = file->next;
-	}
-	if (!cmds->file)
-		return (0);
-	return (1);
-}
-
-// void	handle_expand(t_global *g)
-// {
-// 	t_tok_stk	*stk;
-// 	t_tok_nd	*tok_nd;
-// 	t_subtok	*subtok;
-
-// 	stk = &g->tok_stk;
-// 	tok_nd = stk->top;
-// 	while (tok_nd)
-// 	{
-// 		subtok = tok_nd->top;
-// 		while (subtok)
-// 		{
-// 			if (subtok->varenv)
-// 			{
-// 				if (!check_dollar_alone(subtok))
-// 					new_subw_expand(g, subtok);
-// 				if (handle_dlt_subtok(&tok_nd->top, &subtok))
-// 					continue ;
-// 			}
-// 			subtok = subtok->next;
-// 		}
-// 		if (handle_dlt_tok_nd(&stk->top, &tok_nd))
-// 			continue ;
-// 		tok_nd = tok_nd->next;
-// 	}
-// }

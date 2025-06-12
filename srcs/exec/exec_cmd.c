@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 23:54:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 21:32:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 	struct stat	file_info;
 	int			stat_error;
 
-	exec_cmdfile(g, cmds);
-	// check_pathname(g, path); a enlever
+	if (!exec_cmdfile(g, cmds))
+		exit_free(g, NULL, 2, 1);
 	if (execve(path, args, g->env) == -1)
 	{
 		stat_error = stat(path, &file_info);
@@ -89,7 +89,7 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 
 	if (!handle_expand_cmd(g, cmds))
 		return (0);
-	handle_wildcard(g, cmds);
+	handle_wildcard_cmd(g, cmds);
 	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
 	print_ast(g->ast, "root");
 	pathname = get_cmd_path(g, cmds->topcmd);
