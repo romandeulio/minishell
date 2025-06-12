@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:39:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 01:58:48 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 00:40:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ int	count_join_subw_subtok(t_subtok *subtok)
 	{
 		count += ft_strlen(subtok->subword);
 		subtok = subtok->next;
+	}
+	return (count);
+}
+
+int	count_join_subw_subcmd(t_subcmd *subcmd)
+{
+	int	count;
+
+	count = 0;
+	while (subcmd)
+	{
+		count += ft_strlen(subcmd->subword);
+		subcmd = subcmd->next;
 	}
 	return (count);
 }
@@ -43,19 +56,6 @@ char	*join_subw_subtok(t_global *g, t_subtok *subtok)
 		subtok = subtok->next;
 	}
 	return (allword);
-}
-
-int	count_join_subw_subcmd(t_subcmd *subcmd)
-{
-	int	count;
-
-	count = 0;
-	while (subcmd)
-	{
-		count += ft_strlen(subcmd->subword);
-		subcmd = subcmd->next;
-	}
-	return (count);
 }
 
 char	*join_subw_subcmd(t_global *g, t_subcmd *subcmd)

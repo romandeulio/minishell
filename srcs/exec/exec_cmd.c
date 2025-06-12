@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 16:27:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/11 23:54:21 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 			|| !ft_strncmp(path, "../", 3))
 		{
 			free(path);
-			return (check_perm(g, file_info, stat_error, args[0]));
+			check_perm(g, file_info, stat_error, args[0]);
 		}
 		exit_free(g, " command not found", 2, 127);
 	}
@@ -87,13 +87,15 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	int		status;
 	char	*pathname;
 
-	if (!handle_expand(g, cmds))
+	if (!handle_expand_cmd(g, cmds))
 		return (0);
 	handle_wildcard(g, cmds);
+	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
+	print_ast(g->ast, "root");
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
-		return (check_builtin(g, g->tmp.cmd_arg));
+		return (check_builtin(g, cmds, g->tmp.cmd_arg));
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
 		exec_cmd_fork(g, cmds, pathname, g->tmp.cmd_arg);

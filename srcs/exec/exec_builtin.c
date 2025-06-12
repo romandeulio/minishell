@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:27:35 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:31:26 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

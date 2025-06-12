@@ -6,18 +6,19 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 15:45:02 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 02:13:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
-{
-    cmds->file = join_subw_subtok(g, nd->next->top);
-    cmds->heredoc_fd = nd->next->heredoc_fd;
-    cmds->redir = nd->type;
-}
+// void	init_cmdfile(t_global *g, t_cmds *cmds, t_tok_nd *nd)
+// {
+// 	lstadd_back_file(g, cmds->file, nd);
+//     cmds->file-> = lstcpy_subtoks_subfile
+//     cmds->file->heredoc_fd = nd->next->heredoc_fd;
+//     cmds->redir = nd->type;
+// }
 
 t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 {
@@ -29,12 +30,11 @@ t_cmds	*new_cmds(t_global *g, t_tok_nd *start, t_tok_nd *end)
 		exit_free(g, "Malloc", -1, 1); // verif si il faut liberer des trucs en plus
 	cur = start;
 	ft_bzero(cmds, sizeof(t_cmds));
-    cmds->heredoc_fd = -1;
 	while (1)
 	{
 		if (is_redir(cur->type))
 		{
-			init_cmdfile(g, cmds, cur);
+			lstadd_back_file(g, &cmds->file, cur);
 			cur = cur->next;
 		}
 		else if (!is_parenthesis(cur->type))

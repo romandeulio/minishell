@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 16:24:35 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 00:26:41 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	new_subw_expand(t_global *g, t_subcmd *subcmd)
 	subcmd->subword = new_subw;
 }
 
-int	handle_expand(t_global *g, t_cmds *cmds)
+int	handle_expand_cmd(t_global *g, t_cmds *cmds)
 {
 	t_cmd		*cmd;
 	t_subcmd	*subcmd;
@@ -127,6 +127,35 @@ int	handle_expand(t_global *g, t_cmds *cmds)
 		cmd = cmd->next;
 	}
 	if (!cmds->topcmd)
+		return (0);
+	return (1);
+}
+
+int	handle_expand_file(t_global *g, t_cmds *cmds)
+{
+	t_file		*file;
+	t_subcmd	*subcmd;
+
+	file = cmds->file;
+	while (file)
+	{
+		subcmd = file->subcmd;
+		while (subcmd)
+		{
+			if (subcmd->varenv)
+			{
+				if (!check_dollar_alone(subcmd))
+					new_subw_expand(g, subcmd);
+				if (handle_dlt_subcmd(&cmds->file->subcmd, &subcmd))
+					continue ;
+			}
+			subcmd = subcmd->next;
+		}
+		if (handle_dlt_file_nd(&cmds->file, &file))
+			continue ;
+		file = file->next;
+	}
+	if (!cmds->file)
 		return (0);
 	return (1);
 }

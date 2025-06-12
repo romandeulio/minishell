@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 16:23:43 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 02:09:48 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmd	*lstnew_nd_cmd(t_global *g, t_tok_nd *nd)
 	if (!new)
 		exit_free(g, "Malloc", -1, 1);
 	if (nd)
-		new->subcmd = lstcpy_all_subtok(g, nd->top);
+		new->subcmd = lstcpy_subtoks_subcmd(g, nd->top);
 	else
 		new->subcmd = NULL;
 	new->next = NULL;

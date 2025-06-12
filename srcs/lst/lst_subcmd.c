@@ -6,13 +6,13 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:01:05 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 01:53:14 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 00:24:06 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_subcmd	*lstcpy_all_subtok(t_global *g, t_subtok *subtok)
+t_subcmd	*lstcpy_subtoks_subcmd(t_global *g, t_subtok *subtok)
 {
 	t_subcmd	*last;
 	t_subcmd	*new;

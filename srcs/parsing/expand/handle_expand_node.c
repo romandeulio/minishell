@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 15:45:46 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 00:45:57 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ int	handle_dlt_subcmd(t_subcmd **top, t_subcmd **subcmd)
 		tmp = *subcmd;
 		*subcmd = (*subcmd)->next;
 		lstdelete_subcmd(top, tmp);
+		return (1);
+	}
+	return (0);
+}
+
+int	handle_dlt_file_nd(t_file **top, t_file **cur)
+{
+	t_file   *tmp;
+
+	if (!(*cur)->subcmd)
+	{
+		tmp = *cur;
+		*cur = (*cur)->next;
+		lstdelete_file_nd(top, tmp);
 		return (1);
 	}
 	return (0);

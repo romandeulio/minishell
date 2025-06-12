@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 16:25:18 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 01:36:39 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,30 +108,59 @@ void	print_token(t_global *g)
 void	print_subcmd(t_subcmd *subcmd)
 {
 	const char	*state_name[] = {"NORMAL", "SQ", "DQ"};
-	int			i;
+	int			i = 1;
 
-	i = 1;
 	while (subcmd)
 	{
 		if (i > 1)
 			printf("    \033[1;34m| \033[0m");
-		printf("\033[1;36m%-10s\033[0m = \"%s\"   ", "subword",
-			subcmd->subword);
-		printf("\033[1;33m%-6s\033[0m = %-6s   ", "state",
-			state_name[subcmd->state]);
+		printf("\033[1;36m%-10s\033[0m = \"%s\"   ",
+			"subword", subcmd->subword ? subcmd->subword : "(null)");
+		printf("\033[1;33m%-6s\033[0m = %-6s   ",
+			"state", (subcmd->state >= 0 && subcmd->state <= 2) ? state_name[subcmd->state] : "???");
 		printf("\033[1;33m%-6s\033[0m = %-1d   ", "varenv", subcmd->varenv);
-		printf("\033[1;35m%-2s\033[0m = %d", "wildcard", subcmd->wildcard);
+		printf("\033[1;35m%-9s\033[0m = %d", "wildcard", subcmd->wildcard);
 		printf("\n");
 		subcmd = subcmd->next;
 		i++;
 	}
 }
 
+void	print_file(t_file *file)
+{
+	const char *type_name[] = {
+		"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
+		"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR", "SEMICOLON"
+	};
+
+	int i = 1;
+	while (file)
+	{
+		printf("  \033[1;4;35m[FILE REDIR #%d]\033[0m\n", i++);
+
+		// Affiche tous les subcmds de la redirection
+		if (file->subcmd)
+		{
+			printf("  \033[1;36m%-16s\033[0m :\n", "subcmds");
+			print_subcmd(file->subcmd);
+		}
+		else
+		{
+			printf("  \033[1;36m%-16s\033[0m : (null)\n", "subcmds");
+		}
+
+		printf("\033[1;34m%-16s\033[0m : %d\n", "heredoc_fd", file->heredoc_fd);
+		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
+			(file->redir >= 0 && file->redir <= 10) ? type_name[file->redir] : "???");
+
+		file = file->next;
+	}
+}
+
 void	print_cmd(t_cmd *cmd)
 {
-	int	i;
+	int	i = 1;
 
-	i = 1;
 	while (cmd)
 	{
 		printf("  \033[1;4;34m[CMD #%d]\033[0m\n", i++);
@@ -142,22 +171,26 @@ void	print_cmd(t_cmd *cmd)
 
 void	print_ast(t_ast *ast, const char *branch_label)
 {
-	const char	*type_name[] = {"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
-			"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR",
-			"SEMICOLON"};
+	const char *type_name[] = {
+		"CMD", "PAREN_OPEN", "PAREN_CLOSE", "IN_REDIR",
+		"OUT_REDIR", "HERE_DOC", "APPEND", "PIPE", "AND", "OR", "SEMICOLON"
+	};
+
 	if (!ast)
 		return ;
 	printf("\n\033[1;4;44m=== AST NODE (%s) ===\033[0m\n", branch_label);
-	printf("\033[1;32m%-16s\033[0m : %s\n", "type", type_name[ast->type]);
+	printf("\033[1;32m%-16s\033[0m : %s\n", "type",
+		(ast->type >= 0 && ast->type <= 10) ? type_name[ast->type] : "???");
+
 	if (ast->cmds)
 	{
-		printf("\033[1;4;34m[COMMANDS]\033[0m\n");
-		print_cmd(ast->cmds->topcmd);
-		printf("\033[1;34m%-16s\033[0m : %s\n", "file", ast->cmds->file);
-		printf("\033[1;34m%-16s\033[0m : %d\n", "heredoc_fd",
-			ast->cmds->heredoc_fd);
-		printf("\033[1;34m%-16s\033[0m : %s\n", "file redir",
-			type_name[ast->cmds->redir]);
+		if (ast->cmds->topcmd)
+		{
+			printf("\033[1;4;34m[COMMANDS]\033[0m\n");
+			print_cmd(ast->cmds->topcmd);
+		}
+		if (ast->cmds->file)
+			print_file(ast->cmds->file);
 	}
 	print_ast(ast->left, "left");
 	print_ast(ast->right, "right");
@@ -177,8 +210,8 @@ void	parsing(t_global *g)
 	start = g->tok_stk.top;
 	end = lstget_last_nd_tok(g->tok_stk.top);
 	g->ast = parsing_ast(g, start, end);
-	// printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
-	// print_ast(g->ast, "root");
+	printf("\033[1;4;45m🌳 AST VISUALISÉ :\033[0m\n");
+	print_ast(g->ast, "root");
 }
 
 void	minishell(t_global *g)
@@ -186,13 +219,13 @@ void	minishell(t_global *g)
 	while (1)
 	{
 		g->rd.line = readline(get_cur_dir(g));
-		if (!g->rd.line)
-		{
-			free_and_reset_readline(g);
-			rl_clear_history();
-			ft_putendl_fd("Exit", 1);
-			exit(0);
-		}
+        if (!g->rd.line)
+        {
+            free_and_reset_readline(g);
+            rl_clear_history();
+            ft_putendl_fd("Exit", 1);
+            exit(g_exit_code);
+        }
 		else
 		{
 			g->rd.full_line = ft_strdup(g->rd.line);

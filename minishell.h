@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 16:25:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/12 02:13:05 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,18 @@ typedef struct s_cmd
 	struct s_cmd				*next;
 }								t_cmd;
 
+typedef struct s_file
+{
+	t_subcmd					*subcmd;
+	int							heredoc_fd;
+	t_type						redir;
+	struct s_file				*next;
+}								t_file;
+
 typedef struct s_cmds
 {
 	t_cmd						*topcmd;
-	char						*file;
-	int							heredoc_fd;
-	t_type						redir;
+	t_file						*file;
 }								t_cmds;
 
 typedef struct s_ast
@@ -193,7 +199,8 @@ int								find_cmd_to_remove(char **env, char *cmd);
 int								is_builtin(char **cmd_arg);
 void							save_std(t_global *g);
 void							restore_std(t_global *g);
-int								check_builtin(t_global *g, char **cmd_arg);
+int								check_builtin(t_global *g, t_cmds *cmds,
+									char **cmd_arg);
 
 // exec_cmd_utils.c
 char							*get_path_line(t_global *g, char *line);
@@ -203,7 +210,8 @@ char							**get_cmds_in_tab(t_global *g, t_cmd *top);
 void							check_pathname(t_global *g, char *pathname);
 
 // exec_cmd.c
-void	check_perm(t_global *g, struct stat file_info, int staterr, char *cmd);
+void							check_perm(t_global *g, struct stat file_info,
+									int staterr, char *cmd);
 void							exec_cmd_fork(t_global *g, t_cmds *cmds,
 									char *path, char **args);
 int								exec_cmd(t_global *g, t_cmds *cmds);
@@ -211,7 +219,7 @@ int								exec_cmd(t_global *g, t_cmds *cmds);
 // exec_cmdfile.c
 void							handle_in_redir(t_global *g, char *file);
 void							handle_out_redir(t_global *g, char *file);
-void							handle_heredoc_redir(t_cmds *cmds);
+void							handle_heredoc_redir(t_file *limiter);
 void							handle_append_redir(t_global *g, char *file);
 void							exec_cmdfile(t_global *g, t_cmds *cmds);
 
@@ -247,8 +255,16 @@ void							lstreplace_nd_cmd(t_cmd **top, t_cmd *old,
 									t_cmd *new);
 t_cmd							*lstget_last_nd_cmd(t_cmd *top);
 
+// lst_file.c
+t_file							*lstnew_nd_file(t_global *g, t_tok_nd *nd);
+void							lstfree_file(t_file *top);
+void							lstadd_back_file(t_global *g, t_file **top,
+									t_tok_nd *nd);
+t_file							*lstget_last_nd_file(t_file *top);
+void							lstdelete_file_nd(t_file **top, t_file *dlt);
+
 // lst_subcmd.c
-t_subcmd						*lstcpy_all_subtok(t_global *g,
+t_subcmd						*lstcpy_subtoks_subcmd(t_global *g,
 									t_subtok *subtok);
 t_subcmd						*lstnew_nd_subcmd(t_global *g, int size);
 void							lstfree_subcmd(t_subcmd **subcmd);
@@ -256,6 +272,17 @@ void							lstadd_back_subcmd(t_subcmd **top,
 									t_subcmd *nd);
 void							lstdelete_subcmd(t_subcmd **top, t_subcmd *dlt);
 t_subcmd						*lstget_last_nd_subcmd(t_subcmd *top);
+
+// lst_subfile.c
+// t_subfile						*lstcpy_subtoks_subfile(t_global *g,
+// 									t_subtok *subtok);
+// t_subfile						*lstnew_nd_subfile(t_global *g, int size);
+// void							lstfree_subfile(t_subfile **subfile);
+// void							lstadd_back_subfile(t_subfile **top,
+// 									t_subfile *nd);
+// void							lstdelete_subfile(t_subfile **top,
+// 									t_subfile *dlt);
+// t_subfile						*lstget_last_nd_subfile(t_subfile *top);
 
 // lst_subtok.c
 t_subtok						*lstnew_nd_subtok(int size, t_global *g);
@@ -291,9 +318,9 @@ t_tok_nd						*find_lowest_prio_op(t_tok_nd *start,
 
 // join_subword.c
 int								count_join_subw_subtok(t_subtok *subtok);
+int								count_join_subw_subcmd(t_subcmd *subcmd);
 char							*join_subw_subtok(t_global *g,
 									t_subtok *subtok);
-int								count_join_subw_subcmd(t_subcmd *subcmd);
 char							*join_subw_subcmd(t_global *g,
 									t_subcmd *subcmd);
 
@@ -319,6 +346,7 @@ int								cnt_expand_dollar(t_global *g, char *subword,
 int								cnt_new_subw_expand(t_global *g, char *subword);
 
 // handle_expand_node.c
+int								handle_dlt_file_nd(t_file **top, t_file **cur);
 int								handle_dlt_subcmd(t_subcmd **top,
 									t_subcmd **subcmd);
 int								handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur);
@@ -329,7 +357,8 @@ char							*get_var_value(t_global *g, char *key);
 int								expand_dollars(t_global *g, char *subw,
 									char *new_subw, int *idx_newsubw);
 void							new_subw_expand(t_global *g, t_subcmd *subcmd);
-int								handle_expand(t_global *g, t_cmds *cmds);
+int								handle_expand_cmd(t_global *g, t_cmds *cmds);
+int								handle_expand_file(t_global *g, t_cmds *cmds);
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~Syntax~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 

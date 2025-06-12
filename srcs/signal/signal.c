@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 22:05:16 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/11 20:09:05 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
