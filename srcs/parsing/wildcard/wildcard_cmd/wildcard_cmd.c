@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:29:34 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 16:14:47 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:48:04 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_cmd	*browse_paths_wildcard_cmd(t_global *g, t_subcmd *subcmd)
 	int		path_len;
 	int		i;
 
-	new = lstnew_nd_cmd(g, NULL);
 	i = 0;
 	path_len = lenpath_wildcard(subcmd);
 	full_path = NULL;
