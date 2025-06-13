@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmdfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:56:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:30:19 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:33:46 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int is_ambiguous_redir(t_subcmd *top)
+int	is_ambiguous_redir(t_subcmd *top)
 {
 	while (top && top->next)
 	{
@@ -52,8 +52,8 @@ int	make_expand_file(t_global *g, t_cmds *cmds, t_file *file, char *name)
 
 void	handle_redir_in(t_global *g, t_file *cur, int *last_in)
 {
-	char *file;
-	
+	char	*file;
+
 	file = join_subw_subcmd(g, cur->subcmd);
 	if (cur->redir == IN_REDIR)
 	{
@@ -72,8 +72,8 @@ void	handle_redir_in(t_global *g, t_file *cur, int *last_in)
 
 void	handle_redir_out(t_global *g, t_file *cur, int *last_out)
 {
-	char *file;
-	
+	char	*file;
+
 	file = join_subw_subcmd(g, cur->subcmd);
 	if (cur->redir == OUT_REDIR)
 	{
@@ -90,7 +90,7 @@ void	handle_redir_out(t_global *g, t_file *cur, int *last_out)
 	free(file);
 }
 
-void dup_last_file(int last_in, int last_out)
+void	dup_last_file(int last_in, int last_out)
 {
 	if (last_in != -1)
 	{

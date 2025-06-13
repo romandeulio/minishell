@@ -3,64 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand_file.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:16 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:13:31 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:35 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-// t_subcmd	*get_rest_in_subcmd(t_global *g, t_subcmd *subcmd, int start)
-// {
-// 	int			i;
-// 	int			j;
-// 	t_subcmd	*new;
-// 	t_subcmd	*last;
-
-// 	new = NULL;
-// 	increment_to_first_slash(&subcmd, &start);
-// 	i = start;
-// 	while (subcmd)
-// 	{
-// 		j = 0;
-// 		lstadd_back_subcmd(&new, lstnew_nd_subcmd(g, subword_len(subcmd, i)));
-// 		last = lstget_last_nd_subcmd(new);
-// 		while (subcmd->subword[i])
-// 			last->subword[j++] = subcmd->subword[i++];
-// 		last->state = subcmd->state;
-// 		last->varenv = subcmd->varenv;
-// 		last->wildcard = check_is_wildcard(last);
-// 		i = 0;
-// 		subcmd = subcmd->next;
-// 	}
-// 	return (new);
-// }
-
-void join_subcmd_file(t_global *g, t_file *file)
+void	join_subcmd_file(t_global *g, t_file *file)
 {
-    char *tmp;
-    t_subcmd *cur;
-    t_subcmd *next;
+	char		*tmp;
+	t_subcmd	*cur;
+	t_subcmd	*next;
 
-    cur = file->subcmd;
-    while (cur)
-    {
-        next = cur->next;
-        if (next && cur->state != next->state)
-        {
-            tmp = cur->subword;
-            cur->subword = ft_strjoin(tmp, next->subword);
-            if (!cur->subword)
-                exit_free(g, "Malloc", -1, 1);
-            cur->next = next->next;
-            lstdelete_subcmd(&file->subcmd, next);
-            free(tmp);
-            continue;
-        }
-        cur = cur->next;
-    }
+	cur = file->subcmd;
+	while (cur)
+	{
+		next = cur->next;
+		if (next && cur->state != next->state)
+		{
+			tmp = cur->subword;
+			cur->subword = ft_strjoin(tmp, next->subword);
+			if (!cur->subword)
+				exit_free(g, "Malloc", -1, 1);
+			cur->next = next->next;
+			lstdelete_subcmd(&file->subcmd, next);
+			free(tmp);
+			continue ;
+		}
+		cur = cur->next;
+	}
 }
 
 void	expand_subcmd_file(t_global *g, t_file *cur_file, t_subcmd **subcmd)

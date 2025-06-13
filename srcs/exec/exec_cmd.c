@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:31:26 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:33:38 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path)
 	}
 }
 
-int prepare_exec_cmd(t_global *g, t_cmds *cmds, char *path)
+int	prepare_exec_cmd(t_global *g, t_cmds *cmds, char *path)
 {
 	pid_t	pid;
 	int		status;
-	
+
 	pid = handle_error_fork(g, fork(), NULL);
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
@@ -77,7 +77,7 @@ int prepare_exec_cmd(t_global *g, t_cmds *cmds, char *path)
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
-	int 	code;
+	int		code;
 	char	*pathname;
 
 	if (cmds->topcmd && !handle_expand_cmd(g, cmds))
@@ -93,4 +93,3 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	pathname = get_cmd_path(g, cmds->topcmd);
 	return (prepare_exec_cmd(g, cmds, pathname));
 }
-

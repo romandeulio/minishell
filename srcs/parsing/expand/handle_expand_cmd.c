@@ -3,38 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:51 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:38:37 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:27 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void join_subcmd_cmd(t_global *g, t_cmd *cmd)
+void	join_subcmd_cmd(t_global *g, t_cmd *cmd)
 {
-    char *tmp;
-    t_subcmd *cur;
-    t_subcmd *next;
+	char		*tmp;
+	t_subcmd	*cur;
+	t_subcmd	*next;
 
-    cur = cmd->subcmd;
-    while (cur)
-    {
-        next = cur->next;
-        if (next && cur->state != next->state)
-        {
-            tmp = cur->subword;
-            cur->subword = ft_strjoin(tmp, next->subword);
-            if (!cur->subword)
-                exit_free(g, "Malloc", -1, 1);
-            cur->next = next->next;
-            lstdelete_subcmd(&cmd->subcmd, next);
-            free(tmp);
-            continue;
-        }
-        cur = cur->next;
-    }
+	cur = cmd->subcmd;
+	while (cur)
+	{
+		next = cur->next;
+		if (next && cur->state != next->state)
+		{
+			tmp = cur->subword;
+			cur->subword = ft_strjoin(tmp, next->subword);
+			if (!cur->subword)
+				exit_free(g, "Malloc", -1, 1);
+			cur->next = next->next;
+			lstdelete_subcmd(&cmd->subcmd, next);
+			free(tmp);
+			continue ;
+		}
+		cur = cur->next;
+	}
 }
 
 void	expand_subcmd_cmd(t_global *g, t_cmd *cur_cmd, t_subcmd **subcmd)

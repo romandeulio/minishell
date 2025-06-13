@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:11:22 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:33:28 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_path_line(t_global *g, char *line)
 
 char	*get_real_path(char **all_path, char *slash_cmd)
 {
-	int 	i;
+	int		i;
 	char	*real_path;
 
 	i = 0;
@@ -50,7 +50,7 @@ char	*get_real_path(char **all_path, char *slash_cmd)
 
 char	*get_cmd_path(t_global *g, t_cmd *top)
 {
-	char 	*origin_path;
+	char	*origin_path;
 	char	*real_path;
 	char	*path_line;
 	char	*slash_cmd;
@@ -59,11 +59,11 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	if (!top)
 		return (NULL);
 	origin_path = join_subw_subcmd(g, top->subcmd);
-    if (access(origin_path, X_OK) == 0)
-        return (origin_path);
-    path_line = ft_getenv(g->env, "PATH");
+	if (access(origin_path, X_OK) == 0)
+		return (origin_path);
+	path_line = ft_getenv(g->env, "PATH");
 	if (!path_line)
-		return(origin_path);
+		return (origin_path);
 	all_path = ft_split(path_line, ':');
 	slash_cmd = ft_strjoin("/", origin_path);
 	real_path = get_real_path(all_path, slash_cmd);
@@ -97,7 +97,7 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 		return (NULL);
 	cmd_arg = malloc(sizeof(char *) * (count_arg(top) + 1));
 	if (!cmd_arg)
-		exit_free(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.
+		exit_free(g, "Malloc", -1, 1);
 	i = 0;
 	while (top)
 	{

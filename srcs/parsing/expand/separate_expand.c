@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   separate_expand.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:30:34 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 16:23:15 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:53 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_subcmd	*separate_subcmd(t_global *g, t_subcmd *subcmd)
 		while (subcmd->subword[i] == ' ')
 			i++;
 		if (!subcmd->subword[i])
-			break;
+			break ;
 		start = i;
 		while (subcmd->subword[i] && subcmd->subword[i] != ' ')
 			i++;

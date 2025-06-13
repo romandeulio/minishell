@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:37:55 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:41 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	handle_dlt_subcmd(t_subcmd **top, t_subcmd **subcmd)
 
 int	handle_dlt_file_nd(t_file **top, t_file **cur)
 {
-	t_file   *tmp;
+	t_file	*tmp;
 
 	if (!(*cur)->subcmd)
 	{
@@ -42,7 +42,7 @@ int	handle_dlt_file_nd(t_file **top, t_file **cur)
 
 int	handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur)
 {
-	t_cmd   *tmp;
+	t_cmd	*tmp;
 
 	if (!(*cur)->subcmd)
 	{
@@ -53,17 +53,3 @@ int	handle_dlt_cmd_nd(t_cmd **top, t_cmd **cur)
 	}
 	return (0);
 }
-
-// int	handle_dlt_tok_nd(t_tok_nd **top, t_tok_nd **tok_nd)
-// {
-// 	t_tok_nd	*tmp;
-
-// 	if (!(*tok_nd)->top)
-// 	{
-// 		tmp = *tok_nd;
-// 		*tok_nd = (*tok_nd)->next;
-// 		lstdelete_tok_nd(top, tmp);
-// 		return (1);
-// 	}
-// 	return (0);
-// }

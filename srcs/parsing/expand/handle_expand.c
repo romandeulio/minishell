@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 14:35:13 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/12 14:31:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:36:47 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_expand_key(t_global *g, char *subword)
 
 	expand_key = malloc(sizeof(char) * (count_expand_key(subword) + 1));
 	if (!expand_key)
-		exit_free(g, "Malloc", -1, 1); // verif les autres trucs a free
+		exit_free(g, "Malloc", -1, 1);
 	i = 0;
 	while (check_ch_after_dollar(subword[i]))
 	{

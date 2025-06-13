@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_file.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 19:17:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 17:47:48 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:35:00 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_file	*lstnew_nd_file(t_global *g, t_tok_nd *nd)
 	{
 		new->subcmd = NULL;
 		new->heredoc_fd = -1;
-		// new->redir = nd->type;
 	}
 	new->next = NULL;
 	return (new);
@@ -45,8 +44,8 @@ void	lstfree_file(t_file *top)
 	{
 		tmp = cur->next;
 		lstfree_subcmd(&cur->subcmd);
-        if (cur->heredoc_fd != -1)
-            close(cur->heredoc_fd);
+		if (cur->heredoc_fd != -1)
+			close(cur->heredoc_fd);
 		free(cur);
 		cur = tmp;
 	}
