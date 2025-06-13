@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 17:58:40 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:11:28 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,6 @@ char							*get_real_path(char **all_path,
 char							*get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
-void							check_pathname(t_global *g, char *pathname);
 
 // exec_cmd.c
 void							check_perm(t_global *g, struct stat file_info,

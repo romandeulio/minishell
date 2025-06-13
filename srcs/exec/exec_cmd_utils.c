@@ -6,7 +6,7 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 17:59:07 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:11:22 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
     if (access(origin_path, X_OK) == 0)
         return (origin_path);
     path_line = ft_getenv(g->env, "PATH");
+	if (!path_line)
+		return(origin_path);
 	all_path = ft_split(path_line, ':');
 	slash_cmd = ft_strjoin("/", origin_path);
 	real_path = get_real_path(all_path, slash_cmd);
@@ -104,15 +106,4 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	}
 	cmd_arg[i] = NULL;
 	return (cmd_arg);
-}
-
-void	check_pathname(t_global *g, char *pathname)
-{
-	if (access(pathname, X_OK) == -1)
-	{
-		ft_putstr_fd(pathname, 2);
-		ft_putendl_fd(": command not found", 2);
-		free(pathname);
-		exit_free(g, NULL, 2, 127);
-	}
 }
