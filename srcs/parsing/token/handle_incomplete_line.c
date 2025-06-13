@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_incomplete_line.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:33:07 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 11:48:52 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:00:33 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

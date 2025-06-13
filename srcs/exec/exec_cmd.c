@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 02:22:44 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:11:39 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,14 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	if (!handle_expand_cmd(g, cmds))
 		return (0);
 	handle_wildcard_cmd(g, cmds);
-	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
 	{
 		code = check_builtin(g, cmds, g->tmp.cmd_arg);
-		free(pathname);
 		free_tabstr(g->tmp.cmd_arg);
 		return (code);
 	}
+	pathname = get_cmd_path(g, cmds->topcmd);
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
 		exec_cmd_fork(g, cmds, pathname, g->tmp.cmd_arg);

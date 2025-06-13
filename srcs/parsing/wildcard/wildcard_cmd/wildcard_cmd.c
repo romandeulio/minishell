@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:29:34 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 21:51:13 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:16:02 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ t_cmd	*browse_paths_wildcard_cmd(t_global *g, t_subcmd *subcmd)
 	lstsort_cmd(&new);
 	if (new)
 		join_subcmd_in_allcmd(g, new, subcmd, i);
+	free(full_path);
 	return (new);
 }
 

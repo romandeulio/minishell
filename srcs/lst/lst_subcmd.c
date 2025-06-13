@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_subcmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:01:05 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 19:53:21 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:11:24 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void	lstreplace_nd_subcmd(t_subcmd **top, t_subcmd *old, t_subcmd *new)
 			while (new && new->next)
 				new = new->next;
 			new->next = cur->next;
+			free(cur->subword);
 			free(cur);
 			break ;
 		}

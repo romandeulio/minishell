@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:17 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 17:38:20 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:42:57 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	env_add(t_global *g, char *cmd)
 	var = find_var(cmd);
 	while (g->env[i] && ft_strncmp(g->env[i], var, ft_strlen(var)))
 		i++;
+	free(var);
 	if (g->env[i])
 	{
 		free(g->env[i]);

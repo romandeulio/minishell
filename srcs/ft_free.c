@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:14:27 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 16:25:09 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 13:47:51 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	free_in_fork(t_global *g)
 	free_ast(g->ast);
 	free_readline(g);
 	rl_clear_history();
+	free_tabstr(g->env);
 }
 
 void	free_and_reset_readline(t_global *g)

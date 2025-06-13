@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:34:37 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 02:45:41 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:01:54 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

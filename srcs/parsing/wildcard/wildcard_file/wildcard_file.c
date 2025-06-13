@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:30:19 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 22:07:11 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:20:36 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	handle_wildcard_file(t_global *g, t_cmds *cmds)
 			{
 				new = browse_paths_wildcard_file(g, file->subcmd);
 				lstreplace_nd_subcmd(&file->subcmd, subcmd, new);
+				subcmd = new;
 			}
 			subcmd = subcmd->next;
 		}
