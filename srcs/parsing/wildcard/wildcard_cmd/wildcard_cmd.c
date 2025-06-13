@@ -6,13 +6,13 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:29:34 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 14:16:02 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:14:47 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../minishell.h"
 
-void	join_subcmd_in_allcmd(t_global *g, t_cmd *cmd, t_subcmd *rest, int i)
+void	join_rest_subcmd_cmd(t_global *g, t_cmd *cmd, t_subcmd *rest, int i)
 {
 	t_subcmd	*subcmd;
 
@@ -97,9 +97,10 @@ t_cmd	*browse_paths_wildcard_cmd(t_global *g, t_subcmd *subcmd)
 		full_path = file_full_path(g, &subcmd, &i, path_len);
 	wildcard_word = get_wildcard_word(g, subcmd, i, full_path);
 	new = check_match_wildcards_cmd(g, wildcard_word, full_path);
+	free(wildcard_word);
 	lstsort_cmd(&new);
 	if (new)
-		join_subcmd_in_allcmd(g, new, subcmd, i);
+		join_rest_subcmd_cmd(g, new, subcmd, i);
 	free(full_path);
 	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_pattern_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:31:09 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 21:34:27 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 16:18:16 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ t_cmd	*check_match_wildcards_cmd(t_global *g, char *pattern, char *path)
 			join_cmd_matchs(g, &newcmd, path, entry->d_name);
 		entry = readdir(dir);
 	}
+	free(dir);
 	return (newcmd);
 }

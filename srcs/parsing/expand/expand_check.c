@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:51:52 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 17:32:33 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 15:38:44 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

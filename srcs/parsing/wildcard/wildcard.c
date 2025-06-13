@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:16:10 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 21:37:36 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 15:54:56 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_subcmd	*get_rest_in_subcmd(t_global *g, t_subcmd *subcmd, int start)
 		last = lstget_last_nd_subcmd(new);
 		while (subcmd->subword[i])
 			last->subword[j++] = subcmd->subword[i++];
+		last->subword[j] = '\0';
 		last->state = subcmd->state;
 		last->varenv = subcmd->varenv;
 		last->wildcard = check_is_wildcard(last);

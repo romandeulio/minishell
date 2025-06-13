@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:14:24 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 12:40:41 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:07:15 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void    exit_free(t_global *g, char *msg, int fd, int n_exit)
     if (msg && fd > 0)
         ft_putendl_fd(msg, fd);	
     else if (msg && fd == -1)
-        perror(msg);
-    lstfree_tok(&g->tok_stk);
+		perror(msg);
+	lstfree_tok(&g->tok_stk);
     free_ast(g->ast);
     free_readline(g);
     rl_clear_history();

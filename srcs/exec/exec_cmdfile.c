@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmdfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:56:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 00:47:22 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 15:30:19 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

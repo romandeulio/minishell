@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 13:26:40 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:08:40 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -482,7 +482,7 @@ t_cmd							*check_match_wildcards_cmd(t_global *g,
 									char *pattern, char *path);
 
 // wildcard_cmd.c
-void							join_subcmd_in_allcmd(t_global *g, t_cmd *cmd,
+void							join_rest_subcmd_cmd(t_global *g, t_cmd *cmd,
 									t_subcmd *subcmd, int i);
 void							lstswap_cmd(t_cmd **top, t_cmd *n1, t_cmd *n2);
 void							lstsort_cmd(t_cmd **top);
@@ -499,8 +499,8 @@ t_subcmd						*check_match_wildcards_file(t_global *g,
 									char *pattern, char *path);
 
 // wildcard_file.c
-void							join_all_subcmd(t_global *g, t_subcmd *subcmd,
-									t_subcmd *rest, int i);
+void							join_rest_all_subcmd(t_global *g,
+									t_subcmd *subcmd, t_subcmd *rest, int i);
 void							lstswap_subcmd(t_subcmd **top, t_subcmd *n1,
 									t_subcmd *n2);
 void							lstsort_subcmd(t_subcmd **top);

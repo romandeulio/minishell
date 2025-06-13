@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 02:04:03 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:49:57 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	char	*slash_cmd;
 	char	**all_path;
 
+	if (!top)
+		return (NULL);
 	origin_path = join_subw_subcmd(g, top->subcmd);
     if (access(origin_path, X_OK) == 0)
         return (origin_path);
@@ -89,6 +91,8 @@ char	**get_cmds_in_tab(t_global *g, t_cmd *top)
 	int		i;
 	char	**cmd_arg;
 
+	if (!top)
+		return (NULL);
 	cmd_arg = malloc(sizeof(char *) * (count_arg(top) + 1));
 	if (!cmd_arg)
 		exit_free(g, "Malloc", -1, 1); // Rajoutez ce qu'il y a a free.

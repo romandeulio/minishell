@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:51 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 14:11:33 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:38:37 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,5 @@ int	handle_expand_cmd(t_global *g, t_cmds *cmds)
 			continue ;
 		cmd = cmd->next;
 	}
-	if (!cmds->topcmd)
-		return (0);
 	return (1);
 }

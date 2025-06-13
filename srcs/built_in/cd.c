@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 12:36:20 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:47:57 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	change_env(t_global *g)
 
 	pwd = find_path(g->env, "PWD=");
 	oldpwd = find_path(g->env, "OLDPWD=");
+	if (pwd == -1 || oldpwd == -1)
+        exit_free(g, "cd", -1, 1);
 	path = getcwd(NULL, 0);
 	free(g->env[oldpwd]);
 	g->env[oldpwd] = ft_strjoin("OLDPWD=", g->env[pwd] + 4);

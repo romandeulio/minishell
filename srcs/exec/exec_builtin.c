@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:27:35 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 17:51:54 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 14:49:29 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_builtin(char **cmd_arg)
 {
+	if (!cmd_arg)
+		return (0);
 	if (!ft_strcmp("cd", cmd_arg[0]))
 		return (1);
 	if (!ft_strcmp("echo", cmd_arg[0]))

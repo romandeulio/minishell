@@ -6,13 +6,13 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:30:19 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 14:20:36 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:10:48 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../minishell.h"
 
-void	join_all_subcmd(t_global *g, t_subcmd *subcmd, t_subcmd *rest, int i)
+void	join_rest_all_subcmd(t_global *g, t_subcmd *subcmd, t_subcmd *rest, int i)
 {
 	while (subcmd && subcmd->next)
 		subcmd = subcmd->next;
@@ -89,9 +89,10 @@ t_subcmd	*browse_paths_wildcard_file(t_global *g, t_subcmd *subcmd)
 		full_path = file_full_path(g, &subcmd, &i, path_len);
 	wildcard_word = get_wildcard_word(g, subcmd, i, full_path);
 	new = check_match_wildcards_file(g, wildcard_word, full_path);
+	free(wildcard_word);
 	lstsort_subcmd(&new);
 	if (new)
-		join_all_subcmd(g, new, subcmd, i);
+		join_rest_all_subcmd(g, new, subcmd, i);
 	return (new);
 }
 
@@ -110,8 +111,12 @@ void	handle_wildcard_file(t_global *g, t_cmds *cmds)
 			if (subcmd->wildcard)
 			{
 				new = browse_paths_wildcard_file(g, file->subcmd);
-				lstreplace_nd_subcmd(&file->subcmd, subcmd, new);
-				subcmd = new;
+				if (new)
+				{
+					lstreplace_nd_subcmd(&file->subcmd, subcmd, new);
+					subcmd = new;
+					continue ;
+				}
 			}
 			subcmd = subcmd->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 14:11:39 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:22:56 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	int		status;
 	char	*pathname;
 
-	if (!handle_expand_cmd(g, cmds))
+	if (cmds->topcmd && !handle_expand_cmd(g, cmds))
 		return (0);
 	handle_wildcard_cmd(g, cmds);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 02:25:54 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 16:38:05 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,12 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	ft_bzero(&g, sizeof(t_global));
-	g.env = env_cpy(&g, env, tab_size(env));
+	if (!env)
+	{
+		g.env[0] = ft_strjoin("PWD=", getcwd(NULL, 0));
+	}	
+	else
+		g.env = env_cpy(&g, env, tab_size(env));
 	g.is_interactive = isatty(0);
 	// if (!g.is_interactive)
 	// 	sleep(3);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand_node.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:15:24 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 02:16:28 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 15:37:55 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

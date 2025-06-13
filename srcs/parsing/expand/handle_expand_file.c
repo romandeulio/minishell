@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expand_file.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:27:16 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 00:47:32 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 15:13:31 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	handle_expand_file(t_global *g, t_cmds *cmds)
 			continue ;
 		file = file->next;
 	}
-    
 	if (!cmds->file)
 		return (0);
 	return (1);
