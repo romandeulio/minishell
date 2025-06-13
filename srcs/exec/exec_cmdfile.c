@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmdfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 13:56:40 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:33:46 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:46:04 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	is_ambiguous_redir(t_subcmd *top)
-{
-	while (top && top->next)
-	{
-		if (top->state == NORMAL && top->next->state == NORMAL)
-			return (1);
-		top = top->next;
-	}
-	return (0);
-}
-
-int	make_expand_file(t_global *g, t_cmds *cmds, t_file *file, char *name)
-{
-	if (file && file->redir != HERE_DOC)
-	{
-		handle_expand_file(g, cmds);
-		if (is_ambiguous_redir(file->subcmd))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(name, 2);
-			ft_putstr_fd(": ambiguous redirect\n", 2);
-			free(name);
-			return (0);
-		}
-		handle_wildcard_file(g, cmds);
-		if (is_ambiguous_redir(file->subcmd))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(name, 2);
-			ft_putstr_fd(": ambiguous redirect\n", 2);
-			free(name);
-			return (0);
-		}
-	}
-	free(name);
-	return (1);
-}
 
 void	handle_redir_in(t_global *g, t_file *cur, int *last_in)
 {

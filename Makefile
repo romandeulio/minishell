@@ -27,11 +27,12 @@ SRCS +=	srcs/built_in/cd.c srcs/built_in/echo.c srcs/built_in/env.c srcs/built_i
 
 # exec
 SRCS += srcs/exec/exec_builtin.c srcs/exec/exec_cmd_utils.c srcs/exec/exec_cmd.c \
-		srcs/exec/exec_cmdfile.c srcs/exec/exec_op.c srcs/exec/exec.c \
+		srcs/exec/exec_cmdfile.c srcs/exec/exec_cmdfile_utils.c srcs/exec/exec_op.c \
+		srcs/exec/exec.c \
 
 # lst
-SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_file.c \
-		srcs/lst/lst_subcmd.c \
+SRCS += srcs/lst/lst_ast.c srcs/lst/lst_cmd.c srcs/lst/lst_cmd2.c srcs/lst/lst_file.c \
+		srcs/lst/lst_file2.c srcs/lst/lst_subcmd.c srcs/lst/lst_subcmd2.c \
 		srcs/lst/lst_subtok.c srcs/lst/lst_tok.c srcs/lst/lst_tok2.c \
 
 # parsing/ast

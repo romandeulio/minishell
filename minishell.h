@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 18:47:57 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 19:03:10 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,6 @@ typedef struct s_global
 	t_ast						*ast;
 }								t_global;
 
-void							print_subcmd(t_subcmd *subcmd);
-void							print_ast(t_ast *ast, const char *branch_label);
-
 /*--------------------------------built_in-------------------------------*/
 
 // cd.c
@@ -220,6 +217,11 @@ int								prepare_exec_cmd(t_global *g, t_cmds *cmds,
 									char *path);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
+// exec_cmdfile_utils.c
+int								is_ambiguous_redir(t_subcmd *top);
+int								make_expand_file(t_global *g, t_cmds *cmds,
+									t_file *file, char *name);
+
 // exec_cmdfile.c
 int								make_expand_file(t_global *g, t_cmds *cmds,
 									t_file *file, char *name);
@@ -258,6 +260,8 @@ void							lstfree_cmd(t_cmd *top);
 void							lstadd_back_cmd(t_global *g, t_cmd **top,
 									t_tok_nd *nd);
 void							lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt);
+
+// lst_cmd2.c
 void							lstreplace_nd_cmd(t_cmd **top, t_cmd *old,
 									t_cmd *new);
 t_cmd							*lstget_last_nd_cmd(t_cmd *top);
@@ -269,19 +273,23 @@ void							lstadd_back_file(t_global *g, t_file **top,
 									t_tok_nd *nd);
 t_file							*lstget_last_nd_file(t_file *top);
 void							lstdelete_file_nd(t_file **top, t_file *dlt);
+
+// lst_file2.c
 void							lstreplace_nd_file(t_file **top, t_file *old,
 									t_file *new);
 
 // lst_subcmd.c
-t_subcmd						*lstcpy_subcmd(t_global *g, t_subcmd *subcmd);
-t_subcmd						*lstcpy_subtoks_subcmd(t_global *g,
-									t_subtok *subtok);
 t_subcmd						*lstnew_nd_subcmd(t_global *g, int size);
 void							lstfree_subcmd(t_subcmd **subcmd);
 void							lstadd_back_subcmd(t_subcmd **top,
 									t_subcmd *nd);
 void							lstdelete_subcmd(t_subcmd **top, t_subcmd *dlt);
 t_subcmd						*lstget_last_nd_subcmd(t_subcmd *top);
+
+// lst_subcmd2.c
+t_subcmd						*lstcpy_subcmd(t_global *g, t_subcmd *subcmd);
+t_subcmd						*lstcpy_subtoks_subcmd(t_global *g,
+									t_subtok *subtok);
 void							lstreplace_nd_subcmd(t_subcmd **top,
 									t_subcmd *old, t_subcmd *new);
 

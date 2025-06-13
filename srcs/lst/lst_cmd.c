@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:38:00 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:34:44 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:49:56 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,45 +80,4 @@ void	lstdelete_cmd_nd(t_cmd **top, t_cmd *dlt)
 		prev = cur;
 		cur = cur->next;
 	}
-}
-
-void	lstreplace_nd_cmd(t_cmd **top, t_cmd *old, t_cmd *new)
-{
-	t_cmd	*cur;
-	t_cmd	*prev;
-
-	if (!top || !*top || !old || !new)
-		return ;
-	cur = *top;
-	prev = NULL;
-	while (cur)
-	{
-		if (cur == old)
-		{
-			if (!prev)
-				*top = new;
-			else
-				prev->next = new;
-			while (new && new->next)
-				new = new->next;
-			new->next = cur->next;
-			lstfree_subcmd(&cur->subcmd);
-			free(cur);
-			break ;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-}
-
-t_cmd	*lstget_last_nd_cmd(t_cmd *top)
-{
-	t_cmd	*tmp;
-
-	if (!top)
-		return (NULL);
-	tmp = top;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	return (tmp);
 }
