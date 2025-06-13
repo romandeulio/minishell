@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 19:03:10 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:50:55 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -595,6 +595,7 @@ void							write_syntax_error(t_global *g,
 void							write_syntax_error_newline(t_global *g);
 
 // handle_path.c
+char							*check_path_abs(t_global *g);
 char							*get_cur_dir(t_global *g);
 
 // history.c

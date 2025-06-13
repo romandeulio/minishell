@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:17 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 13:42:57 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:58:08 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	ft_export(t_global *g, char **cmd)
 {
+	if (!cmd[1])
+	{
+		ft_env(g);
+		g_exit_code = 0;
+		return ;
+	}
 	if (!cmd_is_valid(cmd[1]))
 	{
 		ft_putendl_fd("export: not a valid identifier", 2);
@@ -63,6 +69,7 @@ void	env_add(t_global *g, char *cmd)
 		free_tabstr(g->env);
 		g->env = new_env;
 	}
+	g_exit_code = 0;
 }
 
 char	*find_var(char *cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:50:39 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/05 14:11:45 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:52:23 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	env_remove(t_global *g, char *cmd)
 	new_env[i] = NULL;
 	free_tabstr(g->env);
 	g->env = new_env;
+	g_exit_code = 0;
 }
 
 int	find_cmd_to_remove(char **env, char *cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:33:38 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:49:23 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,20 @@ int	prepare_exec_cmd(t_global *g, t_cmds *cmds, char *path)
 	return (WEXITSTATUS(status));
 }
 
-int	exec_cmd(t_global *g, t_cmds *cmds)
+int    exec_cmd(t_global *g, t_cmds *cmds)
 {
-	int		code;
-	char	*pathname;
+    char    *pathname;
 
-	if (cmds->topcmd && !handle_expand_cmd(g, cmds))
-		return (0);
-	handle_wildcard_cmd(g, cmds);
-	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
-	if (is_builtin(g->tmp.cmd_arg))
-	{
-		code = check_builtin(g, cmds, g->tmp.cmd_arg);
-		free_tabstr(g->tmp.cmd_arg);
-		return (code);
-	}
-	pathname = get_cmd_path(g, cmds->topcmd);
-	return (prepare_exec_cmd(g, cmds, pathname));
+    if (cmds->topcmd && !handle_expand_cmd(g, cmds))
+        return (0);
+    handle_wildcard_cmd(g, cmds);
+    g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
+    if (is_builtin(g->tmp.cmd_arg))
+    {
+        g_exit_code = check_builtin(g, cmds, g->tmp.cmd_arg);
+        free_tabstr(g->tmp.cmd_arg);
+        return (g_exit_code);
+    }
+    pathname = get_cmd_path(g, cmds->topcmd);
+    return (prepare_exec_cmd(g, cmds, pathname));
 }

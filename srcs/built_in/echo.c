@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 16:01:10 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/10 11:15:03 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:51:38 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void	ft_echo(char **cmd)
 	}
 	if (!no_nl)
 		ft_putchar_fd('\n', 1);
+	g_exit_code = 0;
 }

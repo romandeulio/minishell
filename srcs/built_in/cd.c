@@ -6,27 +6,24 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 18:31:32 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 21:47:24 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_cd(t_global *g, char **cmd)
+void    ft_cd(t_global *g, char **cmd)
 {
-	int	code;
-
-	if (tab_size(cmd) > 2)
-	{
-		ft_putendl_fd("exit", 1);
-		ft_putendl_fd("exit: too many arguments", 2);
-		g_exit_code = 1;
-		return ;
-	}
-	code = change_path(g, cmd[1]);
-	g_exit_code = code;
-	if (!code)
-		change_env(g);
+    if (tab_size(cmd) > 2)
+    {
+        ft_putendl_fd("exit", 1);
+        ft_putendl_fd("exit: too many arguments", 2);
+        g_exit_code = 1;
+        return ;
+    }
+    g_exit_code = change_path(g, cmd[1]);
+    if (!g_exit_code)
+        change_env(g);
 }
 
 int	change_path(t_global *g, char *cmd)
