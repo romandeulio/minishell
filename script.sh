@@ -33,11 +33,11 @@ count_functions() {
 
 # 1) Analyse récursive hors dossier lib
 count_functions "Fonctions hors lib :" \
-  "$SEARCH_DIR" -not -path "$SEARCH_DIR/lib/*"
+  "$SEARCH_DIR" -not -path "$SEARCH_DIR/libft_add/*"
 
 # 2) Analyse **seulement total** dans le dossier lib
-if [ -d "$SEARCH_DIR/lib" ]; then
-  lib_total=$(find "$SEARCH_DIR/lib" -type f -name '*.c' -print0 \
+if [ -d "$SEARCH_DIR/libft_add" ]; then
+  lib_total=$(find "$SEARCH_DIR/libft_add" -type f -name '*.c' -print0 \
                 | xargs -0 grep -Phzo \
                   '((static\s+)?[a-zA-Z_][a-zA-Z0-9_\s\*]*\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^\)]*\))\s*\n?\s*\{' \
                 2>/dev/null | grep -c '{')
