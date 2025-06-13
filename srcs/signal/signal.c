@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/11 20:09:05 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 17:32:12 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	handle_signal(t_global *g)
 
 	if (g->is_interactive)
 	{
-		save_termios_state(g);
-		disable_echoctl();
 		sig_int.sa_flags = SA_RESTART;
 		sigemptyset(&sig_int.sa_mask);
 		sig_int.sa_handler = sigint_handler;
@@ -68,7 +66,6 @@ void	handle_signal(t_global *g)
 	}
 	else
 	{
-		enable_echoctl();
 		sig_int.sa_flags = 0;
 		sigemptyset(&sig_int.sa_mask);
 		sig_int.sa_handler = handler_no_interactif;
