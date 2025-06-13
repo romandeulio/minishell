@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:21:59 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 00:48:25 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 02:25:54 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ void	minishell(t_global *g)
             free_and_reset_readline(g);
             rl_clear_history();
             ft_putendl_fd("Exit", 1);
+			free_tabstr(g->env);
             exit(g_exit_code);
         }
 		else
@@ -249,7 +250,6 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	ft_bzero(&g, sizeof(t_global));
-	env_cpy(&g, env, tab_size(env));
 	g.env = env_cpy(&g, env, tab_size(env));
 	g.is_interactive = isatty(0);
 	// if (!g.is_interactive)
