@@ -6,37 +6,11 @@
 /*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:09:53 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:12:02 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// void print_cmd_arg(char **cmd_arg)
-// {
-//     int i;
-
-//     i = 0;
-//     while (cmd_arg[i])
-//     {
-//         printf("cmd_arg[%d] = %s\n", i, cmd_arg[i]);
-//         i++;
-//     }
-// }
-
-// void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
-// {
-// 	exec_cmdfile(g, cmds);
-// 	check_pathname(g, path);
-// 	errno = 0;
-// 	check_perm(g, cmds->file);
-// 	if (execve(path, args, g->env) == -1)
-// 	{
-// 		free(path);
-// 		print_error(g);
-// 		//print_error(g, cmds->file);
-// 	}
-// }
 
 void	check_perm(t_global *g, struct stat file_info, int stat_error,
 		char *cmd)
