@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:43:11 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 17:33:10 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:42:31 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	interpret_signal(t_global *g)
 		ft_kill(g, 0, SIGQUIT);
 	g_exit_code = 0;
 }
-// Fonction a mettre apres tout nos fork, en mode non interactif
+
 void	handle_sig_no_interactif(void)
 {
 	pid_t	pid;
@@ -34,7 +34,7 @@ void	handle_sig_no_interactif(void)
 	pid = 1;
 	while (pid > 0)
 	{
-		pid = waitpid(-1, &status, 0); // exit si waitpid echoue
+		pid = waitpid(-1, &status, 0);
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
@@ -45,8 +45,7 @@ void	handle_sig_no_interactif(void)
 			last_code = WEXITSTATUS(status);
 	}
 	if (last_sig)
-		kill(0, last_sig); // faire une fonction qui kill
-							// et libere la memoire du parent
+		kill(0, last_sig);
 	exit(last_code + 128);
 }
 

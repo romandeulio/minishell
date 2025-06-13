@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 12:51:52 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:38:44 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:43:21 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	check_ch_after_dollar(char c)
 {
 	return (ft_isalpha(c) || ft_isdigit(c) || c == '_');
 }
+
 int	check_dollar_alone(t_subcmd *subcmd)
 {
 	if (!ft_strcmp(subcmd->subword, "$") && subcmd->state == NORMAL

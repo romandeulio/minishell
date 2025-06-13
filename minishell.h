@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 18:34:28 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:47:57 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,17 +285,6 @@ t_subcmd						*lstget_last_nd_subcmd(t_subcmd *top);
 void							lstreplace_nd_subcmd(t_subcmd **top,
 									t_subcmd *old, t_subcmd *new);
 
-// lst_subfile.c
-// t_subfile						*lstcpy_subtoks_subfile(t_global *g,
-// 									t_subtok *subtok);
-// t_subfile						*lstnew_nd_subfile(t_global *g, int size);
-// void							lstfree_subfile(t_subfile **subfile);
-// void							lstadd_back_subfile(t_subfile **top,
-// 									t_subfile *nd);
-// void							lstdelete_subfile(t_subfile **top,
-// 									t_subfile *dlt);
-// t_subfile						*lstget_last_nd_subfile(t_subfile *top);
-
 // lst_subtok.c
 t_subtok						*lstnew_nd_subtok(int size, t_global *g);
 void							lstfree_subtok(t_subtok **subtok);
@@ -520,13 +509,15 @@ int								match_pattern(char *pattern, char *filename);
 int								lenpath_wildcard(t_subcmd *subcmd);
 int								len_wildcard(t_subcmd *subcmd, int start);
 
-// wildcard.c
-char							*file_full_path(t_global *g, t_subcmd **subcmd,
-									int *idx, int pathlen);
+// wildcard_utils.c
 void							increment_to_first_slash(t_subcmd **subcmd,
 									int *start);
 int								subword_len(t_subcmd *subcmd, int start);
 int								check_is_wildcard(t_subcmd *subcmd);
+
+// wildcard.c
+char							*file_full_path(t_global *g, t_subcmd **subcmd,
+									int *idx, int pathlen);
 t_subcmd						*get_rest_in_subcmd(t_global *g,
 									t_subcmd *subcmd, int start);
 char							*get_wildcard_word(t_global *g,

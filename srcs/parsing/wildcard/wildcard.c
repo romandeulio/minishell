@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:16:10 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:40:56 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:46:39 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
-// void	lstjoin_subcmd(t_subcmd **lst1, t_subcmd *lst2)
-// {
-// 	t_subcmd	*tmp_top;
-
-// 	if (!*lst1)
-// 	{
-// 		*lst1 = lst2;
-// 		return ;
-// 	}
-// 	tmp_top = *lst1;
-// 	while ((*lst1)->next)
-// 		*lst1 = (*lst1)->next;
-// 	(*lst1)->next = lst2;
-// 	*lst1 = tmp_top;
-// }
 
 char	*file_full_path(t_global *g, t_subcmd **subcmd, int *idx, int pathlen)
 {
@@ -50,56 +34,6 @@ char	*file_full_path(t_global *g, t_subcmd **subcmd, int *idx, int pathlen)
 	}
 	full_path[j] = '\0';
 	return (full_path);
-}
-
-void	increment_to_first_slash(t_subcmd **subcmd, int *start)
-{
-	int	i;
-
-	i = *start;
-	while (*subcmd)
-	{
-		while ((*subcmd)->subword[i])
-		{
-			if ((*subcmd)->subword[i] == '/')
-			{
-				*start = i;
-				return ;
-			}
-			i++;
-		}
-		i = 0;
-		*subcmd = (*subcmd)->next;
-	}
-}
-
-int	subword_len(t_subcmd *subcmd, int start)
-{
-	int	i;
-
-	i = 0;
-	while (subcmd->subword[start])
-	{
-		start++;
-		i++;
-	}
-	return (i);
-}
-
-int	check_is_wildcard(t_subcmd *subcmd)
-{
-	int	i;
-
-	if (subcmd->state != NORMAL)
-		return (0);
-	i = 0;
-	while (subcmd->subword[i])
-	{
-		if (subcmd->subword[i] == '*')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 t_subcmd	*get_rest_in_subcmd(t_global *g, t_subcmd *subcmd, int start)

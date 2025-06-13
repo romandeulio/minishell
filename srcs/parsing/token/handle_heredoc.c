@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 18:39:08 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:44:01 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	check_heredoc(t_global *g, t_tok_nd *first)
 		next = cur->next;
 		if (cur->type == HERE_DOC && next && next->type == CMD)
 			next->heredoc_fd = exec_heredoc(g, join_subw_subtok(g, next->top));
-        cur = next;
+		cur = next;
 	}
 }
