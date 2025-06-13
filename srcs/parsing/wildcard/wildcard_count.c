@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_count.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 01:30:41 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 02:32:10 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:40:23 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

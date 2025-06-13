@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_multi_line_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:58:12 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 11:49:21 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:38:48 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	add_semicolon(t_global *g)
 	nd->top = lstnew_nd_subtok(1, g);
 	nd->top->subword[0] = ';';
 	nd->top->subword[1] = '\0';
-	nd->top->state = NORMAL; // Deja obligatoirement sur NORMAL je crois
+	nd->top->state = NORMAL;
 	lstadd_back_tok(&g->tok_stk, nd);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 17:52:35 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:35:02 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_env(t_global *g, char **env)
 		g->env = env_cpy(g, env, tab_size(env));
 }
 
-char *ft_getenv(char **env, char *to_find)
+char	*ft_getenv(char **env, char *to_find)
 {
 	int	i;
 

@@ -3,67 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:53:47 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 19:16:36 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:39:08 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
-// char	*readline_heredoc(t_global *g)
-// {
-// 	int		rd_bytes;
-// 	char	buf[2];
-// 	char	*line;
-// 	char	*tmp;
-
-// 	buf[1] = '\0';
-// 	line = NULL;
-// 	while (ft_strncmp(buf, "\n", 1))
-// 	{
-// 		rd_bytes = read(0, buf, 1);
-// 		if (rd_bytes == 0)
-// 			return (NULL);
-// 		if (rd_bytes == -1)
-// 		{
-// 			free(line);
-// 			ft_exit(g, "Read", -1, 1);
-// 		}
-// 		tmp = line;
-// 		line = ft_strjoin(tmp, buf);
-// 		free(tmp);
-// 		if (!line)
-// 			ft_exit(g, "Malloc", -1, 1);
-// 	}
-// 	return (line);
-// }
-
-// void	handle_heredoc_redir(t_global *g, char *stop)
-// {
-// 	char	*line;
-// 	int		fd[2];
-// 	int		line_len;
-// 	int		stp_len;
-
-// 	if (pipe(fd) == -1)
-// 		ft_exit(g, "Pipe", -1, 1); // voir les autres variable a free
-// 	write(1, "> ", 2);
-// 	stp_len = ft_strlen(stop);
-// 	while (1)
-// 	{
-// 		line = readline_heredoc(g);
-// 		line_len = ft_strlen(line) - 1;
-// 		if (!line || (!ft_strncmp(line, stop, stp_len) && line_len == stp_len))
-// 			break ;
-// 		write(1, "> ", 2);
-// 		write(fd[1], line, ft_strlen(line));
-// 		free(line);
-// 	}
-// 	free(line);
-// 	close(fd[1]);
-// }
 
 void	read_heredoc_redir(int fd[2], char *stop)
 {
@@ -90,7 +37,7 @@ int	exec_heredoc(t_global *g, char *stop)
 	int		status;
 
 	if (pipe(fd) == -1)
-		exit_free(g, "Pipe", -1, 1); // voir les autres variable a free
+		exit_free(g, "Pipe", -1, 1);
 	pid = handle_error_fork(g, fork(), fd);
 	if (pid == 0)
 	{

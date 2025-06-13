@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defined_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:04:34 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/05/26 15:32:42 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:39:15 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,3 @@ void	defined_type(char *line, t_tok_nd *nd)
 	else
 		nd->type = CMD;
 }
-
-// void	defined_state(t_tok_stk *stk, t_tok_nd *nd)
-// {
-// 	if (stk->sq == 1)
-// 		nd->state = SQ;
-// 	else if (stk->dq == 1)
-// 		nd->state = DQ;
-// 	else
-// 		nd->state = NORMAL;
-// }

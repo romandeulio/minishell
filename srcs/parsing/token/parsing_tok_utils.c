@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_tok_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:15:23 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/10 11:48:32 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:38:37 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	realloc_subword(char *line, t_global *g, t_subtok *last)
 	total_len = size + count_size_subword(line, stk);
 	new_subword = malloc(sizeof(char) * (total_len + 1));
 	if (!new_subword)
-		exit_free(g, "Malloc", -1, 1); // Voir si il faut free de nouveaux trucs
+		exit_free(g, "Malloc", -1, 1);
 	ft_strcpy(new_subword, last->subword);
 	new_subword[size] = '\0';
 	free(last->subword);

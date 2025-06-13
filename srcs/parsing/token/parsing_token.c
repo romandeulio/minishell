@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 01:08:58 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/05 02:01:47 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:38:30 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-
-// Erreur de parsing a detecter :
-// (TOKEN) Quote jamais refermer (pas obligatoire).
-// (TOKEN) Parenthese non fermante ou parenthese fermante sans l'avoir ouvrir
-// (AST) Un operateur logique au debut, a la fin,
-//	ou plusieurs consequitifs. (a gerer dans l'arbe AST)
-// (AST) Redirection sans cmd (mot autre qu'un separateur) qui suit la redirection
-// (AST) Les parenthese ne doivent pas etre coller a des cmd
 
 int	parse_subword(int *j, char *line, t_global *g, t_tok_nd *nd)
 {

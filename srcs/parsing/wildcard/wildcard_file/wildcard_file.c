@@ -6,13 +6,14 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:30:19 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 17:48:35 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:39:51 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../minishell.h"
 
-void	join_rest_all_subcmd(t_global *g, t_subcmd *subcmd, t_subcmd *rest, int i)
+void	join_rest_all_subcmd(t_global *g, t_subcmd *subcmd, t_subcmd *rest,
+		int i)
 {
 	while (subcmd && subcmd->next)
 		subcmd = subcmd->next;

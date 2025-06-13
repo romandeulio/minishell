@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_pattern.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 01:35:21 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/12 02:32:07 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 18:39:55 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

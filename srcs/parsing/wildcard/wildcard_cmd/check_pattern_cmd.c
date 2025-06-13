@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 02:31:09 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 16:18:16 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:39:35 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	join_cmd_matchs(t_global *g, t_cmd **new, char *path, char *name)
 	ft_strcpy(lstget_last_nd_subcmd(last->subcmd)->subword, new_subw);
 	free(new_subw);
 }
+
 t_cmd	*check_match_wildcards_cmd(t_global *g, char *pattern, char *path)
 {
 	DIR				*dir;

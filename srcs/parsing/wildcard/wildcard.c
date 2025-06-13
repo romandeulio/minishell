@@ -6,7 +6,7 @@
 /*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:16:10 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 15:54:56 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:40:56 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	subword_len(t_subcmd *subcmd, int start)
 	return (i);
 }
 
-int check_is_wildcard(t_subcmd *subcmd)
+int	check_is_wildcard(t_subcmd *subcmd)
 {
-	int i;
+	int	i;
 
 	if (subcmd->state != NORMAL)
 		return (0);
