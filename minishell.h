@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/12 23:11:38 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 02:22:08 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,8 @@ int								check_builtin(t_global *g, t_cmds *cmds,
 
 // exec_cmd_utils.c
 char							*get_path_line(t_global *g, char *line);
+char							*get_real_path(char **all_path,
+									char *slash_cmd);
 char							*get_cmd_path(t_global *g, t_cmd *top);
 int								count_arg(t_cmd *top);
 char							**get_cmds_in_tab(t_global *g, t_cmd *top);
@@ -326,8 +328,6 @@ t_tok_nd						*find_lowest_prio_op(t_tok_nd *start,
 									t_tok_nd *end);
 
 // join_subword.c
-int								count_join_subw_subtok(t_subtok *subtok);
-int								count_join_subw_subcmd(t_subcmd *subcmd);
 char							*join_subw_subtok(t_global *g,
 									t_subtok *subtok);
 char							*join_subw_subcmd(t_global *g,

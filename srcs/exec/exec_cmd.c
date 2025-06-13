@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 12:12:03 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 00:48:14 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 02:22:44 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,14 @@ void	exec_cmd_fork(t_global *g, t_cmds *cmds, char *path, char **args)
 			free(path);
 			check_perm(g, file_info, stat_error, args[0]);
 		}
+		free(path);
 		exit_free(g, " command not found", 2, 127);
 	}
 }
 
 int	exec_cmd(t_global *g, t_cmds *cmds)
 {
+	int 	code;
 	pid_t	pid;
 	int		status;
 	char	*pathname;
@@ -93,7 +95,12 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	pathname = get_cmd_path(g, cmds->topcmd);
 	g->tmp.cmd_arg = get_cmds_in_tab(g, cmds->topcmd);
 	if (is_builtin(g->tmp.cmd_arg))
-		return (check_builtin(g, cmds, g->tmp.cmd_arg));
+	{
+		code = check_builtin(g, cmds, g->tmp.cmd_arg);
+		free(pathname);
+		free_tabstr(g->tmp.cmd_arg);
+		return (code);
+	}
 	pid = handle_error_fork(g, fork(), NULL);
 	if (pid == 0)
 		exec_cmd_fork(g, cmds, pathname, g->tmp.cmd_arg);
@@ -102,3 +109,4 @@ int	exec_cmd(t_global *g, t_cmds *cmds)
 	waitpid(pid, &status, 0);
 	return (WEXITSTATUS(status));
 }
+

@@ -6,7 +6,7 @@
 /*   By: nicolasbrecqueville <nicolasbrecquevill    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/11 16:23:57 by nicolasbrec      ###   ########.fr       */
+/*   Updated: 2025/06/13 02:04:03 by nicolasbrec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,11 @@ char	*get_path_line(t_global *g, char *line)
 	return (NULL);
 }
 
-char	*get_cmd_path(t_global *g, t_cmd *top)
+char	*get_real_path(char **all_path, char *slash_cmd)
 {
-	int		i;
-	char	*path_line;
-	char	*slash_cmd;
+	int 	i;
 	char	*real_path;
-	char	**all_path;
 
-    if (access(join_subw_subcmd(g, top->subcmd), X_OK) == 0)
-        return (join_subw_subcmd(g, top->subcmd));
-    path_line = getenv("PATH");
-	all_path = ft_split(path_line, ':');
-	slash_cmd = ft_strjoin("/", join_subw_subcmd(g, top->subcmd));
 	i = 0;
 	while (all_path[i])
 	{
@@ -53,7 +45,30 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	}
 	free_tabstr(all_path);
 	free(slash_cmd);
-	return (join_subw_subcmd(g, top->subcmd));
+	return (NULL);
+}
+
+char	*get_cmd_path(t_global *g, t_cmd *top)
+{
+	char 	*origin_path;
+	char	*real_path;
+	char	*path_line;
+	char	*slash_cmd;
+	char	**all_path;
+
+	origin_path = join_subw_subcmd(g, top->subcmd);
+    if (access(origin_path, X_OK) == 0)
+        return (origin_path);
+    path_line = getenv("PATH");
+	all_path = ft_split(path_line, ':');
+	slash_cmd = ft_strjoin("/", origin_path);
+	real_path = get_real_path(all_path, slash_cmd);
+	if (real_path)
+	{
+		free(origin_path);
+		return (real_path);
+	}
+	return (origin_path);
 }
 
 int	count_arg(t_cmd *top)
