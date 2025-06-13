@@ -63,7 +63,7 @@ SRCS += srcs/parsing/wildcard/wildcard_file/check_pattern_file.c srcs/parsing/wi
 
 # parsing/wildcard.c
 SRCS += srcs/parsing/wildcard/check_pattern.c srcs/parsing/wildcard/wildcard_count.c \
-		srcs/parsing/wildcard/wildcard.c \
+		srcs/parsing/wildcard/wildcard_utils.c srcs/parsing/wildcard/wildcard.c \
 
 # signal
 SRCS += srcs/signal/ft_kill.c srcs/signal/handle_termios.c srcs/signal/handler.c \
