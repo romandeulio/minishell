@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 18:11:28 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:30:48 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,9 @@ char							**get_cmds_in_tab(t_global *g, t_cmd *top);
 void							check_perm(t_global *g, struct stat file_info,
 									int staterr, char *cmd);
 void							exec_cmd_fork(t_global *g, t_cmds *cmds,
-									char *path, char **args);
+									char *path);
+int								prepare_exec_cmd(t_global *g, t_cmds *cmds,
+									char *path);
 int								exec_cmd(t_global *g, t_cmds *cmds);
 
 // exec_cmdfile.c

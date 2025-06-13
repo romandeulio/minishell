@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 17:58:59 by rodeulio         ###   ########.fr       */
+/*   Updated: 2025/06/13 18:31:32 by nbrecque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	change_env(t_global *g)
 	pwd = find_path(g->env, "PWD=");
 	oldpwd = find_path(g->env, "OLDPWD=");
 	if (pwd == -1 || oldpwd == -1)
-        exit_free(g, "cd", -1, 1);
+		exit_free(g, "cd", -1, 1);
 	path = getcwd(NULL, 0);
 	free(g->env[oldpwd]);
 	g->env[oldpwd] = ft_strjoin("OLDPWD=", g->env[pwd] + 4);
