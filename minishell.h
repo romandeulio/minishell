@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 16:08:40 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:58:40 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void							print_ast(t_ast *ast, const char *branch_label);
 
 // cd.c
 void							ft_cd(t_global *g, char **cmd);
-int								change_path(char *cmd);
+int								change_path(t_global *g, char *cmd);
 void							change_env(t_global *g);
 int								find_path(char **env, char *to_find);
 
@@ -560,6 +560,8 @@ void							handle_signal(t_global *g);
 
 // utils_minishell.c
 void							print_error(t_global *g);
+char							*ft_getenv(char **env, char *to_find);
+void							check_env(t_global *g, char **env);
 
 // utils.c
 int								is_num_str(char *str);

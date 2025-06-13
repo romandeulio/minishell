@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:49:33 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 15:47:57 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:58:59 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void	ft_cd(t_global *g, char **cmd)
 		g_exit_code = 1;
 		return ;
 	}
-	code = change_path(cmd[1]);
+	code = change_path(g, cmd[1]);
 	g_exit_code = code;
 	if (!code)
 		change_env(g);
 }
 
-int	change_path(char *cmd)
+int	change_path(t_global *g, char *cmd)
 {
 	char	*path;
 
 	if (!cmd)
 	{
-		path = getenv("HOME");
+		path = ft_getenv(g->env, "HOME");
 		if (!path)
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", 2);

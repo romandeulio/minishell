@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 13:04:31 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 14:49:57 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:59:07 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ char	*get_cmd_path(t_global *g, t_cmd *top)
 	origin_path = join_subw_subcmd(g, top->subcmd);
     if (access(origin_path, X_OK) == 0)
         return (origin_path);
-    path_line = getenv("PATH");
+    path_line = ft_getenv(g->env, "PATH");
 	all_path = ft_split(path_line, ':');
 	slash_cmd = ft_strjoin("/", origin_path);
 	real_path = get_real_path(all_path, slash_cmd);
-	if (real_path)
+	if (real_path && path_line)
 	{
 		free(origin_path);
 		return (real_path);
