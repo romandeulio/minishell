@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:13:14 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 21:50:55 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:43:57 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ void							ft_pwd(void);
 // unset.c
 void							ft_unset(t_global *g, char **cmd);
 void							env_remove(t_global *g, char *cmd);
-int								find_cmd_to_remove(char **env, char *cmd);
 
 /*--------------------------------Exec-------------------------------*/
 

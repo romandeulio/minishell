@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 14:51:04 by rodeulio          #+#    #+#             */
-/*   Updated: 2025/06/13 12:39:46 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:37:33 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exit(t_global *g, char **cmd)
 		exit_free(g, NULL, 1, g_exit_code);
 	else if (is_num_str(cmd[1]) && tab_size(cmd) == 2)
 		exit_free(g, NULL, 1, ft_atoi(cmd[1]));
-	else if (tab_size(cmd) > 2 && is_num_str(cmd[1]))
+	else if (is_num_str(cmd[1]) && tab_size(cmd) > 2)
 	{
 		g_exit_code = 1;
 		ft_putendl_fd("exit: too many arguments", 2);

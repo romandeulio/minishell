@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbrecque <nbrecque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rodeulio <rodeulio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:09:53 by nicolasbrec       #+#    #+#             */
-/*   Updated: 2025/06/13 21:48:51 by nbrecque         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:33:21 by rodeulio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,4 @@ char	*ft_getenv(char **env, char *to_find)
 		i++;
 	}
 	return (NULL);
-}
-
-void	print_error(t_global *g)
-{
-	if (errno == ENOENT)
-		exit_free(g, "Execve", -1, 127);
-	else if (errno == EISDIR || errno == EACCES)
-		exit_free(g, "Execve", -1, 126);
-	else
-		exit_free(g, "Execve", -1, 1);
 }
